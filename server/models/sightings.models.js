@@ -14,9 +14,9 @@ const sightingsSchema = mongoose.Schema({
     type:String,
   },
   
-  // url:{
-  //   type:String,
-  // },
+  url:{
+    type:String,
+  },
 
   lat:{
     type:Number,
