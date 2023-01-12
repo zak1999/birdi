@@ -12,7 +12,17 @@ export default function Explore() {
   const [lng, setLng] = useState(0)
   const [lat, setLat] = useState(0)
   
-  
+  // initial data collect
+  useEffect(() => {
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(async (pos)=>{
+        handleRecollect(pos.coords.longitude, pos.coords.latitude)
+      })
+    }else{
+      handleRecollect(pos.coords.longitude, pos.coords.latitude)
+    }
+  }, [])
+
   //given a list of sightings, we output a list of geoJSON points
   function convertToGeoJSON(list){ 
     if (!list) return undefined;
@@ -49,18 +59,9 @@ export default function Explore() {
     const data = await dbRes.json()
     return data
   }
-  // initial data collect
-  useEffect(() => {
-    if (navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(async (pos)=>{
-        handleRecollect(pos.coords.longitude, pos.coords.latitude)
-      })
-    }else{
-      handleRecollect(pos.coords.longitude, pos.coords.latitude)
-    }
-  }, [])
-  
-  
+  async function handleClick(){
+    
+  }
   
   async function handleRecollect(lng,lat){
     const APIData = await collectBirdLocationsFromAPI(lng,lat)
@@ -68,12 +69,14 @@ export default function Explore() {
     setData([APIData,dbData])
     // console.log("data in explore comp",data)
   }
+
+
   return (
     <>
     <Navbar/>
     <Container bg='teal.400' minW='75vw' minH='85vh'>
       <Flex >
-        <Box w='35%' p='10px'>
+        <Box w='35%' p='10px' display='flex' h='85vh'>
           <List data={data} />
         </Box>
         <Box w='65%'>
