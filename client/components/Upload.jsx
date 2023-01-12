@@ -1,13 +1,14 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import Map from './Map'
 export default function Upload() {
+
+
+  const [lng, setLng] = useState(0)
+  const [lat, setLat] = useState(0)
   
   async function sendToBE(data){
-    return await fetch('http://localhost:3001/sightings',{
+  return await fetch('http://localhost:3001/sightings',{
       method: 'POST',
-      // headers: {
-      //   'Content-Type': 'multipart/form-data'
-      // },
       body:data,
     })
   } 
@@ -17,13 +18,19 @@ export default function Upload() {
     let d = new FormData(e.target)
     d.set('comName',d.get('comName'))
     d.set('sciName',d.get('sciName'))
+    d.set('lat',lat)
+    d.set('lng',lng)
     d.append('file',d.get('file')[0])
     const x  = await sendToBE(d)
+    console.log(x)
   }
 
 
   return (
     <div>
+      <p>{lat}</p>
+      <p>{lng}</p>
+
       <form onSubmit={(e)=>handleSubmit(e)}>
         <label>comName</label>
         <input type="text" name='comName'/>
@@ -35,6 +42,8 @@ export default function Upload() {
         <input type="file" name='file'/>
         <button> Submit?</button>
       </form>
+        <Map uploadCoords={{setLng,setLat}}/>
+
     </div>
   )
 }

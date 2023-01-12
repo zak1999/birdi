@@ -1,6 +1,4 @@
 import React from 'react'
-import Navbar from '../../components/Navbar'
-import Map from '../../components/Map'
 import Upload from '../../components/Upload'
 
 export default function Explore() {
