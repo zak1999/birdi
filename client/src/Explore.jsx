@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../components/Navbar'
-import Map from '../../components/Map'
-import List from '../../components/List'
+import Navbar from './components/Navbar'
+import Map from './components/Map'
+import List from './components/List'
 import { Box, Container, Flex } from '@chakra-ui/react'
 
 
@@ -19,7 +19,7 @@ export default function Explore() {
         handleRecollect(pos.coords.longitude, pos.coords.latitude)
       })
     }else{
-      handleRecollect(pos.coords.longitude, pos.coords.latitude)
+      handleRecollect(0,0)
     }
   }, [])
 
