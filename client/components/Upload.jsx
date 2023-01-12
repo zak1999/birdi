@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import Map from './Map'
-export default function Upload() {
 
+
+
+export default function Upload() {
 
   const [lng, setLng] = useState(0)
   const [lat, setLat] = useState(0)
@@ -22,7 +24,7 @@ export default function Upload() {
     d.set('lng',lng)
     d.append('file',d.get('file')[0])
     const x  = await sendToBE(d)
-    console.log(x)
+    console.log(x.body.json())
   }
 
 
@@ -42,7 +44,7 @@ export default function Upload() {
         <input type="file" name='file'/>
         <button> Submit?</button>
       </form>
-        <Map uploadCoords={{setLng,setLat}}/>
+        <Map coords={{setLng,setLat}}/>
 
     </div>
   )
