@@ -5,90 +5,9 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken = 'pk.eyJ1IjoiemFrOTkiLCJhIjoiY2w0ZmlncG4zMDBhaTNpbWxtbm4wOHF2bSJ9.o1xqvp-4s8EBhiwSo6nlYQ';
 
 
-const stores = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -77.043929,
-          38.910525
-        ]
-      },
-      "properties": {
-        "phoneFormatted": "(202) 387-9338",
-        "phone": "2023879338",
-        "address": "1512 Connecticut Ave NW",
-        "city": "Washington DC",
-        "country": "United States",
-        "crossStreet": "at Dupont Circle",
-        "postalCode": "20036",
-        "state": "D.C."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -77.0672,
-          38.90516896
-        ]
-      },
-      "properties": {
-        "phoneFormatted": "(202) 337-9338",
-        "phone": "2023379338",
-        "address": "3333 M St NW",
-        "city": "Washington DC",
-        "country": "United States",
-        "crossStreet": "at 34th St NW",
-        "postalCode": "20007",
-        "state": "D.C."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -77.002583742142,
-          38.887041080933
-        ]
-      },
-      "properties": {
-        "phoneFormatted": "(202) 547-9338",
-        "phone": "2025479338",
-        "address": "221 Pennsylvania Ave SE",
-        "city": "Washington DC",
-        "country": "United States",
-        "crossStreet": "btwn 2nd & 3rd Sts. SE",
-        "postalCode": "20003",
-        "state": "D.C."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -76.933492720127,
-          38.99225245786
-        ]
-      },
-      "properties": {
-        "address": "8204 Baltimore Ave",
-        "city": "College Park",
-        "country": "United States",
-        "postalCode": "20740",
-        "state": "MD"
-      }
-    }
-  ]
-};
 
-export default function Map() {
+
+export default function Map({sightings}) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   
@@ -96,6 +15,18 @@ export default function Map() {
   const [currentLat, setCurrentLat] = useState(39)
   const [currentZoom, setCurrentZoom] = useState(9)
   
+
+  function popUpCreation(point) {
+    const popUps = document.getElementsByClassName('mapboxgl-popup');
+    if (popUps[0]) popUps[0].remove();
+
+    const popUp = new mapboxgl.Popup({closeOnClick:false})
+      .setLngLat(point.geometry.coordinates)
+      .setHTML(`<p>${point.properties.address}</p>`)
+      .addTo(map.current)
+  }
+
+  //function that, given a point, moves the map to focus on 
   function focusPoint(point){
     map.current.flyTo({
       center:point.geometry.coordinates,
@@ -135,7 +66,7 @@ export default function Map() {
         source:{
           type:'geojson',
           //need to check that data ('stores') actually exists
-          data:stores
+          data:sightings
         }
       })
     })
@@ -146,8 +77,9 @@ export default function Map() {
     map.current.on('click',(e)=>{
       const listOfPoints = map.current.queryRenderedFeatures(e.point,{layers:['locations']})
       console.log(listOfPoints)
-      if (listOfPoints.length > 0) {
+      if (listOfPoints.length > 0) {//if a point is actually clicked
         focusPoint(listOfPoints[0])
+        popUpCreation(listOfPoints[0])
       }
     })
   }, [])
