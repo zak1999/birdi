@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Map from './components/Map'
 import List from './components/List'
+import ActiveCard from './components/ActiveCard'
+
 import { Box, Container, Flex } from '@chakra-ui/react'
 
 
@@ -16,7 +18,7 @@ export default function Explore() {
   useEffect(() => {
     if (navigator.geolocation){
       navigator.geolocation.getCurrentPosition(async (pos)=>{
-        handleRecollect(pos.coords.longitude, pos.coords.latitude)
+        await handleRecollect(pos.coords.longitude, pos.coords.latitude)
       })
     }else{
       handleRecollect(0,0)
@@ -66,20 +68,54 @@ export default function Explore() {
   async function handleRecollect(lng,lat){
     const APIData = await collectBirdLocationsFromAPI(lng,lat)
     const dbData = await collectBirdLocationsFromDB();
+    APIData.forEach((bird, i) => {
+      bird.id = i;
+    });
+    dbData.forEach((bird, i) =>{
+      bird.id = i;
+    });
     setData([APIData,dbData])
-    // console.log("data in explore comp",data)
   }
 
 
   return (
     <>
     <Navbar/>
-    <Container bg='teal.400' minW='75vw' minH='85vh'>
-      <Flex >
-        <Box w='35%' p='10px' display='flex' h='85vh'>
-          <List data={data} />
+    <Container bg='teal.400' minW='75vw' p='20px' minH='85vh'>
+      <Flex minH='85vh'>
+        <Box className='left-side' 
+          m='0'
+          p='0'
+          w='35%' 
+          display='flex' 
+          flexDir='column' 
+          maxH='85vh' 
+          pr='10px'
+          pb='2px'
+          >
+          <Box maxH='40%' pb='10px'>
+          <ActiveCard bird={{
+          "speciesCode": "mallar3",
+          "comName": "Mallard",
+          "sciName": "Anas platyrhynchos",
+          "locId": "L12107838",
+          "locName": "Thames Chase Community Forest",
+          "obsDt": "2023-01-12 16:34",
+          "howMany": 24,
+          "lat": 51.5528198,
+          "lng": 0.2850011,
+          "obsValid": true,
+          "obsReviewed": false,
+          "locationPrivate": false,
+          "subId": "S125995859"
+          }}/>
+          </Box>
+
+          <Box maxH='100%'>
+            <List data={data} />
+          </Box>
         </Box>
-        <Box w='65%'>
+        <Box className='right-side' w='65%'>
           {/* 
 █░█░█ ▄▀█ █ ▀█▀   █▀▀ █▀█ █▀█   █▀ █ █▀▀ █░█ ▀█▀ █ █▄░█ █▀▀ █▀   ▀█▀ █▀█   █▀▀ █▀█ █░░ █░░ █▀▀ █▀▀ ▀█▀
 ▀▄▀▄▀ █▀█ █ ░█░   █▀░ █▄█ █▀▄   ▄█ █ █▄█ █▀█ ░█░ █ █░▀█ █▄█ ▄█   ░█░ █▄█   █▄▄ █▄█ █▄▄ █▄▄ ██▄ █▄▄ ░█░
