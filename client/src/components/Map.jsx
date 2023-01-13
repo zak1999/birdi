@@ -112,9 +112,25 @@ export default function Map({sightings,coords}) {
     })
   }, [])
   
+  useEffect(() => {
+    // only runs if there is a current map and the locations layer does't exists
+    if (!map.current || map.current.getLayer('locations') || currentSightings.length<0) return;
+    map.current.on('load',()=>{
+      map.current.addLayer({
+        id:'locations',
+        type:'circle',
+        source:{
+          type:'geojson',
+          data:currentSightings
+        }
+      })
+    })
+  }, [])
+  
   //handles update currentSightings state
   useEffect(() => {
-    sightings && setCurrentSightings(convertToGeoJSON(sightings))
+    sightings[0] && setCurrentSightings(convertToGeoJSON(sightings[0]))
+    
   }, [sightings])
   
   //handles map update in state update
@@ -125,8 +141,8 @@ export default function Map({sightings,coords}) {
 
   // handles selection of a bird from the list
   useEffect(() => {
-    if (sightings && sightings.length > 0 ){
-      const x = sightings.find((bird)=>{
+    if (sightings[0] && sightings[0].length > 0 ){
+      const x = sightings[0].find((bird)=>{
         return bird.id == SelectedBirdOnExplore.id
       })
       x.geometry = {coordinates:[x.lng,x.lat]}
@@ -151,12 +167,6 @@ export default function Map({sightings,coords}) {
       popUpCreation(listOfPoints[0])
     })
   }, [])
-  //handle resize of map
-  // useEffect(() => {
-  //   map.current.on('load', function () {
-  //     map.current.resize();
-  // });
-  // }, [])
   
 
 

@@ -1,6 +1,7 @@
+import { Box } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import Map from './Map'
-
+import Navbar from './Navbar'
 
 
 export default function Upload() {
@@ -29,7 +30,9 @@ export default function Upload() {
 
 
   return (
-    <div>
+    <Box>
+      <Navbar/>
+  <div>
       <p>{lat}</p>
       <p>{lng}</p>
 
@@ -47,5 +50,7 @@ export default function Upload() {
         <Map coords={{setLng,setLat}}/>
 
     </div>
+
+    </Box>
   )
 }

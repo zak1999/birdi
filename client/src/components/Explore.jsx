@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from './components/Navbar'
-import Map from './components/Map'
-import List from './components/List'
-import ActiveCard from './components/ActiveCard'
+import Navbar from './Navbar'
+import Map from './Map'
+import List from './List'
+import ActiveCard from './ActiveCard'
 
 import { Box, Container, Flex, Card, CardBody, Heading } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
@@ -91,14 +91,7 @@ export default function Explore() {
           </Box>
         </Box>
         <Box className='right-side' w='65%'>
-          {/* 
-█░█░█ ▄▀█ █ ▀█▀   █▀▀ █▀█ █▀█   █▀ █ █▀▀ █░█ ▀█▀ █ █▄░█ █▀▀ █▀   ▀█▀ █▀█   █▀▀ █▀█ █░░ █░░ █▀▀ █▀▀ ▀█▀
-▀▄▀▄▀ █▀█ █ ░█░   █▀░ █▄█ █▀▄   ▄█ █ █▄█ █▀█ ░█░ █ █░▀█ █▄█ ▄█   ░█░ █▄█   █▄▄ █▄█ █▄▄ █▄▄ ██▄ █▄▄ ░█░
-
-▀█▀ █░█ █▀▀ █▄░█   █▀█ █▀▀ █▄░█ █▀▄ █▀▀ █▀█   █▀▄▀█ ▄▀█ █▀█ ▀█
-░█░ █▀█ ██▄ █░▀█   █▀▄ ██▄ █░▀█ █▄▀ ██▄ █▀▄   █░▀░█ █▀█ █▀▀ ░▄
-          */}
-          <Map sightings={data[0]} coords={{setLat,setLng,handleRecollect}}/>
+          <Map sightings={data} coords={{setLat,setLng,handleRecollect}}/>
         </Box>
       </Flex>
     </Container>
