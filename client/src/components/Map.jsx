@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import mapboxgl from 'mapbox-gl';
 import { Box, Button } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiemFrOTkiLCJhIjoiY2w0ZmlncG4zMDBhaTNpbWxtbm4wOHF2bSJ9.o1xqvp-4s8EBhiwSo6nlYQ';
 
@@ -10,6 +11,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiemFrOTkiLCJhIjoiY2w0ZmlncG4zMDBhaTNpbWxtbm4wO
 
 export default function Map({sightings,coords}) {
   
+  const dispatch = useDispatch()
+
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [currentSightings, setCurrentSightings] = useState([])
@@ -102,10 +105,11 @@ export default function Map({sightings,coords}) {
   useEffect(() => {
     map.current.on('click',(e)=>{
       const listOfPoints = map.current.queryRenderedFeatures(e.point,{layers:['locations']})
-      if (listOfPoints.length > 0) {//if a point is actually clicked
-        focusPoint(listOfPoints[0])
-        popUpCreation(listOfPoints[0])
-      }
+      if (listOfPoints.length < 1 || !listOfPoints) return; //Makes sure a point is actually clicked
+      dispatch({type:'UPDATE_EXPLORE_BIRD',
+        bird:{...listOfPoints[0].properties}})
+      focusPoint(listOfPoints[0])
+      popUpCreation(listOfPoints[0])
     })
   }, [])
   //handle resize of map
@@ -121,7 +125,6 @@ export default function Map({sightings,coords}) {
     <>
     <div ref={mapContainer} style={{minHeight:'80vh'}}></div>
     <Button onClick={()=>{
-      // console.log("clicked")
       locateMe()}} m='10px'>
       current Location
     </Button>

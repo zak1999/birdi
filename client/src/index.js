@@ -5,12 +5,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
 
+import { createStore } from 'redux';
+import reducers from './reducers';
+import { Provider } from 'react-redux';
+
+
+let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ &&
+  window.__REDUX_DEVTOOLS_EXTENSION__());
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
+        <Provider store={store}>
+          <ChakraProvider>
+            <App /> 
+          </ChakraProvider>
+        </Provider>
   </React.StrictMode>
 );
 

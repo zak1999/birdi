@@ -5,10 +5,13 @@ import List from './components/List'
 import ActiveCard from './components/ActiveCard'
 
 import { Box, Container, Flex } from '@chakra-ui/react'
+import { useSelector } from 'react-redux'
 
 
 export default function Explore() {
-
+  
+  const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore);
+  
   const [data, setData] = useState([])// list of lists : [apiData, dbData]
 
   const [lng, setLng] = useState(0)
@@ -61,10 +64,7 @@ export default function Explore() {
     const data = await dbRes.json()
     return data
   }
-  async function handleClick(){
-    
-  }
-  
+
   async function handleRecollect(lng,lat){
     const APIData = await collectBirdLocationsFromAPI(lng,lat)
     const dbData = await collectBirdLocationsFromDB();
@@ -82,6 +82,7 @@ export default function Explore() {
     <>
     <Navbar/>
     <Container bg='teal.400' minW='75vw' p='20px' minH='85vh'>
+      {SelectedBirdOnExplore && SelectedBirdOnExplore.comName}
       <Flex minH='85vh'>
         <Box className='left-side' 
           m='0'

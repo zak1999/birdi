@@ -1,12 +1,14 @@
-import {
-  Box, Container, 
-  Heading, Stack } from '@chakra-ui/react'
+import {Box, Heading, Stack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+
 import ListItem from './ListItem'
 
 export default function List({data}) {
   
+  
   const [list, setList] = useState([])
+
+
 
   useEffect(() => {
     setList(data[0])
@@ -20,7 +22,10 @@ export default function List({data}) {
       <Stack spacing='2'>
         {list && list.length > 0 && list.map(bird=>{
         return(
-        <ListItem key={bird.id} bird={bird} onClick={()=>console.log("clicked",bird)} />
+        <ListItem 
+          key={bird.id} 
+          bird={bird} 
+          onClick={()=>console.log("clicked",bird)} />
         )})}
       </Stack>
     </Box>
