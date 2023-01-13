@@ -4,7 +4,7 @@ import Map from './components/Map'
 import List from './components/List'
 import ActiveCard from './components/ActiveCard'
 
-import { Box, Container, Flex } from '@chakra-ui/react'
+import { Box, Container, Flex, Card, CardBody, Heading } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
 
@@ -74,7 +74,16 @@ export default function Explore() {
           pb='2px'
           >
           <Box maxH='40%' pb='10px'>
+          {SelectedBirdOnExplore ? 
           <ActiveCard bird={SelectedBirdOnExplore}/>
+          :
+          <Card direction='row'
+            overflow='hidden'
+            variant='outline'
+            p='60px'>
+            <Heading size='sm'>Select a bird to view more information.</Heading>
+          </Card>
+          }
           </Box>
 
           <Box maxH='100%'>

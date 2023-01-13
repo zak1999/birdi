@@ -27,7 +27,7 @@ async function addSightings (req, res, next) {
         res.status(500).send("Something went wrong with the mongo upload (the image was processed on the BE though)")
     })
     blobStream.on('finish',async () =>{
-      const publicURL = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+      const publicURL = encodeURI(`https://storage.googleapis.com/${bucket.name}/${blob.name}`)
       const docToBeAdded = {...req.body,url:publicURL}
       console.log("doc being added:",docToBeAdded)
       try {

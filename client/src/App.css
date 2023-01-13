@@ -1,3 +1,15 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #b30000; 
 }
+
+.act-as-btn:hover{
+  cursor: pointer;
+}
+
+.mark {
+  border: none;
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-image: url('./bird.png');
+}
