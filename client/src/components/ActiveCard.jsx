@@ -6,9 +6,11 @@ import {
   Button,Divider, 
   CardFooter, ButtonGroup  } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 
 export default function ActiveCard({bird}) {
   
+
   const [info, setInfo] = useState(undefined)
   const [img, setImg] = useState(undefined)
 
@@ -23,28 +25,35 @@ export default function ActiveCard({bird}) {
   }
   
   return (
+    <>
+    {bird ? 
     <Box>
-      <Card
-        direction='row'
-        overflow='hidden'
-        variant='outline'>
-      <Image
-        objectFit='cover'
-        maxW='150px'
-        minW='150px'
-        maxH='150px'
-        minH='150px'
-        src='https://picsum.photos/100'
-        alt={bird.comName}
-      />
-      <CardBody p='0' pl='5px'  pt='5px'>
-        <Heading size='sm'>{bird.comName}</Heading>
-        <Text py='1' noOfLines={4}>
-          Caffè latte is a coffee beverage of Italian origin made with espresso
-          and steamed milk. Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet reiciendis aliquam nam error fugit quisquam dolorem! Magni nulla maiores laudantium quos, distinctio sint porro officiis asperiores explicabo magnam, rem facilis?
-        </Text>
-      </CardBody>
+    <Card
+      direction='row'
+      overflow='hidden'
+      variant='outline'>
+    <Image
+      objectFit='cover'
+      maxW='150px'
+      minW='150px'
+      maxH='150px'
+      minH='150px'
+      src='https://picsum.photos/100'
+      alt={bird.comName}
+    />
+    <CardBody p='0' pl='5px'  pt='5px'>
+      <Heading size='sm'>{bird.comName}</Heading>
+      <Text py='1' noOfLines={4}>
+        Caffè latte is a coffee beverage of Italian origin made with espresso
+        and steamed milk. Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet reiciendis aliquam nam error fugit quisquam dolorem! Magni nulla maiores laudantium quos, distinctio sint porro officiis asperiores explicabo magnam, rem facilis?
+      </Text>
+    </CardBody>
 </Card>
-    </Box>
+  </Box>
+    :
+    <h2>Select a bird to see more</h2>
+    
+    }
+    </>
   )
 }

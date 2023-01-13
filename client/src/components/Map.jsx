@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import mapboxgl from 'mapbox-gl';
 import { Box, Button } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiemFrOTkiLCJhIjoiY2w0ZmlncG4zMDBhaTNpbWxtbm4wOHF2bSJ9.o1xqvp-4s8EBhiwSo6nlYQ';
 
@@ -11,13 +11,34 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiemFrOTkiLCJhIjoiY2w0ZmlncG4zMDBhaTNpbWxtbm4wO
 
 export default function Map({sightings,coords}) {
   
+  const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore);
+
   const dispatch = useDispatch()
 
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [currentSightings, setCurrentSightings] = useState([])
+  const [currentSightings, setCurrentSightings] = useState([])//as geojson data
   const [userCoords, setUserCoords] = useState(undefined) //[lng, lat]
   
+  //given a list of sightings, we output a list of geoJSON points
+  function convertToGeoJSON(list){ 
+    if (!list) return undefined;
+    const tempArr = [];
+    for (let x of list) {
+      const lat = x.lat;
+      const lng = x.lng;
+      const GeoJSON = {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates":[lng,lat]
+        },
+        "properties":{...x}
+      }
+      tempArr.push(GeoJSON)
+    }
+    return {"type":"FeatureCollection","features":tempArr}
+  }  
   //function that retrieves current location of user
   async function locateMe(){
 
@@ -43,7 +64,6 @@ export default function Map({sightings,coords}) {
       .setHTML(`<p>${point.properties.comName}</p>`)
       .addTo(map.current)
   }
-
   //function that, given a point, moves the map to focus on 
   function focusPoint(point){
     map.current.flyTo({
@@ -51,6 +71,7 @@ export default function Map({sightings,coords}) {
       zoom:15
     })
   }
+
   //initializing the map on render
   useEffect(() => {
     if (map.current) return;
@@ -91,15 +112,34 @@ export default function Map({sightings,coords}) {
     })
   }, [])
   
+  //handles update currentSightings state
   useEffect(() => {
-    setCurrentSightings(sightings)
+    sightings && setCurrentSightings(convertToGeoJSON(sightings))
   }, [sightings])
   
+  //handles map update in state update
   useEffect(() => {
     if (!map.current.getSource('locations')) return; //if the layer doesnt exist
     map.current.getSource('locations').setData(currentSightings)
   }, [currentSightings])
 
+  // handles selection of a bird from the list
+  useEffect(() => {
+    if (sightings && sightings.length > 0 ){
+      const x = sightings.find((bird)=>{
+        return bird.id == SelectedBirdOnExplore.id
+      })
+      console.log("x",x)
+      x.geometry = {coordinates:[x.lng,x.lat]}
+      focusPoint(x)
+      const popUps = document.getElementsByClassName('mapboxgl-popup');
+      if (popUps[0]) popUps[0].remove();
+      const popUp = new mapboxgl.Popup({closeOnClick:false})
+        .setLngLat(x.geometry.coordinates)
+        .setHTML(`<p>${x.comName}</p>`)
+        .addTo(map.current)
+    }
+  }, [SelectedBirdOnExplore])
 
   //handle mapclick 
   useEffect(() => {
@@ -107,7 +147,7 @@ export default function Map({sightings,coords}) {
       const listOfPoints = map.current.queryRenderedFeatures(e.point,{layers:['locations']})
       if (listOfPoints.length < 1 || !listOfPoints) return; //Makes sure a point is actually clicked
       dispatch({type:'UPDATE_EXPLORE_BIRD',
-        bird:{...listOfPoints[0].properties}})
+        bird:{...listOfPoints[0].properties}})// convert data back from geoJson
       focusPoint(listOfPoints[0])
       popUpCreation(listOfPoints[0])
     })

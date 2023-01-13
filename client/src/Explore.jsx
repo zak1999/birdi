@@ -28,26 +28,6 @@ export default function Explore() {
     }
   }, [])
 
-  //given a list of sightings, we output a list of geoJSON points
-  function convertToGeoJSON(list){ 
-    if (!list) return undefined;
-    const tempArr = [];
-    for (let x of list) {
-      const lat = x.lat;
-      const lng = x.lng;
-      const GeoJSON = {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates":[lng,lat]
-        },
-        "properties":{...x}
-      }
-      tempArr.push(GeoJSON)
-    }
-    return {"type":"FeatureCollection","features":tempArr}
-  }
-  
 
   async function collectBirdLocationsFromAPI(lng,lat){
     const APIRes = await fetch(`https://api.ebird.org/v2/data/obs/geo/recent?lat=${lat}&lng=${lng}&maxResults=100`,{
@@ -82,7 +62,6 @@ export default function Explore() {
     <>
     <Navbar/>
     <Container bg='teal.400' minW='75vw' p='20px' minH='85vh'>
-      {SelectedBirdOnExplore && SelectedBirdOnExplore.comName}
       <Flex minH='85vh'>
         <Box className='left-side' 
           m='0'
@@ -95,21 +74,7 @@ export default function Explore() {
           pb='2px'
           >
           <Box maxH='40%' pb='10px'>
-          <ActiveCard bird={{
-          "speciesCode": "mallar3",
-          "comName": "Mallard",
-          "sciName": "Anas platyrhynchos",
-          "locId": "L12107838",
-          "locName": "Thames Chase Community Forest",
-          "obsDt": "2023-01-12 16:34",
-          "howMany": 24,
-          "lat": 51.5528198,
-          "lng": 0.2850011,
-          "obsValid": true,
-          "obsReviewed": false,
-          "locationPrivate": false,
-          "subId": "S125995859"
-          }}/>
+          <ActiveCard bird={SelectedBirdOnExplore}/>
           </Box>
 
           <Box maxH='100%'>
@@ -124,7 +89,7 @@ export default function Explore() {
 ▀█▀ █░█ █▀▀ █▄░█   █▀█ █▀▀ █▄░█ █▀▄ █▀▀ █▀█   █▀▄▀█ ▄▀█ █▀█ ▀█
 ░█░ █▀█ ██▄ █░▀█   █▀▄ ██▄ █░▀█ █▄▀ ██▄ █▀▄   █░▀░█ █▀█ █▀▀ ░▄
           */}
-          <Map sightings={convertToGeoJSON(data[0])} coords={{setLat,setLng,handleRecollect}}/>
+          <Map sightings={data[0]} coords={{setLat,setLng,handleRecollect}}/>
         </Box>
       </Flex>
     </Container>
