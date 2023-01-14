@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import Map from './Map'
 import List from './List'
 import ActiveCard from './ActiveCard'
+import {collectBirdLocationsFromAPI} from '../API/eBirdApiFunctions'
 
 import { Box, Container, Flex, Card, CardBody, Heading, CircularProgress } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
@@ -29,18 +30,7 @@ export default function Explore() {
       handleRecollect(0,0)
     }
   }, [])
-
-
-  async function collectBirdLocationsFromAPI(lng,lat){
-    const APIRes = await fetch(`https://api.ebird.org/v2/data/obs/geo/recent?lat=${lat}&lng=${lng}&maxResults=100`,{
-      // mode: 'cors',
-      headers:{
-        'x-ebirdapitoken':'9erjc094uk1p'
-      }
-    })
-    const data = await APIRes.json()
-    return data
-  }
+  
   async function collectBirdLocationsFromDB(){
     const dbRes = await fetch(`http://localhost:3001/sightings`)
     const data = await dbRes.json()

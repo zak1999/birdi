@@ -57,7 +57,6 @@ export default function Map({sightings,coords}) {
   }
   
   //function that, given a point, creates a popup
-  //*************************CHANGE TO MY OWN POPUP **********************************
   function popUpCreation(point) {
     const popUps = document.getElementsByClassName('mapboxgl-popup');
     if (popUps[0]) popUps[0].remove();
@@ -119,7 +118,7 @@ export default function Map({sightings,coords}) {
           type:'geojson',
           data:currentSightingsAPI
         },
-        paint:{'circle-color': 'red'}
+        paint:{'circle-color': '#1aa13e'}
       })
     })
   }, [])
@@ -165,7 +164,6 @@ export default function Map({sightings,coords}) {
     if (sightings) {
       if (sightings[0] && sightings[0].length > 0 && SelectedBirdOnExplore){
         const x = sightings[0].find((bird)=>{
-          console.log("bird",bird)
           return bird.id == SelectedBirdOnExplore.id
         })
         console.log(x)
