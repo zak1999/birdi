@@ -5,7 +5,7 @@ import List from './List'
 import ActiveCard from './ActiveCard'
 import {collectBirdLocationsFromAPI} from '../API/eBirdApiFunctions'
 
-import { Box, Container, Flex, Card, CardBody, Heading, CircularProgress } from '@chakra-ui/react'
+import { Box, Container, Flex, Card, Heading,  } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
 

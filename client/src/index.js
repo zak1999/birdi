@@ -8,6 +8,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { createStore } from 'redux';
 import reducers from './reducers';
 import { Provider } from 'react-redux';
+import { Auth0Provider } from "@auth0/auth0-react";
 
 
 let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ &&
@@ -17,11 +18,16 @@ let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ &&
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
+      <Auth0Provider
+        domain={process.env.REACT_APP_AUTH_DOMAIN}
+        clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
+        redirectUri={window.location.origin}>
         <Provider store={store}>
           <ChakraProvider>
             <App /> 
           </ChakraProvider>
         </Provider>
+  </Auth0Provider>
   </React.StrictMode>
 );
 

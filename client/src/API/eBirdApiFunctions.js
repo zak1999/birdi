@@ -1,10 +1,11 @@
 const eBirdURL = 'https://api.ebird.org/v2/'
 
+
 export async function collectBirdLocationsFromAPI(lng,lat){
   const APIRes = await fetch(`${eBirdURL}data/obs/geo/recent?lat=${lat}&lng=${lng}&maxResults=100`,{
     // mode: 'cors',
     headers:{
-      'x-ebirdapitoken':'9erjc094uk1p'
+      'x-ebirdapitoken':process.env.REACT_APP_BIRD_TOKEN
     }
   })
   const data = await APIRes.json()

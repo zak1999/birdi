@@ -1,6 +1,5 @@
 // import {Card, CardBody, Image } from '@chakra-ui/react'
 import React from 'react'
-import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {Box,Card,Text} from '@chakra-ui/react'

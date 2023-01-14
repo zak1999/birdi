@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import mapboxgl from 'mapbox-gl';
-import { Box, Button } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiemFrOTkiLCJhIjoiY2w0ZmlncG4zMDBhaTNpbWxtbm4wOHF2bSJ9.o1xqvp-4s8EBhiwSo6nlYQ';
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
 
 
 
 export default function Map({sightings,coords}) {
-  
   const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore);
 
   const dispatch = useDispatch()
