@@ -17,12 +17,15 @@ export default function Map({sightings,coords}) {
 
   const mapContainer = useRef(null);
   const map = useRef(null);
+  
   const [currentSightings, setCurrentSightings] = useState([])//as geojson data
+  const [currentSightingsAPI, setCurrentSightingsAPI] = useState([])//as geojson data
+
   const [userCoords, setUserCoords] = useState(undefined) //[lng, lat]
   
   //given a list of sightings, we output a list of geoJSON points
   function convertToGeoJSON(list){ 
-    if (!list) return undefined;
+    if (!list || list.length==0) return {"type":"FeatureCollection","features":[]};
     const tempArr = [];
     for (let x of list) {
       const lat = x.lat;
@@ -99,7 +102,7 @@ export default function Map({sightings,coords}) {
   // plots the data  
   useEffect(() => {
     // only runs if there is a current map and the locations layer does't exists
-    if (!map.current || map.current.getLayer('locations') || currentSightings.length<0) return;
+    if (!map.current) return // || map.current.getLayer('locations') || currentSightings.length<0) return;
     map.current.on('load',()=>{
       map.current.addLayer({
         id:'locations',
@@ -108,6 +111,15 @@ export default function Map({sightings,coords}) {
           type:'geojson',
           data:currentSightings
         }
+      })
+      map.current.addLayer({
+        id:'locations2',
+        type:'circle',
+        source:{
+          type:'geojson',
+          data:currentSightingsAPI
+        },
+        paint:{'circle-color': 'red'}
       })
     })
   }, [])
@@ -129,37 +141,51 @@ export default function Map({sightings,coords}) {
   
   //handles update currentSightings state
   useEffect(() => {
-    sightings[0] && setCurrentSightings(convertToGeoJSON(sightings[0]))
-    
+    console.log(sightings)
+    if (sightings){
+      if (sightings[0].length > 0) {setCurrentSightings(convertToGeoJSON(sightings[0]))}
+      if (sightings[1].length > 0) {setCurrentSightingsAPI(convertToGeoJSON(sightings[1]))}
+    }
   }, [sightings])
   
   //handles map update in state update
   useEffect(() => {
     if (!map.current.getSource('locations')) return; //if the layer doesnt exist
     map.current.getSource('locations').setData(currentSightings)
-  }, [currentSightings])
+    if (!map.current.getSource('locations2')) return; //if the layer doesnt exist
+    map.current.getSource('locations2').setData(currentSightingsAPI)
+
+  }, [currentSightings,currentSightingsAPI])
+
 
   // handles selection of a bird from the list
   useEffect(() => {
-    if (sightings[0] && sightings[0].length > 0 ){
-      const x = sightings[0].find((bird)=>{
-        return bird.id == SelectedBirdOnExplore.id
-      })
-      x.geometry = {coordinates:[x.lng,x.lat]}
-      focusPoint(x)
-      const popUps = document.getElementsByClassName('mapboxgl-popup');
-      if (popUps[0]) popUps[0].remove();
-      const popUp = new mapboxgl.Popup({closeOnClick:false})
-        .setLngLat(x.geometry.coordinates)
-        .setHTML(`<p>${x.comName}</p>`)
-        .addTo(map.current)
+    console.log("sightings",sightings)
+    console.log("currentSightings",currentSightings)
+    if (sightings) {
+      if (sightings[0] && sightings[0].length > 0 && SelectedBirdOnExplore){
+        const x = sightings[0].find((bird)=>{
+          console.log("bird",bird)
+          return bird.id == SelectedBirdOnExplore.id
+        })
+        console.log(x)
+        if (!x) return;
+        x.geometry = {coordinates:[x.lng,x.lat]}
+        focusPoint(x)
+        const popUps = document.getElementsByClassName('mapboxgl-popup');
+        if (popUps[0]) popUps[0].remove();
+        const popUp = new mapboxgl.Popup({closeOnClick:false})
+          .setLngLat(x.geometry.coordinates)
+          .setHTML(`<p>${x.comName}</p>`)
+          .addTo(map.current)
+      }
     }
   }, [SelectedBirdOnExplore])
 
   //handle mapclick 
   useEffect(() => {
     map.current.on('click',(e)=>{
-      const listOfPoints = map.current.queryRenderedFeatures(e.point,{layers:['locations']})
+      const listOfPoints = map.current.queryRenderedFeatures(e.point,{layers:['locations','locations2']})
       if (listOfPoints.length < 1 || !listOfPoints) return; //Makes sure a point is actually clicked
       dispatch({type:'UPDATE_EXPLORE_BIRD',
         bird:{...listOfPoints[0].properties}})// convert data back from geoJson

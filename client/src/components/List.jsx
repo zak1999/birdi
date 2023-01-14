@@ -11,7 +11,9 @@ export default function List({data}) {
 
 
   useEffect(() => {
-    setList(data[0])
+    if (data){
+      setList([...data[0],...data[1]])
+    }
   }, [data])
   
 

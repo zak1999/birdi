@@ -4,7 +4,7 @@ import Map from './Map'
 import List from './List'
 import ActiveCard from './ActiveCard'
 
-import { Box, Container, Flex, Card, CardBody, Heading } from '@chakra-ui/react'
+import { Box, Container, Flex, Card, CardBody, Heading, CircularProgress } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
 
@@ -12,13 +12,15 @@ export default function Explore() {
   
   const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore);
   
-  const [data, setData] = useState([])// list of lists : [apiData, dbData]
+  const [data, setData] = useState(null)// list of lists : [apiData, dbData]
 
   const [lng, setLng] = useState(0)
   const [lat, setLat] = useState(0)
-  
+  const [loading, setLoading] = useState(true)
+
   // initial data collect
   useEffect(() => {
+    setLoading(true)
     if (navigator.geolocation){
       navigator.geolocation.getCurrentPosition(async (pos)=>{
         await handleRecollect(pos.coords.longitude, pos.coords.latitude)
@@ -52,9 +54,10 @@ export default function Explore() {
       bird.id = i;
     });
     dbData.forEach((bird, i) =>{
-      bird.id = i;
+      bird.id = i + APIData.length;// make sure there are no duplicates
     });
     setData([APIData,dbData])
+    setLoading(false)
   }
 
 
@@ -91,7 +94,9 @@ export default function Explore() {
           </Box>
         </Box>
         <Box className='right-side' w='65%'>
-          <Map sightings={data} coords={{setLat,setLng,handleRecollect}}/>
+        {/* {!loading && */}
+        <Map sightings={data} coords={{setLat,setLng,handleRecollect}}/>
+        {/* } */}
         </Box>
       </Flex>
     </Container>
