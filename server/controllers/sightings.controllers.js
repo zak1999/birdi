@@ -1,6 +1,5 @@
 const Sightings = require('../models/sightings.models')
 const { Storage } = require('@google-cloud/storage');
-const { format } = require('path');
 
 const storage = new Storage();
 const bucket = storage.bucket('birdi');

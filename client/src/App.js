@@ -26,17 +26,37 @@ const router = createBrowserRouter([
 
 function App() {
 
-  const { isAuthenticated } = useAuth0() 
+  const { isAuthenticated, user} = useAuth0() 
   
-  // listens for log ins and then collects db from mongo if there is a user logged in
+  async function handleCOllectUserInfo(email) {
+    console.log("click")
+    const userDataFromdb = await fetch('http://localhost:3001/users',{
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email})
+    })
+    const data = await userDataFromdb.json()
+    return data
+  }
+
+
+
+  // listens for logins/logouts and then collects db from mongo if there is a user logged in
   useEffect(() => {
-    console.log("User Activity happened")
-    console.log(isAuthenticated)
-    
+    if (isAuthenticated){
+      console.log(user)
+      handleCOllectUserInfo(user.email).then(data=>{
+        console.log(data)
+        // set data in redux 
+      })
+    }
   }, [isAuthenticated])
   
   return (
     <div className="App">
+      <button onClick={()=>handleCOllectUserInfo()}>CLICK</button>
       <RouterProvider router={router}/>
     </div>
   );
