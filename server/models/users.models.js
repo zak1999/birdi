@@ -4,7 +4,7 @@ const usersSchema = mongoose.Schema({
   email:{
     type:String,
   },
-  user_sightings_ids:{
+  bird_sightings_ids:{
     type:[String],
   }
 })

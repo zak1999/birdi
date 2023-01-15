@@ -12,26 +12,29 @@ import { useDispatch } from 'react-redux';
 import {COllectUserInfoFromDB} from './API/dbFunctions'
 
 
-const router = createBrowserRouter([
-  {
-    path:"/",
-    element:<Explore/>
-  },
-  {
-    path:'/upload',
-    element:<Upload/>
-  },
-  {
-    path:'/profile',
-    element:<Profile/>
-  }
-])
 
 function App() {
   
   const dispatch = useDispatch()
-
+  
   const { isAuthenticated, user} = useAuth0() 
+  
+  //router needs to be created in component to have access to the user object,
+  //with this object we protect private routes
+  const router = createBrowserRouter([
+    {
+      path:"/",
+      element:<Explore/>
+    },
+    {
+      path:'/upload',
+      element: user ? <Upload/> : <Explore/>
+    },
+    {
+      path:'/profile',
+      element: user ? <Profile/>: <Explore/>
+    }
+  ])
   
   // listens for logins/logouts and then collects 
   // if is a login, collects data from mongo and sets the state redux 

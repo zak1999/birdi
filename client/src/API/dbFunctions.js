@@ -7,6 +7,13 @@ export async function collectBirdLocationsFromDB(){
   return data
 }
 
+export async function sendBirdSightingToDB(data){
+  return await fetch('http://localhost:3001/sightings',{
+      method: 'POST',
+      body:data,
+    })
+  }
+
 
 // █░█ █▀ █▀▀ █▀█ █▀
 // █▄█ ▄█ ██▄ █▀▄ ▄█

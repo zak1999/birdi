@@ -8,7 +8,7 @@ const SelectedBirdOnExplore = (state=null, action) =>{
   return state;
 }
 
-const userInformation = (state=null, action) => {
+const userInfo = (state=null, action) => {
   if (action.type==="UPDATE_USER_INFO") {
     return {...action.user}
   }
@@ -17,7 +17,7 @@ const userInformation = (state=null, action) => {
 
 const reducers = combineReducers({
   SelectedBirdOnExplore,
-  userInformation
+  userInfo
 });
 
 export default reducers;
