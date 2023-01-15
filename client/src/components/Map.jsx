@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import mapboxgl from 'mapbox-gl';
-import { Button } from '@chakra-ui/react';
+import { Box, Button, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
 
+export default function Map({sightings,coords, dot}) {
 
-
-export default function Map({sightings,coords}) {
   const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore);
 
   const dispatch = useDispatch()
@@ -192,22 +191,37 @@ export default function Map({sightings,coords}) {
   }, [])
   
 
+    
 
   return (
-    <>
-    <div ref={mapContainer} style={{minHeight:'80vh'}}></div>
-    <Button onClick={()=>{
-      locateMe()}} m='10px'>
-      current Location
-    </Button>
-    {coords.handleRecollect && 
-    <Button onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-      <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-      <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-      </svg>
-    </Button>
-    }
-    </>
+    <Box display='flex' flexDir='column'>
+    <Box className='map-wrapper' display='flex' flexDir='column' justifyContent='center'>
+      {/* if the map is being used in upload, the user will see a
+       cross in the center of the map to help with lat & lng precision*/}
+      { dot && <Box
+        zIndex='100' 
+        position='absolute' 
+        margin='auto'
+        alignSelf='center' 
+        justifySelf='center'
+        ><Text><b>+</b></Text>
+      </Box>}
+    <Box ref={mapContainer} minHeight='80vh'></Box>
+    </Box>
+    <Box className='btn-section'>
+      <Button onClick={()=>{
+        locateMe()}} mr='10px' my='10px'>
+        current Location
+      </Button>
+      {coords.handleRecollect && 
+      <Button onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+        <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg>
+      </Button>
+      }
+      </Box>
+    </Box>
   )
 }

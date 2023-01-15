@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useDispatch } from 'react-redux';
 import { CollectUserInfoFromDB } from './API/dbFunctions'
+import { Container } from '@chakra-ui/react';
 
 
 
@@ -51,6 +52,7 @@ function App() {
   }, [isAuthenticated])
   
   return (
+    
     <div className="App">
       <RouterProvider router={router}/>
     </div>

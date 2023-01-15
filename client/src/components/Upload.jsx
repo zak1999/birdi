@@ -1,5 +1,5 @@
 import { Box, Container, Text, Input, SimpleGrid } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import {sendBirdSightingToDB} from '../API/dbFunctions'
 
@@ -34,7 +34,6 @@ export default function Upload() {
       <Navbar/>
   <div>
     <Container>
-
       <form onSubmit={(e)=>handleSubmit(e)}>
       <SimpleGrid columns={2} spacing={2}>
         <label>Common Name</label>
@@ -61,7 +60,7 @@ export default function Upload() {
       <Box >
         <Text>lat: {lat} &bull; lng: {lng}</Text>
       </Box>
-        <Map coords={{setLng,setLat}}/>
+        <Map coords={{setLng,setLat}} dot/>
     </Container>
 
     </div>

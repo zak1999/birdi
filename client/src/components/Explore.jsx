@@ -49,8 +49,8 @@ export default function Explore() {
   return (
     <>
     <Navbar/>
-    <Container bg='teal.400' minW='75vw' p='20px' minH='85vh'>
-      <Flex minH='85vh'>
+    <Container bg='teal.400' minW='85vw' p='20px' minH='85vh'>
+      <Flex minH='85vh' bg=''>
         <Box className='left-side' 
           m='0'
           p='0'
@@ -78,7 +78,7 @@ export default function Explore() {
             <List data={data} />
           </Box>
         </Box>
-        <Box className='right-side' w='65%'>
+        <Box className='right-side' w='65%' maxH='100%'>
         <Map sightings={data} coords={{setLat,setLng,handleRecollect}}/>
         </Box>
       </Flex>
