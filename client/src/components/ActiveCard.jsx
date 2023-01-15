@@ -3,38 +3,30 @@ import {
   Card, CardBody, 
   Stack, Skeleton, 
   Heading, Image, 
-  Button,Text, CircularProgress, Divider  } from '@chakra-ui/react'
+  Text, CircularProgress, Divider  } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import {collectInfoFromWiki} from '../API/wikiApiFunctions'
+
 
 export default function ActiveCard({bird}) {
   
 
-  const [info, setInfo] = useState(undefined);
-  const [img, setImg] = useState(undefined);
-
   const [cardState, setCardState] = useState(null)
-
   const [loading, setLoading] = useState(true);
 
   
   useEffect(() => {
     setLoading(true)
-    async function collectInfoFromWiki(birdName) {
-      const wikiInfoURL = encodeURI(`https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&prop=extracts&generator=prefixsearch&redirects=1&converttitles=1&formatversion=2&exintro=1&explaintext=1&gpssearch=${birdName}`)
-      const infoResults = await fetch(wikiInfoURL)
-      const infoData = await infoResults.json()
-      const wikiImgUrl = encodeURI(`https://en.wikipedia.org/w/api.php?action=query&pageids=${infoData.query.pages[0].pageid}&prop=pageimages&format=json&pithumbsize=150&origin=*`)
-      const imgResults = await fetch(wikiImgUrl)
-      const imgData = await imgResults.json()
+    async function func(){
+      const {imgUrl, info} = await collectInfoFromWiki(bird.sciName)
       setCardState({
-        info:infoData.query.pages[0].extract,
-        imgUrl:bird.url || imgData.query.pages[infoData.query.pages[0].pageid].thumbnail.source
+        info,
+        imgUrl:bird.url||imgUrl//||'https://upload.wikimedia.org/wikipedia/commons/b/bc/Valk_Segelzeichen.svg'
       })
-      setLoading(false)
+      setLoading(false) 
     }
-    collectInfoFromWiki(bird.sciName)
+    func()
   }, [bird])
   
   

@@ -88,7 +88,7 @@ export default function Map({sightings,coords}) {
   // keeps track of lat, lng & zoom
   useEffect(() => {
     // if map is instantiated AND 
-    // the map is being used to upload a sighting, update data in parent element too
+    // the map is being used to upload a sighting (coords), update data in parent element too
     if (!map.current || !coords) return;
     map.current.on('move',()=>{
       const center = map.current.getCenter()
@@ -122,20 +122,20 @@ export default function Map({sightings,coords}) {
     })
   }, [])
   
-  useEffect(() => {
-    // only runs if there is a current map and the locations layer does't exists
-    if (!map.current || map.current.getLayer('locations') || currentSightings.length<0) return;
-    map.current.on('load',()=>{
-      map.current.addLayer({
-        id:'locations',
-        type:'circle',
-        source:{
-          type:'geojson',
-          data:currentSightings
-        }
-      })
-    })
-  }, [])
+  // useEffect(() => {
+  //   // only runs if there is a current map and the locations layer does't exists
+  //   if (!map.current || map.current.getLayer('locations') || currentSightings.length<0) return;
+  //   map.current.on('load',()=>{
+  //     map.current.addLayer({
+  //       id:'locations',
+  //       type:'circle',
+  //       source:{
+  //         type:'geojson',
+  //         data:currentSightings
+  //       }
+  //     })
+  //   })
+  // }, [])
   
   //handles update currentSightings state
   useEffect(() => {
@@ -156,7 +156,7 @@ export default function Map({sightings,coords}) {
   }, [currentSightings,currentSightingsAPI])
 
 
-  // handles selection of a bird from the list
+  // updates map when a bird from the list component is selected -> adds a popup
   useEffect(() => {
     console.log("sightings",sightings)
     console.log("currentSightings",currentSightings)

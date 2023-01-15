@@ -4,6 +4,7 @@ import Map from './Map'
 import List from './List'
 import ActiveCard from './ActiveCard'
 import {collectBirdLocationsFromAPI} from '../API/eBirdApiFunctions'
+import {collectBirdLocationsFromDB} from '../API/dbFunctions'
 
 import { Box, Container, Flex, Card, Heading,  } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
@@ -30,12 +31,6 @@ export default function Explore() {
       handleRecollect(0,0)
     }
   }, [])
-  
-  async function collectBirdLocationsFromDB(){
-    const dbRes = await fetch(`http://localhost:3001/sightings`)
-    const data = await dbRes.json()
-    return data
-  }
 
   async function handleRecollect(lng,lat){
     const APIData = await collectBirdLocationsFromAPI(lng,lat)
@@ -44,7 +39,7 @@ export default function Explore() {
       bird.id = i;
     });
     dbData.forEach((bird, i) =>{
-      bird.id = i + APIData.length;// make sure there are no duplicates
+      bird.id = i + APIData.length;// to make sure there are no duplicates
     });
     setData([APIData,dbData])
     setLoading(false)
@@ -68,14 +63,14 @@ export default function Explore() {
           >
           <Box maxH='40%' pb='10px'>
           {SelectedBirdOnExplore ? 
-          <ActiveCard bird={SelectedBirdOnExplore}/>
-          :
-          <Card direction='row'
-            overflow='hidden'
-            variant='outline'
-            p='60px'>
-            <Heading size='sm'>Select a bird to view more information.</Heading>
-          </Card>
+            <ActiveCard bird={SelectedBirdOnExplore}/>
+            :
+            <Card direction='row'
+              overflow='hidden'
+              variant='outline'
+              p='60px'>
+              <Heading size='sm'>Select a bird to view more information.</Heading>
+            </Card>
           }
           </Box>
 
@@ -84,13 +79,10 @@ export default function Explore() {
           </Box>
         </Box>
         <Box className='right-side' w='65%'>
-        {/* {!loading && */}
         <Map sightings={data} coords={{setLat,setLng,handleRecollect}}/>
-        {/* } */}
         </Box>
       </Flex>
     </Container>
-    {/* <Upload/> */}
     </>
   )
 }

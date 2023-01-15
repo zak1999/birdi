@@ -8,6 +8,9 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Profile from './components/Profile';
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useDispatch } from 'react-redux';
+import {COllectUserInfoFromDB} from './API/dbFunctions'
+
 
 const router = createBrowserRouter([
   {
@@ -25,38 +28,27 @@ const router = createBrowserRouter([
 ])
 
 function App() {
+  
+  const dispatch = useDispatch()
 
   const { isAuthenticated, user} = useAuth0() 
   
-  async function handleCOllectUserInfo(email) {
-    console.log("click")
-    const userDataFromdb = await fetch('http://localhost:3001/users',{
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({email})
-    })
-    const data = await userDataFromdb.json()
-    return data
-  }
-
-
-
-  // listens for logins/logouts and then collects db from mongo if there is a user logged in
+  // listens for logins/logouts and then collects 
+  // if is a login, collects data from mongo and sets the state redux 
   useEffect(() => {
     if (isAuthenticated){
       console.log(user)
-      handleCOllectUserInfo(user.email).then(data=>{
-        console.log(data)
+      COllectUserInfoFromDB(user.email).then(user=>{
+        console.log(user)
         // set data in redux 
+        dispatch({type:'UPDATE_USER_INFO',
+        user})
       })
     }
   }, [isAuthenticated])
   
   return (
     <div className="App">
-      <button onClick={()=>handleCOllectUserInfo()}>CLICK</button>
       <RouterProvider router={router}/>
     </div>
   );

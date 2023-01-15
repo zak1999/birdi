@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import { createStore } from 'redux';
-import reducers from './reducers';
+import reducers from './redux/reducers';
 import { Provider } from 'react-redux';
 import { Auth0Provider } from "@auth0/auth0-react";
 
