@@ -8,16 +8,17 @@ const sightingsSchema = mongoose.Schema({
     type:String,
   },
   userID:{
+    type: String, 
+  },
+  userEmail:{
     type:String,
   },
   obsDt:{
     type:String,
   },
-  
   url:{
     type:String,
   },
-
   lat:{
     type:Number,
   },

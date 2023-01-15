@@ -7,11 +7,13 @@ export async function collectBirdLocationsFromDB(){
   return data
 }
 
-export async function sendBirdSightingToDB(data){
-  return await fetch('http://localhost:3001/sightings',{
+export async function sendBirdSightingToDB(docToBeAdded){
+  const dbRes =  await fetch('http://localhost:3001/sightings',{
       method: 'POST',
-      body:data,
+      body:docToBeAdded,
     })
+  const data = await dbRes.json()
+  return data;
   }
 
 

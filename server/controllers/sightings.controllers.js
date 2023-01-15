@@ -1,6 +1,7 @@
 const Sightings = require('../models/sightings.models')
 const { Storage } = require('@google-cloud/storage');
-
+const Users = require('../models/users.models');
+const mongoose = require('mongoose')
 const storage = new Storage();
 const bucket = storage.bucket('birdi');
 
@@ -31,7 +32,11 @@ async function addSightings (req, res, next) {
       console.log("doc being added:",docToBeAdded)
       try {
         const result = await Sightings.create(docToBeAdded)
-        res.status(201).send(result)
+        const old = await Users.findOne({_id:new mongoose.Types.ObjectId(docToBeAdded.userID)})
+        const userResult = await Users.findOneAndUpdate({_id:new mongoose.Types.ObjectId(docToBeAdded.userID)},
+          {birdSightingsIds:[...old.birdSightingsIds,result._id]}
+        )
+        res.status(201).send({result,userResult})
         next()
       } catch (err) {
         console.log(err)

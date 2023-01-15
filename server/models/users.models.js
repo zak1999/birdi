@@ -1,11 +1,11 @@
 const mongoose = require('../db')
-
+const mongoosey = require('mongoose')
 const usersSchema = mongoose.Schema({
   email:{
     type:String,
   },
-  bird_sightings_ids:{
-    type:[String],
+  birdSightingsIds:{
+    type:[{type: mongoosey.Schema.Types.ObjectId, ref: 'Sightings'}]
   }
 })
 

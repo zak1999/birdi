@@ -1,13 +1,17 @@
 import { Box, Container, Text, Input, SimpleGrid } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import {sendBirdSightingToDB} from '../API/dbFunctions'
+
 import Map from './Map'
 import Navbar from './Navbar'
 
-import {sendBirdSightingToDB} from '../API/dbFunctions'
 
 export default function Upload() {
   const [lng, setLng] = useState(0)
   const [lat, setLat] = useState(0)
+
+  const userInfo = useSelector(state=>state.userInfo);
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -17,9 +21,11 @@ export default function Upload() {
     d.set('obsDt',d.get('obsDt'))
     d.set('lat',lat)
     d.set('lng',lng)
+    d.set('userID',userInfo._id)
+    d.set('userEmail',userInfo.email)
     d.append('file',d.get('file')[0])
     const x  = await sendBirdSightingToDB(d)
-    console.log(x.json())
+    console.log(x)
   }
 
 

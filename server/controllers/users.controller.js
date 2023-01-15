@@ -8,15 +8,16 @@ async function collectUserInfo (req, res) {
   if (req.body.email)
   try {
     //looks to see if email exists,
-    const results = await Users.find({email:req.body.email})
+    const result = await Users.findOne({email:req.body.email})
     //if it doesn't create a new 'user' in table with that email
-    if (results.length===0) {
+    if (!result) {
     const newdoc = await Users.create({email:req.body.email})
     console.log(newdoc)
     res.status(200).send(newdoc)
     } else {
+      await result.populate('birdSightingsIds')
       console.log("found")
-      res.status(200).send(results[0])
+      res.status(200).send(result)
     }
   } catch (err) {
     console.log(err)
