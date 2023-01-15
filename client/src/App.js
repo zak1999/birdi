@@ -9,7 +9,7 @@ import Profile from './components/Profile';
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useDispatch } from 'react-redux';
-import {COllectUserInfoFromDB} from './API/dbFunctions'
+import { CollectUserInfoFromDB } from './API/dbFunctions'
 
 
 
@@ -19,7 +19,7 @@ function App() {
   
   const { isAuthenticated, user} = useAuth0() 
   
-  //router needs to be created in component to have access to the user object,
+  //router needs to be created in component to have access to the 'isAuthenticated' object,
   //with this object we protect private routes
   const router = createBrowserRouter([
     {
@@ -28,11 +28,11 @@ function App() {
     },
     {
       path:'/upload',
-      element: user ? <Upload/> : <Explore/>
+      element: isAuthenticated ? <Upload/> : <Explore/>
     },
     {
       path:'/profile',
-      element: user ? <Profile/>: <Explore/>
+      element: isAuthenticated ? <Profile/>: <Explore/>
     }
   ])
   
@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     if (isAuthenticated){
       console.log(user)
-      COllectUserInfoFromDB(user.email).then(user=>{
+      CollectUserInfoFromDB(user.email).then(user=>{
         console.log(user)
         // set data in redux 
         dispatch({type:'UPDATE_USER_INFO',

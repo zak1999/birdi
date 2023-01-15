@@ -1,4 +1,4 @@
-import { Box, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Spinner, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 
 import {Link} from 'react-router-dom'
@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const userInfo = useSelector(state=>state.userInfo);
 
-  const { logout, loginWithPopup, isAuthenticated, user } = useAuth0();
+  const { logout, loginWithPopup, isAuthenticated, user,isLoading } = useAuth0();
   
 
   async function handleLogin() {
@@ -22,12 +22,21 @@ export default function Navbar() {
   return (
     <Box>
       <Stack direction='row'>
-        <Link to={'/upload'}>upload</Link>
-        <Link to={'/'}>explore</Link>
         {isAuthenticated ? 
-        <button onClick={()=>logout({ returnTo: window.location.origin })}>Log Out</button>
+        <Link to={'/upload'}>upload</Link>
+        :
+        <Link onClick={async()=>await handleLogin()}>upload</Link>
+        }
+        <Link to={'/'}>explore</Link>
+
+        {
+        isLoading ? 
+        <Button><Spinner/></Button>
         : 
-        <button onClick={async()=>await handleLogin()}>Login</button>
+        isAuthenticated ? 
+          <Button onClick={()=>logout({ returnTo: window.location.origin })}>Log Out</Button>
+          : 
+          <Button onClick={async()=>await handleLogin()}>Login</Button>
         }
         {userInfo && <Text> {userInfo.email}</Text>}
       </Stack>
