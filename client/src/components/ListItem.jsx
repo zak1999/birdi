@@ -16,9 +16,11 @@ export default function ListItem({bird}) {
   }
 
   return (
-    <Card px='10px' py='5px' onClick={handleBirdClick} 
-    className='act-as-btn'
-      bg={(SelectedBirdOnExplore && bird.id===SelectedBirdOnExplore.id) ? '#D3D3D3': ''}>
+    <Card 
+      px='10px' py='5px' onClick={handleBirdClick} 
+      className='act-as-btn'
+      _hover={{bg:'brand.whiteish.hover'}}
+      bg={(SelectedBirdOnExplore && bird.id===SelectedBirdOnExplore.id) ? 'brand.whiteish.hover': 'brand.whiteish.def'} transition='0.2s'>
       <Box as="span" flex='1' textAlign='left'>
         <Text fontSize='lg' as={'b'} pl='2px'>{bird.comName}</Text>
         <Text >{bird.sciName}</Text>

@@ -16,8 +16,8 @@ export default function Map({sightings,coords, dot}) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   
-  const [currentSightings, setCurrentSightings] = useState([])//as geojson data
-  const [currentSightingsAPI, setCurrentSightingsAPI] = useState([])//as geojson data
+  const [currentSightings, setCurrentSightings] = useState(sightings && (sightings[0].length > 0 ? convertToGeoJSON(sightings[0]):null))//as geojson data
+  const [currentSightingsAPI, setCurrentSightingsAPI] = useState(sightings &&(sightings[1].length > 0 ? convertToGeoJSON(sightings[1]):null))//as geojson data
 
   const [userCoords, setUserCoords] = useState(undefined) //[lng, lat]
   
@@ -72,32 +72,28 @@ export default function Map({sightings,coords, dot}) {
     })
   }
 
-  //initializing the map on render
   useEffect(() => {
+    //initializing the map on render
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container:mapContainer.current, //ID of the container element
-      style:'mapbox://styles/zak99/clcdg42u7002416o4vrxtxjc6',
+      style:'mapbox://styles/zak99/clcyoy6na002814p2i613h49l',
       //if the users location is known, set center to their coords, else default location
       center: userCoords? [...userCoords] : [-0.1291664, 51.504435],
       zoom:9
     })
-  }, [])
-  
-  // keeps track of lat, lng & zoom
-  useEffect(() => {
-    // if map is instantiated AND 
-    // the map is being used to upload a sighting (coords), update data in parent element too
-    if (!map.current || !coords) return;
-    map.current.on('move',()=>{
-      const center = map.current.getCenter()
-      coords.setLng(center.lng)
-      coords.setLat(center.lat)
+    
+    //handle mapclick 
+    map.current.on('click',(e)=>{
+      const listOfPoints = map.current.queryRenderedFeatures(e.point,{layers:['locations','locations2']})
+      if (listOfPoints.length < 1 || !listOfPoints) return; //Makes sure a point is actually clicked
+      dispatch({type:'UPDATE_EXPLORE_BIRD',
+      bird:{...listOfPoints[0].properties}})// convert data back from geoJson
+      focusPoint(listOfPoints[0])
+      popUpCreation(listOfPoints[0])
     })
-  }, [])
-
-  // plots the data  
-  useEffect(() => {
+  
+    // plots the data  
     // only runs if there is a current map and the locations layer does't exists
     if (!map.current) return // || map.current.getLayer('locations') || currentSightings.length<0) return;
     map.current.on('load',()=>{
@@ -116,29 +112,25 @@ export default function Map({sightings,coords, dot}) {
           type:'geojson',
           data:currentSightingsAPI
         },
-        paint:{'circle-color': '#1aa13e'}
+        paint:{'circle-color': '#4b732f'}
       })
     })
+    
+
+    // keeps track of lat, lng & zoom
+    // if map is instantiated AND 
+    // the map is being used to upload a sighting (coords), update data in parent element too
+    if (!map.current || !coords) return;
+    map.current.on('move',()=>{
+      const center = map.current.getCenter()
+      coords.setLng(center.lng)
+      coords.setLat(center.lat)
+    })
+
   }, [])
-  
-  // useEffect(() => {
-  //   // only runs if there is a current map and the locations layer does't exists
-  //   if (!map.current || map.current.getLayer('locations') || currentSightings.length<0) return;
-  //   map.current.on('load',()=>{
-  //     map.current.addLayer({
-  //       id:'locations',
-  //       type:'circle',
-  //       source:{
-  //         type:'geojson',
-  //         data:currentSightings
-  //       }
-  //     })
-  //   })
-  // }, [])
   
   //handles update currentSightings state
   useEffect(() => {
-    console.log(sightings)
     if (sightings){
       if (sightings[0].length > 0) {setCurrentSightings(convertToGeoJSON(sightings[0]))}
       if (sightings[1].length > 0) {setCurrentSightingsAPI(convertToGeoJSON(sightings[1]))}
@@ -177,27 +169,13 @@ export default function Map({sightings,coords, dot}) {
       }
     }
   }, [SelectedBirdOnExplore])
-
-  //handle mapclick 
-  useEffect(() => {
-    map.current.on('click',(e)=>{
-      const listOfPoints = map.current.queryRenderedFeatures(e.point,{layers:['locations','locations2']})
-      if (listOfPoints.length < 1 || !listOfPoints) return; //Makes sure a point is actually clicked
-      dispatch({type:'UPDATE_EXPLORE_BIRD',
-        bird:{...listOfPoints[0].properties}})// convert data back from geoJson
-      focusPoint(listOfPoints[0])
-      popUpCreation(listOfPoints[0])
-    })
-  }, [])
-  
-
     
 
   return (
-    <Box display='flex' flexDir='column'>
+    <Box display='flex' flexDir='column' minW='100%' maxH='100%'>
     <Box className='map-wrapper' display='flex' flexDir='column' justifyContent='center'>
       {/* if the map is being used in upload, the user will see a
-       cross in the center of the map to help with lat & lng precision*/}
+      cross in the center of the map to help with lat & lng precision*/}
       { dot && <Box
         zIndex='100' 
         position='absolute' 
@@ -206,15 +184,25 @@ export default function Map({sightings,coords, dot}) {
         justifySelf='center'
         ><Text><b>+</b></Text>
       </Box>}
-    <Box ref={mapContainer} minHeight='80vh'></Box>
+    <Box ref={mapContainer} minHeight={dot?'65vh':'80vh'}></Box>
     </Box>
     <Box className='btn-section'>
-      <Button onClick={()=>{
-        locateMe()}} mr='10px' my='10px'>
+      <Button 
+        bg='brand.whiteish.def'
+        _hover={{bg:'brand.whiteish.hover'}}
+        onClick={()=>{
+          locateMe()}} 
+        mr='10px' 
+        my='10px'>
         current Location
       </Button>
       {coords.handleRecollect && 
-      <Button onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}>
+      <Button 
+      bg='brand.whiteish.def'
+
+      _hover={{bg:'brand.whiteish.hover'}}
+      onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}
+      >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
         <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
         <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>

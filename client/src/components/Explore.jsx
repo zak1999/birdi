@@ -6,7 +6,7 @@ import ActiveCard from './ActiveCard'
 import {collectBirdLocationsFromAPI} from '../API/eBirdApiFunctions'
 import {collectBirdLocationsFromDB} from '../API/dbFunctions'
 
-import { Box, Container, Flex, Card, Heading,  } from '@chakra-ui/react'
+import { Box, Container, Flex, Card, Heading, Spinner,  } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
 
@@ -49,7 +49,9 @@ export default function Explore() {
   return (
     <>
     <Navbar/>
-    <Container bg='teal.400' minW='85vw' p='20px' minH='85vh'>
+    <Container 
+      bg='brand.greenish'
+      minW='85vw' p='20px' minH='85vh'>
       <Flex minH='85vh' bg=''>
         <Box className='left-side' 
           m='0'
@@ -65,7 +67,9 @@ export default function Explore() {
           {SelectedBirdOnExplore ? 
             <ActiveCard bird={SelectedBirdOnExplore}/>
             :
-            <Card direction='row'
+            <Card 
+              bg='brand.whiteish.def'
+              direction='row'
               overflow='hidden'
               variant='outline'
               p='60px'>
@@ -78,8 +82,12 @@ export default function Explore() {
             <List data={data} />
           </Box>
         </Box>
-        <Box className='right-side' w='65%' maxH='100%'>
+        <Box className='right-side' w='65%' maxH='100%' display='flex'>
+        {loading ? 
+        <Spinner margin='auto' boxSize='250px'/>
+        :
         <Map sightings={data} coords={{setLat,setLng,handleRecollect}}/>
+        }
         </Box>
       </Flex>
     </Container>

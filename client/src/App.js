@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useDispatch } from 'react-redux';
 import { CollectUserInfoFromDB } from './API/dbFunctions'
-import { Container } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 
 
 
@@ -43,7 +43,6 @@ function App() {
     if (isAuthenticated){
       console.log(user)
       CollectUserInfoFromDB(user.email).then(user=>{
-        console.log(user)
         // set data in redux 
         dispatch({type:'UPDATE_USER_INFO',
         user})
@@ -53,9 +52,9 @@ function App() {
   
   return (
     
-    <div className="App">
+    <Box bg='' className="App" >
       <RouterProvider router={router}/>
-    </div>
+    </Box>
   );
 }
 

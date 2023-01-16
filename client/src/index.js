@@ -10,6 +10,20 @@ import reducers from './redux/reducers';
 import { Provider } from 'react-redux';
 import { Auth0Provider } from "@auth0/auth0-react";
 
+import { extendTheme } from "@chakra-ui/react"
+
+const theme = extendTheme({
+  colors: {
+    brand: {
+      whiteish: {
+        def:"#fff7f1",
+        hover:"#DED0C5"
+      },
+      darkish: "#202f2a",
+      greenish:"#4b732f",
+    },
+  },
+})
 
 let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ &&
   window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -23,7 +37,7 @@ root.render(
         clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
         redirectUri={window.location.origin}>
         <Provider store={store}>
-          <ChakraProvider>
+          <ChakraProvider theme={theme}>
             <App /> 
           </ChakraProvider>
         </Provider>

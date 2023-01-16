@@ -35,6 +35,7 @@ export default function ActiveCard({bird}) {
       {
       loading?
       <Card
+      bg='brand.whiteish.def'
       direction='row'
       overflow='hidden'
       variant='outline'>
@@ -43,7 +44,7 @@ export default function ActiveCard({bird}) {
         minW='150px'
         maxH='150px'
         minH='150px'>
-      <CircularProgress size={'140px'} isIndeterminate color='teal.300' />
+      <CircularProgress size={'140px'} isIndeterminate color='brand.darkish' />
       </Box>
       <CardBody p='0' px='10px'  py='5px'>
         <Stack>
@@ -57,6 +58,7 @@ export default function ActiveCard({bird}) {
     </Card>
       :
       <Card
+      bg='brand.whiteish.def'
         direction='row'
         overflow='hidden'
         variant='outline'>

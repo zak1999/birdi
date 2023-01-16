@@ -4,12 +4,23 @@ import { useSelector } from 'react-redux';
 import { Box } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
 import Navbar from './Navbar';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import Card from './Card';
 
 export default function Profile() {
 
   
   const userInfo = useSelector(state=>state.userInfo);
 
+  const [pageLoading, setPageLoading] = useState(true)
+  const [birdsByUser, setBirdsByUser] = useState([])
+  
+  useEffect(() => {
+    setPageLoading(false)
+    setBirdsByUser(userInfo.birdSightingsIds)
+  }, [])
+  
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
@@ -27,6 +38,12 @@ export default function Profile() {
           <h2>{user.name}</h2>
           <p>{user.email}</p>
         </div>
+        <Box>
+          {birdsByUser.length > 0 && birdsByUser.map(bird=>
+          <Card bird={bird}/>
+          )}
+          <p></p>
+        </Box>
       </Box>
     )
   );

@@ -33,11 +33,12 @@ export default function Upload() {
     <Box>
       <Navbar/>
   <div>
-    <Container>
+    <Container minW='2xl'>
       <form onSubmit={(e)=>handleSubmit(e)}>
       <SimpleGrid columns={2} spacing={2}>
         <label>Common Name</label>
         <Input 
+          required
           size='sm' 
           type="text" 
           name='comName' 
@@ -45,22 +46,25 @@ export default function Upload() {
           variant='filled'/>
         <label>Scientific Name</label>
         <Input 
+          required 
           size='sm' 
           type="text" 
           name='sciName' 
           placeholder='Scientific Name'
           variant='filled'/>
-        <label>obsDt</label>
-        <Input size='sm' type="datetime-local" id="obsDt" name="obsDt" variant='filled'/>
+        <label>observed at</label>
+        <Input required size='sm' type="datetime-local" id="obsDt" name="obsDt" variant='filled'/>
         <label>file</label>
-        <Input size='sm' type="file" name='file' variant='filled'/>
+        <Input required size='sm' type="file" name='file' variant='filled'/>
         <button> Submit?</button>
       </SimpleGrid>
       </form>
       <Box >
-        <Text>lat: {lat} &bull; lng: {lng}</Text>
+        <Text>lat: {lat.toFixed(4)} &bull; lng: {lng.toFixed(4)}</Text>
       </Box>
+      <Box maxH='75vh'>
         <Map coords={{setLng,setLat}} dot/>
+      </Box>
     </Container>
 
     </div>
