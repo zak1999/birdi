@@ -1,5 +1,6 @@
 import { Box, Container, Text, Input, SimpleGrid, Button, Card } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, Navigate } from 'react-router-dom'
 import {sendBirdSightingToDB} from '../API/dbFunctions'
@@ -9,8 +10,11 @@ import Navbar from './Navbar'
 
 
 export default function Upload() {
+
   const [lng, setLng] = useState(0)
   const [lat, setLat] = useState(0)
+
+  
 
   const userInfo = useSelector(state=>state.userInfo);
   
@@ -34,7 +38,7 @@ export default function Upload() {
   return (
     <Box>
       <Navbar/>    
-      <Container minW='2xl' bg='brand.darkish2' overflow='hidden' display='flex' flexDir='column' justifyContent='center' my='auto'>
+      <Container minW='2xl' bg='brand.darkish2' overflow='hidden' display='flex' flexDir='column' justifyContent='center' my='auto' pt='50px'>
         <Card bg='brand.whiteish.def' p='10px'>
         <form onSubmit={(e)=>handleSubmit(e)} style={{display:'flex',flexDirection:'column'}}>
         <SimpleGrid columns={2} spacing={2}>
@@ -75,7 +79,7 @@ export default function Upload() {
         <Box mt='20px'>
         </Box>
         <Box maxH='80vh' >
-          <Map coords={{setLng,setLat}} dot/>
+          <Map coords={{setLng, setLat}} dot/>
         </Box>
     </Container>
 

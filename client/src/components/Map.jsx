@@ -77,7 +77,7 @@ export default function Map({sightings,coords, dot}) {
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container:mapContainer.current, //ID of the container element
-      style:'mapbox://styles/zak99/clcyoy6na002814p2i613h49l',
+      style:'mapbox://styles/zak99/clcza0126000f14ld8oa9wlwh',
       //if the users location is known, set center to their coords, else default location
       center: userCoords? [...userCoords] : [-0.1291664, 51.504435],
       zoom:9

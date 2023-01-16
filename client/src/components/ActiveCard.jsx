@@ -18,9 +18,8 @@ export default function ActiveCard({bird, profile}) {
   const imgSizing = profile ? '150px': '150px' 
   
   useEffect(() => {
-    console.log(imgSizing)
     setLoading(true)
-    async function func(){
+    async function birdInfoCollection(){
       const {imgUrl, info} = await collectInfoFromWiki(bird.sciName)
       setCardState({
         info,
@@ -28,7 +27,7 @@ export default function ActiveCard({bird, profile}) {
       })
       setLoading(false) 
     }
-    func()
+    birdInfoCollection()
   }, [bird])
   
   
