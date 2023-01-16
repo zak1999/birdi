@@ -8,6 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {useSelector} from 'react-redux'
 import logo from '../birdiLogoJPG.jpg';
 export default function Navbar() {
+  
   const nav = useNavigate()
   const userInfo = useSelector(state=>state.userInfo);
 
@@ -42,12 +43,12 @@ export default function Navbar() {
           </Link>
           {/* if user is unauthenticated the upload link prompts a login*/}
           {isAuthenticated ?
-          <Link to={'/upload'}>upload</Link>
+          <Link to={'/upload'}>Upload your bird sighting</Link>
           :
           <Link onClick={async()=>{
             await handleLogin()
             return nav('/upload')
-          }}>upload</Link>
+          }}>Upload your bird sighting</Link>
           }
 
           <HStack spacing='8'>

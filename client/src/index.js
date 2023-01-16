@@ -20,6 +20,7 @@ const theme = extendTheme({
         hover:"#DED0C5"
       },
       darkish: "#202f2a",
+      darkish2:"#486a5e",
       greenish:"#4b732f",
       blueish: '#f1f9ff',
     },

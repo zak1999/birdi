@@ -1,4 +1,4 @@
-import { Box, Container, Text, Input, SimpleGrid, Button } from '@chakra-ui/react'
+import { Box, Container, Text, Input, SimpleGrid, Button, Card } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, Navigate } from 'react-router-dom'
@@ -34,8 +34,9 @@ export default function Upload() {
   return (
     <Box>
       <Navbar/>    
-      <Container minW='2xl' bg='brand.whiteish.def'>
-        <form onSubmit={(e)=>handleSubmit(e)}>
+      <Container minW='2xl' bg='brand.darkish2' overflow='hidden' display='flex' flexDir='column' justifyContent='center' my='auto'>
+        <Card bg='brand.whiteish.def' p='10px'>
+        <form onSubmit={(e)=>handleSubmit(e)} style={{display:'flex',flexDirection:'column'}}>
         <SimpleGrid columns={2} spacing={2}>
           <label>Common Name</label>
           <Input
@@ -53,24 +54,27 @@ export default function Upload() {
             name='sciName' 
             placeholder='Scientific Name'
             border='1px' _hover={{bg:'brand.whiteish.hover'}}/>
-          <label>observed at</label>
+          <label>Observed At</label>
           <Input _hover={{bg:'brand.whiteish.hover'}} required size='sm' type="datetime-local" id="obsDt" name="obsDt" border='1px'/>
-          <label>file</label>
-          <Input  border='1px' _hover={{bg:'brand.whiteish.hover'}} required size='sm' type="file" name='file'/>
+          <label>File</label>
+          <Input border='1px' _hover={{bg:'brand.whiteish.hover'}} required size='sm' type="file" name='file'/>
         </SimpleGrid>
+        <Box display='flex' alignItems='center' justifyContent='space-between'>
+        <Text as={'b'}>lat: {lat.toFixed(4)} &bull; lng: {lng.toFixed(4)}</Text>
           <Button
             type='submit'
-            justifySelf='end'
-            bg='brand.whiteish.def'
+            bg='brand.darkish'
+            color='brand.whiteish.def'
             _hover={{bg:'brand.whiteish.hover'}}
             mr='10px' 
             my='10px'>Submit
           </Button>
-        </form>
-        <Box >
-          <Text>lat: {lat.toFixed(4)} &bull; lng: {lng.toFixed(4)}</Text>
         </Box>
-        <Box maxH='75vh'>
+        </form>
+        </Card>
+        <Box mt='20px'>
+        </Box>
+        <Box maxH='80vh' >
           <Map coords={{setLng,setLat}} dot/>
         </Box>
     </Container>

@@ -52,7 +52,7 @@ function App() {
   
   return (
     
-    <Box bg='' className="App" >
+    <Box bg='brand.darkish2' className="App" minH='100vh' maxH='100vh'>
       <RouterProvider router={router}/>
     </Box>
   );

@@ -47,7 +47,7 @@ export default function Profile() {
           minH='85vh'>
           <div>
             <img src={user.picture} alt={user.name} />
-            <p>{user.email} has seen {birdsByUser.length} bird{birdsByUser> 1 && <>s</>}</p>
+            <p>{user.email} has seen {birdsByUser.length} bird{(birdsByUser> 1|| birdsByUser == 0 ) && <>s</>}</p>
           </div>
           <Grid columns={2} spacing={2}>
             {birdsByUser.length > 0 && birdsByUser.map(bird=>

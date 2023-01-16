@@ -49,7 +49,8 @@ export default function Explore() {
   return (
     <>
     <Navbar/>
-    <Container 
+    <Container
+    bg='brand.darkish2'
       minW='85vw' p='20px' minH='85vh'>
       <Flex minH='85vh' bg=''>
         <Box className='left-side' 

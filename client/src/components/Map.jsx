@@ -112,7 +112,7 @@ export default function Map({sightings,coords, dot}) {
           type:'geojson',
           data:currentSightingsAPI
         },
-        paint:{'circle-color': '#4b732f'}
+        paint:{'circle-color': 'green'}
       })
     })
     
@@ -183,9 +183,10 @@ export default function Map({sightings,coords, dot}) {
         justifySelf='center'
         ><Text><b>+</b></Text>
       </Box>}
-    <Box ref={mapContainer} minHeight={dot?'65vh':'80vh'}></Box>
+      
+    <Box ref={mapContainer} minHeight={dot?'40vh':'80vh'}></Box>
     </Box>
-    <Box className='btn-section'>
+    <Box className='btn-section' display='flex' alignItems='center' justifyContent='center'>
       <Button 
         bg='brand.whiteish.def'
         _hover={{bg:'brand.whiteish.hover'}}
@@ -197,11 +198,10 @@ export default function Map({sightings,coords, dot}) {
       </Button>
       {coords.handleRecollect && 
       <Button 
-      bg='brand.whiteish.def'
-
-      _hover={{bg:'brand.whiteish.hover'}}
-      onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}
-      >
+        bg='brand.whiteish.def'
+        _hover={{bg:'brand.whiteish.hover'}}
+        onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}
+        >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
         <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
         <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
