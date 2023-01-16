@@ -50,7 +50,6 @@ export default function Explore() {
     <>
     <Navbar/>
     <Container 
-      bg='brand.greenish'
       minW='85vw' p='20px' minH='85vh'>
       <Flex minH='85vh' bg=''>
         <Box className='left-side' 

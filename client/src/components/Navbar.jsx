@@ -1,11 +1,12 @@
-import { Avatar, Box, Button, Spinner, Stack, Image, Flex, HStack, Container } from '@chakra-ui/react'
+import { Avatar, Box, Button, Spinner, Stack, Image, Text, HStack, Container } from '@chakra-ui/react'
 import React from 'react'
 // import { ReactComponent as Logo } from '../../public/Valk_Segelzeichen.svg';
+import { FaKiwiBird } from 'react-icons/fa'
 
 import {useNavigate, Link} from 'react-router-dom'
 import { useAuth0 } from "@auth0/auth0-react";
 import {useSelector} from 'react-redux'
-
+import logo from '../birdiLogoJPG.jpg';
 export default function Navbar() {
   const nav = useNavigate()
   const userInfo = useSelector(state=>state.userInfo);
@@ -20,7 +21,7 @@ export default function Navbar() {
   }
 
   return (
-    <Box bg='brand.darkish' >
+    <Box bg='brand.darkish'>
       <Container
         minW='85vw' 
         bg='brand.darkish' 
@@ -34,16 +35,11 @@ export default function Navbar() {
           alignItems='center'
           justifyContent='space-between'
         >  
-        <Box display='flex' alignItems='center' justifyContent='center'>
-          <Link to={'/'}>Birdi 
+          <Link to={'/'}>
+          <Box display='flex' alignItems='center' justifyContent='center'>
+            <Text fontSize='6xl' as='b'><Image src={logo} maxH='50px'></Image></Text>
+          </Box> 
           </Link>
-          <Image 
-          display='inline'
-          boxSize='50px' 
-          objectFit='scale-down'
-          src='https://upload.wikimedia.org/wikipedia/commons/b/bc/Valk_Segelzeichen.svg' alt='Logo'
-          ></Image>
-        </Box>
           {/* if user is unauthenticated the upload link prompts a login*/}
           {isAuthenticated ?
           <Link to={'/upload'}>upload</Link>

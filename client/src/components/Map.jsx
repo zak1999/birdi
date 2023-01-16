@@ -156,7 +156,6 @@ export default function Map({sightings,coords, dot}) {
         const x = sightings[0].find((bird)=>{
           return bird.id == SelectedBirdOnExplore.id
         })
-        console.log(x)
         if (!x) return;
         x.geometry = {coordinates:[x.lng,x.lat]}
         focusPoint(x)

@@ -9,14 +9,16 @@ import { useEffect } from 'react';
 import {collectInfoFromWiki} from '../API/wikiApiFunctions'
 
 
-export default function ActiveCard({bird}) {
+export default function ActiveCard({bird, profile}) {
   
 
   const [cardState, setCardState] = useState(null)
   const [loading, setLoading] = useState(true);
-
+  
+  const imgSizing = profile ? '150px': '150px' 
   
   useEffect(() => {
+    console.log(imgSizing)
     setLoading(true)
     async function func(){
       const {imgUrl, info} = await collectInfoFromWiki(bird.sciName)
@@ -40,10 +42,10 @@ export default function ActiveCard({bird}) {
       overflow='hidden'
       variant='outline'>
       <Box
-        maxW='150px'
-        minW='150px'
-        maxH='150px'
-        minH='150px'>
+        maxW={imgSizing}
+        minW={imgSizing}
+        maxH={imgSizing}
+        minH={imgSizing}>
       <CircularProgress size={'140px'} isIndeterminate color='brand.darkish' />
       </Box>
       <CardBody p='0' px='10px'  py='5px'>
@@ -62,22 +64,26 @@ export default function ActiveCard({bird}) {
         direction='row'
         overflow='hidden'
         variant='outline'>
+        <Box maxW={imgSizing}>
         <Image
           objectFit='cover'
-          maxW='150px'
-          minW='150px'
-          maxH='150px'
-          minH='150px'
+          maxW={imgSizing}
+          minW={imgSizing}
+          maxH={imgSizing}
+          minH={imgSizing}
           src={cardState.imgUrl}
           alt={bird.comName}
         />
+        <Divider/>
+          <Text size='xs'>Seen at {bird.obsDt}</Text>
+        </Box>
         <CardBody p='0' pl='5px'  pt='5px'>
           <Heading size='sm'>{bird.comName} &bull; <span style={{color:'gray'}}>{bird.sciName}</span> </Heading>
-          <Text py='1' noOfLines={4}>
+          <Text py='1' noOfLines={6}>
             {cardState.info}
           </Text>
           <Divider/>
-          <Text size='xs'>Seen at {bird.obsDt}</Text>{bird.userId}
+          {bird.userEmail &&  <Text>Seen by: {bird.userEmail}</Text>}
         </CardBody>
       </Card>
       }

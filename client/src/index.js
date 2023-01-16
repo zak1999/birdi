@@ -21,6 +21,7 @@ const theme = extendTheme({
       },
       darkish: "#202f2a",
       greenish:"#4b732f",
+      blueish: '#f1f9ff',
     },
   },
 })

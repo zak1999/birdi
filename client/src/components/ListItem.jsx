@@ -16,7 +16,8 @@ export default function ListItem({bird}) {
   }
 
   return (
-    <Card 
+    <Card
+      shadow=''
       px='10px' py='5px' onClick={handleBirdClick} 
       className='act-as-btn'
       _hover={{bg:'brand.whiteish.hover'}}

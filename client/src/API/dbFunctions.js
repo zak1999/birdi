@@ -21,7 +21,6 @@ export async function sendBirdSightingToDB(docToBeAdded){
 // █▄█ ▄█ ██▄ █▀▄ ▄█
 
 export async function CollectUserInfoFromDB(email) {
-  console.log("click")
   const userDataFromdb = await fetch('http://localhost:3001/users',{
     method:'POST',
     headers: {
