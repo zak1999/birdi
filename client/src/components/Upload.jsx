@@ -1,7 +1,7 @@
-import { Box, Container, Text, Input, SimpleGrid, Button, Card } from '@chakra-ui/react'
+import { Box, Container, Text, Input, SimpleGrid, Button, Card, useDisclosure } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Navigate } from 'react-router-dom'
 import {sendBirdSightingToDB} from '../API/dbFunctions'
 
@@ -14,24 +14,30 @@ export default function Upload() {
   const [lng, setLng] = useState(0)
   const [lat, setLat] = useState(0)
 
-  
+  const nav = useNavigate()
 
   const userInfo = useSelector(state=>state.userInfo);
+  const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore)
+  const dispatch = useDispatch()
   
+
   async function handleSubmit(e){
     e.preventDefault();
-    let d = new FormData(e.target)
-    d.set('comName',d.get('comName'))
-    d.set('sciName',d.get('sciName'))
-    d.set('obsDt',d.get('obsDt'))
-    d.set('lat',lat)
-    d.set('lng',lng)
-    d.set('userID',userInfo._id)
-    d.set('userEmail',userInfo.email)
-    d.append('file',d.get('file')[0])
-    const x  = await sendBirdSightingToDB(d)
-    console.log(x)
-    return <Navigate to={'/'} replace />
+    let formData = new FormData(e.target)
+    formData.set('comName',formData.get('comName'))
+    formData.set('sciName',formData.get('sciName'))
+    formData.set('obsDt',formData.get('obsDt').replace("T"," "))//formatting the date
+    formData.set('lat',lat)
+    formData.set('lng',lng)
+    formData.set('userID',userInfo._id)
+    formData.set('userEmail',userInfo.email)
+    formData.append('file',formData.get('file')[0])
+    const res = await sendBirdSightingToDB(formData)
+    console.log(res)
+    dispatch({type:'UPDATE_EXPLORE_BIRD',
+      bird:res.result
+    })
+    return nav('/')
   }
 
 

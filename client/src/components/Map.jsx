@@ -151,13 +151,17 @@ export default function Map({sightings,coords, dot}) {
   useEffect(() => {
     console.log("sightings",sightings)
     console.log("currentSightings",currentSightings)
+    console.log("selectedBirdOnExplore",SelectedBirdOnExplore)
     if (sightings) {
       if (sightings[0] && sightings[0].length > 0 && SelectedBirdOnExplore){
         const x = sightings[0].find((bird)=>{
-          return bird.id == SelectedBirdOnExplore.id
+          return bird.id == SelectedBirdOnExplore.id  
+        }) || sightings[1].find((bird)=>{
+          return bird.id == SelectedBirdOnExplore.id  
         })
         if (!x) return;
         x.geometry = {coordinates:[x.lng,x.lat]}
+        console.log("x",x)
         focusPoint(x)
         const popUps = document.getElementsByClassName('mapboxgl-popup');
         if (popUps[0]) popUps[0].remove();

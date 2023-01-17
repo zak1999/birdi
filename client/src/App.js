@@ -1,4 +1,3 @@
-import './App.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import Explore from './components/Explore';
@@ -10,7 +9,7 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useDispatch } from 'react-redux';
 import { CollectUserInfoFromDB } from './API/dbFunctions'
-import { Box, Container } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 
 
@@ -37,8 +36,8 @@ function App() {
     }
   ])
   
-  // listens for logins/logouts and then collects 
-  // if is a login, collects data from mongo and sets the state redux 
+  // listens for logins/logouts and if it is a login, 
+  // collects data from mongo and sets the state redux
   useEffect(() => {
     if (isAuthenticated){
       console.log(user)
