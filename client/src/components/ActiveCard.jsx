@@ -3,17 +3,25 @@ import {
   Card, CardBody, 
   Stack, Skeleton, 
   Heading, Image, 
-  Text, CircularProgress, Divider  } from '@chakra-ui/react'
+  Text, CircularProgress, 
+  Divider, WrapItem, 
+  Tooltip, useDisclosure,
+  Modal, ModalOverlay,
+  ModalContent,ModalHeader,
+  ModalCloseButton, ModalBody,
+  Button, ModalFooter
+} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import {collectInfoFromWiki} from '../API/wikiApiFunctions'
-
+import {TfiMore} from 'react-icons/tfi'
 
 export default function ActiveCard({bird, profile}) {
   
 
   const [cardState, setCardState] = useState(null)
   const [loading, setLoading] = useState(true);
+  const { isOpen, onOpen, onClose } = useDisclosure()
   
   const imgSizing = profile ? '190px': '150px' 
   
@@ -35,6 +43,7 @@ export default function ActiveCard({bird, profile}) {
     <>
       {
       loading?
+      
       <Card
       minH='180px' maxH='180px' pb='10px'
       h='100%'
@@ -60,8 +69,30 @@ export default function ActiveCard({bird, profile}) {
       </CardBody>
     </Card>
       :
+      <>
+      
+      <Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
+        <ModalOverlay />
+        <ModalContent bg='brand.whiteish.def'>
+          <ModalHeader textAlign='center'>{bird.comName} &bull; <span style={{color:'gray'}}>{bird.sciName}</span></ModalHeader>
+          <ModalCloseButton />
+          <ModalBody display='flex' flexDir='column'>
+            <Box margin='auto' px='20px' pb='20px'>
+              <Image
+              objectFit='cover'
+              w='200px'
+              h='200px'
+              src={cardState.imgUrl}
+              alt={bird.comName}
+            />
+            </Box>
+            <Divider/>
+            {cardState.info}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
       <Card
-      bg='brand.whiteish.def'
+        bg='brand.whiteish.def'
         direction='row'
         overflow='hidden'
         variant='outline'>
@@ -83,10 +114,17 @@ export default function ActiveCard({bird, profile}) {
           <Text py='1' noOfLines={profile ? 7: 5}>
             {cardState.info}
           </Text>
-          <Divider/>
-          {bird.userEmail &&  <Text>Seen by: <b>{bird.userEmail}</b></Text>}
+          <Divider color="black"/>
+          <Box display='flex' alignItems='center' pr='5px'>
+            {bird.userEmail &&  <Text display='inline'>Seen by: <b>{bird.userEmail}</b></Text>}
+            {/* User can press the icon below to see more information in the modal*/}
+            <Box onClick={onOpen} ml='auto' justifySelf='end' cursor='pointer'>
+              <TfiMore />
+            </Box>
+          </Box>
         </CardBody>
       </Card>
+      </>
       }
 
   </>

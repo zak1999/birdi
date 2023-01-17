@@ -9,7 +9,6 @@ import {collectBirdLocationsFromDB} from '../API/dbFunctions'
 import { Box, Container, Flex, Card, Heading, Spinner, useToast,} from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
-
 export default function Explore() {
   const toast = useToast();
   
@@ -36,13 +35,25 @@ export default function Explore() {
   async function handleRecollect(lng,lat){
     const APIData = await collectBirdLocationsFromAPI(lng,lat)
     const dbData = await collectBirdLocationsFromDB();
-    APIData.forEach((bird, i) => {
+    const newArr = []
+
+    // The following forloop runs through (up to) 100 sightings and collects 
+    // the first sighting with unique coordinates(lat,lng), and pushes it 
+    // to 'newArr'. This is done so that there isn't a bunch of marks ontop
+    // of eachother on map render. Optimization that helps map be less slow/laggy
+    for (let i = 0; i < APIData.length; i ++) {
+      if (newArr.find((x)=> (x.lat==APIData[i].lat && x.lng == APIData[i].lng ))){}
+      else{
+        newArr.push(APIData[i])
+      } 
+    }
+    newArr.forEach((bird, i) => {
       bird.id = i;
     });
     dbData.forEach((bird, i) =>{
-      bird.id = i + APIData.length;// to make sure there are no duplicates
+      bird.id = i + newArr.length;// to make sure there are no duplicates
     });
-    setData([APIData,dbData])
+    setData([newArr,dbData])
     setLoading(false)
   }
 
