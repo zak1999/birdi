@@ -62,18 +62,18 @@ export default function Explore() {
     <>
     <Navbar/>
     <Container
-    bg='brand.darkish2'
-      minW='85vw' p='20px' maxH='85vh'>
-      <Flex minH='90vh' maxH='65vh'>
+      display='flex'
+      bg='brand.darkish2'
+      minW='85vw' p='20px' maxH='87vh'>
         <Box className='left-side' 
           w='35%' 
           display='flex' 
           flexDir='column' 
           maxH='90vh' 
-          pr='10px'
           pb='2px'
+          pr='3px'
           >
-          <Box minH='180px' maxH='180px' pb='10px'>
+          <Box minH='180px' maxH='180px' pb='10px' pr='10px'>
           {SelectedBirdOnExplore ? 
             <ActiveCard bird={SelectedBirdOnExplore}/>
             :
@@ -89,8 +89,7 @@ export default function Explore() {
             </Card>
           }
           </Box>
-
-          <Box height='595px'>
+          <Box maxH='10px' minH='75%' display='flex' flexDir='column' pt='4px'>
             <List data={data} />
           </Box>
         </Box>
@@ -101,7 +100,6 @@ export default function Explore() {
         <Map sightings={data} coords={{setLat, setLng, handleRecollect}}/>
         }
         </Box>
-      </Flex>
     </Container>
     </>
   )

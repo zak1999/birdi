@@ -18,15 +18,15 @@ export default function List({data}) {
   
 
   return (
-  <Box maxH='75%' minH='75%' p='0px' display='flex' flexDir='column'>
-    <Heading size='md' pb='10px'>Recent Sightings</Heading>
-    <Box overflow='auto' pr='5px' maxH='60%'
+  <>
+    <Heading size='md' pb='5px'>Recent Sightings</Heading>
+    <Box overflow='auto' pr='5px' maxH='100%'
     css={{
     '&::-webkit-scrollbar': {
-      width: '4px',
+      width: '10px',
     },
     '&::-webkit-scrollbar-track': {
-      width: '6px',
+      width: '10px',
     },
     '&::-webkit-scrollbar-thumb': {
       background: '#202f2a',
@@ -39,10 +39,11 @@ export default function List({data}) {
         <ListItem 
           key={bird.id} 
           bird={bird} 
-          onClick={()=>console.log("clicked",bird)} />
+          // onClick={()=>console.log("clicked",bird)} 
+          />
         )})}
       </Stack>
     </Box>
-  </Box>
+  </>
   )
 }

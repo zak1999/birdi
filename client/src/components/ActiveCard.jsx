@@ -111,7 +111,7 @@ export default function ActiveCard({bird, profile}) {
         </Box>
         <CardBody p='0' pl='5px'  pt='5px'>
           <Heading size='sm'>{bird.comName} &bull; <span style={{color:'gray'}}>{bird.sciName}</span> </Heading>
-          <Text py='1' noOfLines={profile ? 7: 5}>
+          <Text py='1' noOfLines={profile ? 7: 4}>
             {cardState.info}
           </Text>
           <Divider color="black"/>

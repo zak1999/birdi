@@ -40,7 +40,7 @@ function App() {
   // collects data from mongo and sets the state redux
   useEffect(() => {
     if (isAuthenticated){
-      console.log(user)
+      // console.log(user)
       CollectUserInfoFromDB(user.email).then(user=>{
         // set data in redux 
         dispatch({type:'UPDATE_USER_INFO',

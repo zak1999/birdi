@@ -149,9 +149,9 @@ export default function Map({sightings, coords, dot}) {
 
   // updates map when a bird from the list component is selected -> adds a popup
   useEffect(() => {
-    console.log("sightings",sightings)
-    console.log("currentSightings",currentSightings)
-    console.log("selectedBirdOnExplore",SelectedBirdOnExplore)
+    // console.log("sightings",sightings)
+    // console.log("currentSightings",currentSightings)
+    // console.log("selectedBirdOnExplore",SelectedBirdOnExplore)
     if (sightings) {
       if (sightings[0] && sightings[0].length > 0 && SelectedBirdOnExplore){
         let x = sightings[0].find((bird)=>{
