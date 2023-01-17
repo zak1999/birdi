@@ -61,7 +61,7 @@ export default function Profile() {
               </CardBody>
             </Card>
           </Box>
-          <SimpleGrid columns={2} spacing={2}>
+          <SimpleGrid columns={2} spacing={2} >
             {birdsByUser.length > 0 && birdsByUser.map(bird=>
             <GridItem>
               <ActiveCard key={bird._id} bird={bird} profile/>

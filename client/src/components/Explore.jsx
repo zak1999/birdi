@@ -6,11 +6,13 @@ import ActiveCard from './ActiveCard'
 import {collectBirdLocationsFromAPI} from '../API/eBirdApiFunctions'
 import {collectBirdLocationsFromDB} from '../API/dbFunctions'
 
-import { Box, Container, Flex, Card, Heading, Spinner,  } from '@chakra-ui/react'
+import { Box, Container, Flex, Card, Heading, Spinner, useToast,} from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 
 export default function Explore() {
+  const toast = useToast();
   
   const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore);
   

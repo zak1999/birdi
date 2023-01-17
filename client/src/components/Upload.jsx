@@ -37,7 +37,7 @@ export default function Upload() {
     dispatch({type:'UPDATE_EXPLORE_BIRD',
       bird:res.result
     })
-    return nav('/')
+    return nav('/',{ state: { uploaded: res.result} })
   }
 
 

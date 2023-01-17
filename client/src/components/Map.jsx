@@ -154,12 +154,12 @@ export default function Map({sightings,coords, dot}) {
     console.log("selectedBirdOnExplore",SelectedBirdOnExplore)
     if (sightings) {
       if (sightings[0] && sightings[0].length > 0 && SelectedBirdOnExplore){
-        const x = sightings[0].find((bird)=>{
+        let x = sightings[0].find((bird)=>{
           return bird.id == SelectedBirdOnExplore.id  
         }) || sightings[1].find((bird)=>{
           return bird.id == SelectedBirdOnExplore.id  
         })
-        if (!x) return;
+        if (!x) {x=SelectedBirdOnExplore}
         x.geometry = {coordinates:[x.lng,x.lat]}
         console.log("x",x)
         focusPoint(x)
