@@ -43,7 +43,12 @@ export default function Navbar() {
           </Link>
           {/* if user is unauthenticated the upload link prompts a login*/}
           {isAuthenticated ?
-          <Link to={'/upload'}>Upload your bird sighting</Link>
+          <Button             
+            color='black'
+            bg='brand.whiteish.def'
+            _hover={{bg:'brand.whiteish.hover'}}>
+            <Link to={'/upload'}>Upload your bird sighting</Link>
+          </Button>
           :
           <Link onClick={async()=>{
             await handleLogin()
