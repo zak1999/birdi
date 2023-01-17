@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-
-import mapboxgl from 'mapbox-gl';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import mapboxgl from 'mapbox-gl';
+
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
 
-export default function Map({sightings,coords, dot}) {
+export default function Map({sightings, coords, dot}) {
 
   const SelectedBirdOnExplore = useSelector(state=>state.SelectedBirdOnExplore);
 
@@ -42,13 +43,12 @@ export default function Map({sightings,coords, dot}) {
   }  
   //function that retrieves current location of user
   async function locateMe(){
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (pos)=>{
         setUserCoords([pos.coords.longitude, pos.coords.latitude])
         map.current.flyTo({
           center:[pos.coords.longitude, pos.coords.latitude],
-          zoom:15
+          zoom:14
         })
       })    
     }
@@ -77,7 +77,7 @@ export default function Map({sightings,coords, dot}) {
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container:mapContainer.current, //ID of the container element
-      style:'mapbox://styles/zak99/clcza0126000f14ld8oa9wlwh',
+      style:'mapbox://styles/zak99/cld0avhs0002y14k8mr5rbtz4/draft',
       //if the users location is known, set center to their coords, else default location
       center: userCoords? [...userCoords] : [-0.1291664, 51.504435],
       zoom:9
@@ -112,7 +112,7 @@ export default function Map({sightings,coords, dot}) {
           type:'geojson',
           data:currentSightingsAPI
         },
-        paint:{'circle-color': 'green'}
+        paint:{'circle-color': '#fff7f1'}
       })
     })
     
@@ -186,22 +186,35 @@ export default function Map({sightings,coords, dot}) {
         alignSelf='center' 
         justifySelf='center'
         ><Text><b>+</b></Text>
-      </Box>}
+      </Box>
+      }
       
-    <Box ref={mapContainer} minHeight={dot?'40vh':'80vh'}></Box>
-    </Box>
-    <Box className='btn-section' display='flex' alignItems='center' justifyContent='center'>
+    <Box ref={mapContainer} minHeight={dot?'40vh':'85vh'}></Box>
+    <Box 
+      className='btn-section' 
+      display='flex' 
+      alignItems='center' 
+      zIndex='100' 
+      position='relative' 
+      bottom={'55px'}
+      left={'5px'}
+      >
       <Button 
         bg='brand.whiteish.def'
         _hover={{bg:'brand.whiteish.hover'}}
+        transition={'0.1s'}
+        // bg='brand.darkish'
+        // color='brand.whiteish.def'
+        // _hover={{bg:'brand.darkish2'}}
+
         onClick={()=>{
           locateMe()}} 
         mr='10px' 
         my='10px'>
-        current Location
+        Current Location
       </Button>
       {coords.handleRecollect && 
-      <Button 
+      <Button
         bg='brand.whiteish.def'
         _hover={{bg:'brand.whiteish.hover'}}
         onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}
@@ -213,6 +226,8 @@ export default function Map({sightings,coords, dot}) {
       </Button>
       }
       </Box>
+    </Box>
+
     </Box>
   )
 }

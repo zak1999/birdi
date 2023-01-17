@@ -15,7 +15,7 @@ export default function ActiveCard({bird, profile}) {
   const [cardState, setCardState] = useState(null)
   const [loading, setLoading] = useState(true);
   
-  const imgSizing = profile ? '150px': '150px' 
+  const imgSizing = profile ? '190px': '150px' 
   
   useEffect(() => {
     setLoading(true)
@@ -32,10 +32,12 @@ export default function ActiveCard({bird, profile}) {
   
   
   return (
-    <Box>
+    <>
       {
       loading?
       <Card
+      minH='180px' maxH='180px' pb='10px'
+      h='100%'
       bg='brand.whiteish.def'
       direction='row'
       overflow='hidden'
@@ -45,7 +47,7 @@ export default function ActiveCard({bird, profile}) {
         minW={imgSizing}
         maxH={imgSizing}
         minH={imgSizing}>
-      <CircularProgress size={'140px'} isIndeterminate color='brand.darkish' />
+      <CircularProgress size={imgSizing} isIndeterminate color='brand.darkish' />
       </Box>
       <CardBody p='0' px='10px'  py='5px'>
         <Stack>
@@ -74,19 +76,19 @@ export default function ActiveCard({bird, profile}) {
           alt={bird.comName}
         />
         <Divider/>
-          <Text size='xs'>Seen at {bird.obsDt}</Text>
+          <Text as='sub' size='xs'>Seen at {bird.obsDt}</Text>
         </Box>
         <CardBody p='0' pl='5px'  pt='5px'>
           <Heading size='sm'>{bird.comName} &bull; <span style={{color:'gray'}}>{bird.sciName}</span> </Heading>
-          <Text py='1' noOfLines={6}>
+          <Text py='1' noOfLines={profile ? 7: 5}>
             {cardState.info}
           </Text>
           <Divider/>
-          {bird.userEmail &&  <Text>Seen by: {bird.userEmail}</Text>}
+          {bird.userEmail &&  <Text>Seen by: <b>{bird.userEmail}</b></Text>}
         </CardBody>
       </Card>
       }
 
-  </Box>
+  </>
   )
 }

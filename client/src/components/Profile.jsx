@@ -52,7 +52,7 @@ export default function Profile() {
           flexDir='column'
           >
           <Box display='flex' alignSelf='center'maxW='400px' minW='400px'>
-            <Card bg='brand.whiteish.def' my='25px' >
+            <Card bg='brand.whiteish.def' my='25px' w='100%' textAlign='center'>
               <CardBody pt='70px'>
                 <Box>
                   <Avatar pos='absolute' top={-35} left={'150px'} justifySelf='center' alignSelf={'center'} size='xl' src={user.picture} alt={user.name} />

@@ -33,7 +33,7 @@ export default function Upload() {
     formData.set('userEmail',userInfo.email)
     formData.append('file',formData.get('file')[0])
     const res = await sendBirdSightingToDB(formData)
-    console.log(res)
+    // console.log(res)
     dispatch({type:'UPDATE_EXPLORE_BIRD',
       bird:res.result
     })
@@ -75,7 +75,7 @@ export default function Upload() {
             type='submit'
             bg='brand.darkish'
             color='brand.whiteish.def'
-            _hover={{bg:'brand.whiteish.hover'}}
+            _hover={{bg:'brand.darkish2'}}
             mr='10px' 
             my='10px'>Submit
           </Button>

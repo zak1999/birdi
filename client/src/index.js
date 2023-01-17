@@ -13,6 +13,14 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { extendTheme } from "@chakra-ui/react"
 
 const theme = extendTheme({
+  styles: {
+    global: (props) => ({
+      body: {
+        bg: '#486a5e',
+        height: '100%', 
+        overflow: 'hidden'
+      }})
+  },
   colors: {
     brand: {
       whiteish: {

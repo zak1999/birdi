@@ -8,7 +8,6 @@ import {collectBirdLocationsFromDB} from '../API/dbFunctions'
 
 import { Box, Container, Flex, Card, Heading, Spinner, useToast,} from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
 
 
 export default function Explore() {
@@ -53,34 +52,34 @@ export default function Explore() {
     <Navbar/>
     <Container
     bg='brand.darkish2'
-      minW='85vw' p='20px' minH='85vh'>
-      <Flex minH='85vh' bg=''>
+      minW='85vw' p='20px' maxH='85vh'>
+      <Flex minH='90vh' maxH='65vh'>
         <Box className='left-side' 
-          m='0'
-          p='0'
           w='35%' 
           display='flex' 
           flexDir='column' 
-          maxH='85vh' 
+          maxH='90vh' 
           pr='10px'
           pb='2px'
           >
-          <Box maxH='40%' pb='10px'>
+          <Box minH='180px' maxH='180px' pb='10px'>
           {SelectedBirdOnExplore ? 
             <ActiveCard bird={SelectedBirdOnExplore}/>
             :
             <Card 
+              minH='180px' maxH='180px' pb='10px'
               bg='brand.whiteish.def'
               direction='row'
-              overflow='hidden'
               variant='outline'
-              p='60px'>
-              <Heading size='sm'>Select a bird to view more information.</Heading>
+              display='flex'
+              alignContent='center'
+              justifyContent='center'>
+              <Heading size='sm' alignSelf='center'>Select a bird to view more information.</Heading>
             </Card>
           }
           </Box>
 
-          <Box maxH='100%'>
+          <Box height='595px'>
             <List data={data} />
           </Box>
         </Box>
@@ -88,7 +87,7 @@ export default function Explore() {
         {loading ? 
         <Spinner margin='auto' boxSize='250px'/>
         :
-        <Map sightings={data} coords={{setLat,setLng,handleRecollect}}/>
+        <Map sightings={data} coords={{setLat, setLng, handleRecollect}}/>
         }
         </Box>
       </Flex>
