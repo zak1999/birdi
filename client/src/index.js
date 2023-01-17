@@ -19,7 +19,11 @@ const theme = extendTheme({
         bg: '#486a5e',
         height: '100%', 
         overflow: 'hidden'
-      }})
+      },
+      Text: {
+        color:'#202f2a'
+      }
+    })
   },
   colors: {
     brand: {
@@ -29,6 +33,7 @@ const theme = extendTheme({
       },
       darkish: "#202f2a",
       darkish2:"#486a5e",
+      darkish3:'#36443f',
       greenish:"#4b732f",
       blueish: '#f1f9ff',
     },

@@ -13,7 +13,7 @@ export default function Upload() {
 
   const [lng, setLng] = useState(0)
   const [lat, setLat] = useState(0)
-
+  const [btnLoading, setBtnLoading] = useState(false)
   const nav = useNavigate()
 
   const userInfo = useSelector(state=>state.userInfo);
@@ -23,6 +23,7 @@ export default function Upload() {
 
   async function handleSubmit(e){
     e.preventDefault();
+    setBtnLoading(true)
     let formData = new FormData(e.target)
     formData.set('comName',formData.get('comName'))
     formData.set('sciName',formData.get('sciName'))
@@ -45,7 +46,7 @@ export default function Upload() {
     <Box>
       <Navbar/>    
       <Container minW='2xl' bg='brand.darkish2' overflow='hidden' display='flex' flexDir='column' justifyContent='center' my='auto' pt='50px'>
-        <Card bg='brand.whiteish.def' p='10px'>
+        <Card bg='brand.whiteish.def' px='10px' pt='10px'>
         <form onSubmit={(e)=>handleSubmit(e)} style={{display:'flex',flexDirection:'column'}}>
         <SimpleGrid columns={2} spacing={2}>
           <label>Common Name</label>
@@ -71,7 +72,7 @@ export default function Upload() {
         </SimpleGrid>
         <Box display='flex' alignItems='center' justifyContent='space-between'>
         <Text as={'b'}>lat: {lat.toFixed(4)} &bull; lng: {lng.toFixed(4)}</Text>
-          <Button
+          <Button disabled={btnLoading}
             type='submit'
             bg='brand.darkish'
             color='brand.whiteish.def'

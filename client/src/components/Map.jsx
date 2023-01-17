@@ -189,7 +189,7 @@ export default function Map({sightings, coords, dot}) {
       </Box>
       }
       
-    <Box ref={mapContainer} minHeight={dot?'40vh':'85vh'}></Box>
+    <Box ref={mapContainer} minHeight={dot?'50vh':'85vh'}></Box>
     <Box 
       className='btn-section' 
       display='flex' 
@@ -200,12 +200,9 @@ export default function Map({sightings, coords, dot}) {
       left={'5px'}
       >
       <Button 
-        bg='brand.whiteish.def'
-        _hover={{bg:'brand.whiteish.hover'}}
-        transition={'0.1s'}
-        // bg='brand.darkish'
-        // color='brand.whiteish.def'
-        // _hover={{bg:'brand.darkish2'}}
+        bg='brand.darkish'
+        color='brand.whiteish.def'
+        _hover={{bg:'brand.darkish3'}}
 
         onClick={()=>{
           locateMe()}} 
@@ -215,8 +212,9 @@ export default function Map({sightings, coords, dot}) {
       </Button>
       {coords.handleRecollect && 
       <Button
-        bg='brand.whiteish.def'
-        _hover={{bg:'brand.whiteish.hover'}}
+        bg='brand.darkish'
+        color='brand.whiteish.def'
+        _hover={{bg:'brand.darkish3'}}
         onClick={()=>coords.handleRecollect(map.current.getCenter().lng,map.current.getCenter().lat)}
         >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">

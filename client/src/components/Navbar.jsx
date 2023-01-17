@@ -43,36 +43,42 @@ export default function Navbar() {
           </Link>
           {/* if user is unauthenticated the upload link prompts a login*/}
           {isAuthenticated ?
-          <Button             
-            color='black'
+          <Button
+          color='brand.darkish'             
             bg='brand.whiteish.def'
             _hover={{bg:'brand.whiteish.hover'}}>
             <Link to={'/upload'}>Upload your bird sighting</Link>
           </Button>
           :
+          <Button
+          color='brand.darkish'             
+            bg='brand.whiteish.def'
+            _hover={{bg:'brand.whiteish.hover'}}>
           <Link onClick={async()=>{
             await handleLogin()
             return nav('/upload')
           }}>Upload your bird sighting</Link>
+          </Button>
           }
 
           <HStack spacing='8'>
           {
           isLoading ? 
           <Button
+          color='brand.darkish'
           bg='brand.whiteish.hover'
           disabled
           ><Spinner/></Button>
           : 
           isAuthenticated ? 
-            <Button 
-            color='black'
+            <Button
+            color='brand.darkish' 
             bg='brand.whiteish.def'
             _hover={{bg:'brand.whiteish.hover'}}
             onClick={()=>logout({ returnTo: window.location.origin })}>Log Out</Button>
             : 
-            <Button 
-            color='black'
+            <Button
+            color='brand.darkish' 
             bg='brand.whiteish.def'
             _hover={{bg:'brand.whiteish.hover'}}
             

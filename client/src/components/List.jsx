@@ -20,7 +20,19 @@ export default function List({data}) {
   return (
   <Box maxH='75%' minH='75%' p='0px' display='flex' flexDir='column'>
     <Heading size='md' pb='10px'>Recent Sightings</Heading>
-    <Box overflow='auto' pr='5px' maxH='60%'>
+    <Box overflow='auto' pr='5px' maxH='60%'
+    css={{
+    '&::-webkit-scrollbar': {
+      width: '4px',
+    },
+    '&::-webkit-scrollbar-track': {
+      width: '6px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: '#202f2a',
+      borderRadius: '24px',
+    },
+  }}>
       <Stack spacing='2'>
         {list && list.length > 0 && list.map(bird=>{
         return(
