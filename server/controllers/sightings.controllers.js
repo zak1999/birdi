@@ -5,6 +5,11 @@ const mongoose = require('mongoose')
 const storage = new Storage();
 const bucket = storage.bucket('birdi');
 
+/**TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
+ * GOOGLE CLOUD SDK
+ * 
+ */
+
 
 async function collectSightings (req, res) {
   try {
