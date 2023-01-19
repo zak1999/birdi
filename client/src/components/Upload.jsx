@@ -33,8 +33,9 @@ export default function Upload() {
     formData.set('userID',userInfo._id)
     formData.set('userEmail',userInfo.email)
     formData.append('file',formData.get('file')[0])
+    console.log('bird data sent');
     const res = await sendBirdSightingToDB(formData)
-    // console.log(res)
+    console.log('db response', res)
     dispatch({type:'UPDATE_EXPLORE_BIRD',
       bird:res.result
     })

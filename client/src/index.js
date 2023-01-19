@@ -46,17 +46,18 @@ let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ &&
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-      <Auth0Provider
-        domain={process.env.REACT_APP_AUTH_DOMAIN}
-        clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
-        redirectUri={window.location.origin}>
-        <Provider store={store}>
-          <ChakraProvider theme={theme}>
-            <App /> 
-          </ChakraProvider>
-        </Provider>
-  </Auth0Provider>
+  <React.StrictMode>
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
+      redirectUri={window.location.origin}
+      >
+      <Provider store={store}>
+        <ChakraProvider theme={theme}>
+          <App /> 
+        </ChakraProvider>
+      </Provider>
+    </Auth0Provider>
   </React.StrictMode>
 );
 

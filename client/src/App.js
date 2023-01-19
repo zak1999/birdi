@@ -11,13 +11,11 @@ import { useDispatch } from 'react-redux';
 import { CollectUserInfoFromDB } from './API/dbFunctions'
 import { Box } from '@chakra-ui/react';
 
-
-
 function App() {
   
   const dispatch = useDispatch()
-  
-  const { isAuthenticated, user} = useAuth0() 
+  // ALEX - needs an initial state?
+  const { isAuthenticated, user } = useAuth0() 
   
   //router needs to be created in component to have access to the 'isAuthenticated' object,
   //with this object we protect private routes
@@ -38,6 +36,8 @@ function App() {
   
   // listens for logins/logouts and if it is a login, 
   // collects data from mongo and sets the state redux
+
+  // ALEX - add error handling?
   useEffect(() => {
     if (isAuthenticated){
       // console.log(user)

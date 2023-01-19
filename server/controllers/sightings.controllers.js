@@ -3,7 +3,7 @@ const { Storage } = require('@google-cloud/storage');
 const Users = require('../models/users.models');
 const mongoose = require('mongoose')
 const storage = new Storage();
-const bucket = storage.bucket('birdi');
+const bucket = storage.bucket(process.env.BUCKET_NAME);
 
 /**TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
  * GOOGLE CLOUD SDK
