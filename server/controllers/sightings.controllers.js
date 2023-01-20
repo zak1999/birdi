@@ -3,11 +3,12 @@ const { Storage } = require('@google-cloud/storage');
 const Users = require('../models/users.models');
 const mongoose = require('mongoose')
 const storage = new Storage();
-const bucket = storage.bucket(process.env.BUCKET_NAME);
+// const bucket = storage.bucket(process.env.BUCKET_NAME);
+const bucket = storage.bucket('birdi-legacy');
+
 
 /**TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
  * GOOGLE CLOUD SDK
- * 
  */
 
 
@@ -29,9 +30,9 @@ async function addSightings (req, res, next) {
     
     blobStream.on('error',(err)=>{
       console.log("err from blobStream: ",err)
-        res.status(500).send("Something went wrong with the mongo upload (the image was processed on the BE though)")
+        res.status(500).send({ data: null, error: err.message });
     })
-    blobStream.on('finish',async () =>{
+    blobStream.on('finish', async () =>{
       const publicURL = encodeURI(`https://storage.googleapis.com/${bucket.name}/${blob.name}`)
       const docToBeAdded = {...req.body,url:publicURL}
       console.log("doc being added:",docToBeAdded)
@@ -70,4 +71,4 @@ async function addSightings (req, res, next) {
   
 }
 
-module.exports = { collectSightings, addSightings}
+module.exports = { collectSightings, addSightings }
