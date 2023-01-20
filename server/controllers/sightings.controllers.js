@@ -17,7 +17,7 @@ async function collectSightings (req, res) {
     res.status(200).send({data: results, error: null})
   } catch (err) {
     console.log(err)
-    res.status(500).send("Something went wrong")
+    res.status(500).send({data: null, error: err.message})
   }
 }
 // https://cloud.google.com/appengine/docs/flexible/using-cloud-storage?tab=node.js
