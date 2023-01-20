@@ -4,7 +4,7 @@
 export async function collectBirdLocationsFromDB(){
   const dbRes = await fetch(`http://localhost:3001/sightings`)
   const data = await dbRes.json()
-  return data
+  return data.data
 }
 
 export async function sendBirdSightingToDB(docToBeAdded){
@@ -14,7 +14,7 @@ export async function sendBirdSightingToDB(docToBeAdded){
     });
   // ALEX - Need to await this?
   const data = await dbRes.json()
-  return data;
+  return data.data;
   }
 
 
