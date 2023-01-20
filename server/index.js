@@ -1,19 +1,6 @@
-const express = require('express');
-const cors = require('cors');
-
-const app = express()
-
-const router = require('./router')
-
+const app = require('./server');
 const port = 3001;
 
-app.use(cors())
-app.use(express.json())
-app.use(router)
-
-
-app.listen(port,()=>{
-  console.log("Listening on port :",port)
+app.listen(port, () => {
+  console.log('Server listening on port', port);
 })
-
-module.exports = app;

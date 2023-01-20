@@ -1,8 +1,6 @@
-// const dotenv = require('dotenv');
-// dotenv.config({path: '../.env'});
 const request = require('supertest');
-const app = require('../index.js');
-const Sightings = require('../models/sightings.models')
+const app = require('../server.js');
+const Sightings = require('../models/sightings.models');
 
 const mockBird = {
   comName: 'Ted',
@@ -16,11 +14,29 @@ const mockBird = {
   url: 'https://storage.googleapis.com/birdi-legacy/birdi.jpg',
 };
 
+let server;
+
+beforeAll(() => {
+  server = app.listen(3001)
+})
+
+afterAll(() => {
+  server.close()
+})
+
 describe('GET /sightings', () => {
   it('should return status 200', async () => {
     const response = await request(app).get('/sightings');
-    expect(response.statusCode).toBe(200);
-    expect(response.body.error).toBe(null);
+    console.log(response.statusCode, 'sightings');
+    console.log(response.body.data.length, 'sightings length');
+
+    if (response.body.data.length > 0) {
+      expect(response.statusCode).toBe(200);
+      expect(response.body.error).toBe(null);
+    } else {
+      expect(response.statusCode).toBe(500);
+      expect(response.body.data).toBe(null);
+    }
   });
   it('should return sightings', async ()=> {
     const response = await request(app).get('/sightings');

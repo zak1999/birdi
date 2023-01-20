@@ -35,7 +35,7 @@ async function addSightings (req, res, next) {
     blobStream.on('finish', async () =>{
       const publicURL = encodeURI(`https://storage.googleapis.com/${bucket.name}/${blob.name}`)
       const docToBeAdded = {...req.body,url:publicURL}
-      console.log("doc being added:",docToBeAdded)
+      // console.log("doc being added:", docToBeAdded)
       try {
         const result = await Sightings.create(docToBeAdded)
         const old = await Users.findOne({_id:new mongoose.Types.ObjectId(docToBeAdded.userID)})
@@ -57,7 +57,7 @@ async function addSightings (req, res, next) {
   //MAYBE TAKE THIS OUT AND MAKE url neccessary for user sightings
   else{
     const docToBeAdded = {...req.body}
-    console.log("1111doc being added:",docToBeAdded)
+    // console.log("doc being added:",docToBeAdded)
     
     try {
       const result = await Sightings.create(docToBeAdded)

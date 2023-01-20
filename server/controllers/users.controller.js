@@ -3,8 +3,6 @@ const Users = require('../models/users.models')
 
 
 async function collectUserInfo (req, res) {
-  
-  console.log("reqbody",req.body)
   if (req.body.email)
   try {
     //looks to see if email exists,
@@ -12,11 +10,11 @@ async function collectUserInfo (req, res) {
     //if it doesn't create a new 'user' in table with that email
     if (!result) {
     const newdoc = await Users.create({email:req.body.email})
-    console.log(newdoc)
+    // console.log(newdoc)
     res.status(200).send({data: newdoc, error: null})
     } else {
       await result.populate('birdSightingsIds')
-      console.log("found")
+      // console.log("found")
       res.status(200).send({data: result, error: null})
     }
   } catch (err) {
