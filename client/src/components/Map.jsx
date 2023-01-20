@@ -6,8 +6,6 @@ import mapboxgl from 'mapbox-gl';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
-//TODO: get mapbox access token
-
 export default function Map({ sightings, coords, dot }) {
   const SelectedBirdOnExplore = useSelector(
     (state) => state.SelectedBirdOnExplore

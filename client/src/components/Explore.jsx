@@ -53,6 +53,7 @@ export default function Explore() {
     dbData.forEach((bird, i) =>{
       bird.id = i + newArr.length;// to make sure there are no duplicates
     });
+    // Sort by observed at
     setData([newArr,dbData])
     setLoading(false)
   }
