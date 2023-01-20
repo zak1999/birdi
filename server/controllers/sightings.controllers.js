@@ -45,7 +45,7 @@ async function addSightings (req, res, next) {
         next()
       } catch (err) {
         console.log(err)
-        res.status(500).send("Something went wrong with the mongo upload (the image was detected on the BE though)")
+        res.status(500).send({data: null, error: err.message})
         next()
       }    
     })
@@ -63,7 +63,7 @@ async function addSightings (req, res, next) {
       res.status(201).send({data: result, error: null})
     } catch (err) {
       console.log(err)
-      res.status(500).send("Something went wrong with the mongo upload (no image processed)")
+      res.status(500).send({data: null, error: err.message})
     }
 
   }

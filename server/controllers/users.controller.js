@@ -13,15 +13,15 @@ async function collectUserInfo (req, res) {
     if (!result) {
     const newdoc = await Users.create({email:req.body.email})
     console.log(newdoc)
-    res.status(200).send(newdoc)
+    res.status(200).send({data: newdoc, error: null})
     } else {
       await result.populate('birdSightingsIds')
       console.log("found")
-      res.status(200).send(result)
+      res.status(200).send({data: result, error: null})
     }
   } catch (err) {
     console.log(err)
-    res.status(500).send("Something went wrong")
+    res.status(500).send({data: null, error: err.message})
   }
 }
 
