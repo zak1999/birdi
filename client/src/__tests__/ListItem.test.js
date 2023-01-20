@@ -1,15 +1,13 @@
-const ActiveCard = require('../components/ActiveCard').default;
-const ListItem = require('../components/ListItem').default;
-const { createStore } = require('redux');
-const { render, screen } = require('@testing-library/react');
-const userEvent = require('@testing-library/user-event');
-require('@testing-library/jest-dom');
-const reducers = require('../redux/reducers');
-const { Provider } = require('react-redux');
+import ListItem from '../components/ListItem';
+import { createStore } from 'redux';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import reducers from '../redux/reducers';
+import { Provider } from 'react-redux';
 
 test('list item renders correct information', async () => {
   let store = createStore(
-    reducers.default,
+    reducers,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 
