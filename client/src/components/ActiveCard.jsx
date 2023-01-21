@@ -112,6 +112,7 @@ export default function ActiveCard({ bird, profile }) {
             direction='row'
             overflow='hidden'
             variant='outline'
+            data-testid='active-card'
           >
             <Box maxW={imgSizing}>
               <Image
