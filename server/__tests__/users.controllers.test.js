@@ -12,6 +12,10 @@ const mockUser = {
   __v: 0,
 };
 
+const mockUserError = {
+  email: undefined,
+}
+
 let server;
 
 beforeAll(() => {
@@ -32,7 +36,6 @@ describe ('POST /users', () => {
   it('Should return status 200', async () => {
     const response = await request(app).post('/users').send(mockUser);
     id = response._body.data._id;
-    console.log(response.statusCode, 'user');
     expect(response.statusCode).toBe(200);
     expect(response._body.error).toBe(null);
   })
@@ -50,4 +53,11 @@ describe ('POST /users', () => {
     expect(response._body.data.birdSightingsIds.length).toEqual(0)
     }
   })
+
+  it('Should return an error when given incorrect data', async () => {
+    const response = await request(app).post('/users').send();
+    expect(response.statusCode).toBe(500);
+    expect(response._body.data).toBe(null);
+    expect(response._body.error).toBe('No email supplied.');
+  });
 })

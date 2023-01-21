@@ -27,9 +27,6 @@ afterAll(() => {
 describe('GET /sightings', () => {
   it('should return status 200', async () => {
     const response = await request(app).get('/sightings');
-    console.log(response.statusCode, 'sightings');
-    console.log(response.body.data.length, 'sightings length');
-
     if (response.body.data.length > 0) {
       expect(response.statusCode).toBe(200);
       expect(response.body.error).toBe(null);
