@@ -1,4 +1,3 @@
-const { iterateUntil, result } = require('lodash-contrib');
 const request = require('supertest');
 const app = require('../server.js');
 const Users = require('../models/users.models.js');
@@ -27,7 +26,6 @@ afterAll(() => {
 });
 
 describe ('POST /users', () => {
-
   let id;
   afterEach(async () => {
     const response = await Users.deleteOne({ _id: id });
