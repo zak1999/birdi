@@ -45,7 +45,6 @@ export default function Upload() {
 
   return (
     <Box>
-      <Navbar/>    
       <Container minW='2xl' bg='brand.darkish2' overflow='hidden' display='flex' flexDir='column' justifyContent='center' my='auto' pt='50px'>
         <Card bg='brand.whiteish.def' px='10px' pt='10px'>
         <form onSubmit={(e)=>handleSubmit(e)} style={{display:'flex',flexDirection:'column'}}>

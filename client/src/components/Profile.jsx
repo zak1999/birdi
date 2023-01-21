@@ -43,7 +43,6 @@ export default function Profile() {
   return (
     isAuthenticated && (
       <Box>
-        <Navbar/>
         <Container 
           minW='85vw' 
           p='20px' 

@@ -61,7 +61,6 @@ export default function Explore() {
 
   return (
     <>
-    <Navbar/>
     <Container
       display='flex'
       bg='brand.darkish2'
