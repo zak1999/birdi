@@ -26,7 +26,7 @@ export default function Profile() {
         // set data in redux
         dispatch({type:'UPDATE_USER_INFO',
         user})
-        setBirdsByUser(user.birdSightingsIds)
+        setBirdsByUser(user.birdSightingsIds || [])
       })
     }
     setPageLoading(false)
