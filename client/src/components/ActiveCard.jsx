@@ -135,7 +135,11 @@ export default function ActiveCard({ bird, profile }) {
                   {bird.sciName}
                 </span>{' '}
               </Heading>
-              <Text py='1' noOfLines={profile ? 7 : 4}>
+              <Text
+                data-testid='active-short-info'
+                py='1'
+                noOfLines={profile ? 7 : 4}
+              >
                 {cardState.info}
               </Text>
               <Divider color='black' />

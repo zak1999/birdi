@@ -107,4 +107,32 @@ describe('<ActiveCard />', () => {
       expect(renderedSeenAt).to.have.string(obsDt);
     });
   });
+
+  it('displays the correct short info description', () => {
+    // see: https://on.cypress.io/mounting-react
+    cy.mount(
+      <ActiveCard
+        bird={{
+          _id: '63c96b3142bbc3cac1747432',
+          comName: 'Graylag Goose',
+          sciName: 'Anser anser',
+          userID: '',
+          userEmail: '',
+          obsDt: '2023-01-20 10:49',
+          url: '',
+          lat: '',
+          lng: '',
+        }}
+      />
+    );
+
+    cy.get('[data-testid=active-short-info]').then((p) => {
+      // $span is the object that the previous command yielded
+
+      const renderedShortInfo = p.text();
+
+      cy.log(renderedShortInfo);
+      expect(renderedShortInfo).to.be.a('string');
+    });
+  });
 });
