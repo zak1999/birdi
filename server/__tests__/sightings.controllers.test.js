@@ -14,6 +14,18 @@ const mockBird = {
   url: 'https://storage.googleapis.com/birdi-legacy/birdi.jpg',
 };
 
+const mockBirdError = {
+  comName: 'Ted',
+  sciName: 'Bundy',
+  obsDt: '2023-01-03 17:23',
+  lat: 41.384234735143906,
+  lng: 2.1785407287763974,
+  userID: '63c94903b2c707c9d317dee4',
+  userEmail: null,
+  file: null,
+  url: 'https://storage.googleapis.com/birdi-legacy/birdi.jpg',
+};
+
 let server;
 
 beforeAll(() => {
@@ -103,4 +115,12 @@ describe('GET & POST /sightings integration test', () => {
     const seenBirdsArray = response.body.data.map((bird) => bird.comName);
     expect(seenBirdsArray).toContain(mockBird.comName);
   })
+})
+
+describe('POST /sightings error handling', () => {
+  it('should return an error if no file or email is supplied', async () => {
+    const response = await request(app).post('/sightings').send(mockBirdError);
+    expect(response.statusCode).toBe(500);
+    expect(response.body.data).toBe(null)
+  });
 })

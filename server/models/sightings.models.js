@@ -1,31 +1,39 @@
 const mongoose = require('../db')
 
 const sightingsSchema = mongoose.Schema({
-  comName:{
-    type:String,
+  comName: {
+    type: String,
+    required: true,
   },
-  sciName:{
-    type:String,
+  sciName: {
+    type: String,
+    required: true,
   },
-  userID:{
-    type: String, 
+  userID: {
+    type: String,
+    required: true,
   },
-  userEmail:{
-    type:String,
+  userEmail: {
+    type: String,
+    required: true,
   },
-  obsDt:{
-    type:String,
+  obsDt: {
+    type: String,
+    required: true,
   },
-  url:{
-    type:String,
+  url: {
+    type: String,
+    required: true,
   },
-  lat:{
-    type:Number,
+  lat: {
+    type: Number,
+    required: true,
   },
-  lng:{
-    type:Number,
+  lng: {
+    type: Number,
+    required: true,
   },
-})
+});
 
 const Sightings = mongoose.model('Sightings',sightingsSchema)
 
