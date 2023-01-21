@@ -21,6 +21,5 @@ describe('<Navbar />', () => {
         </Auth0Provider>
       </Provider>
     )
-    cy.get('[data-testid=login-button]').click()
   })
 })

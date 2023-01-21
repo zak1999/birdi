@@ -33,29 +33,33 @@ export default function Explore() {
   }, [])
 
   async function handleRecollect(lng,lat){
-    const APIData = await collectBirdLocationsFromAPI(lng,lat)
-    const dbData = await collectBirdLocationsFromDB();
-    const newArr = []
-
-    // The following forloop runs through (up to) 100 sightings and collects 
-    // the first sighting with unique coordinates(lat,lng), and pushes it 
-    // to 'newArr'. This is done so that there isn't a bunch of marks ontop
-    // of eachother on map render. Optimization that helps map be less slow/laggy
-    for (let i = 0; i < APIData.length; i ++) {
-      if (newArr.find((x)=> (x.lat==APIData[i].lat && x.lng == APIData[i].lng ))){}
-      else{
-        newArr.push(APIData[i])
-      } 
+    try {
+      const APIData = await collectBirdLocationsFromAPI(lng,lat)
+      const dbData = await collectBirdLocationsFromDB();
+      const newArr = []
+      if (!dbData || !APIData) return;
+      // The following forloop runs through (up to) 100 sightings and collects 
+      // the first sighting with unique coordinates(lat,lng), and pushes it 
+      // to 'newArr'. This is done so that there isn't a bunch of marks ontop
+      // of eachother on map render. Optimization that helps map be less slow/laggy
+      for (let i = 0; i < APIData.length; i ++) {
+        if (newArr.find((x)=> (x.lat==APIData[i].lat && x.lng == APIData[i].lng ))){}
+        else{
+          newArr.push(APIData[i])
+        } 
+      }
+      newArr.forEach((bird, i) => {
+        bird.id = i;
+      });
+      dbData.forEach((bird, i) =>{
+        bird.id = i + newArr.length;// to make sure there are no duplicates
+      });
+      // Sort by observed at
+      setData([newArr,dbData])
+      setLoading(false)
+    } catch (err) {
+      console.log(err);
     }
-    newArr.forEach((bird, i) => {
-      bird.id = i;
-    });
-    dbData.forEach((bird, i) =>{
-      bird.id = i + newArr.length;// to make sure there are no duplicates
-    });
-    // Sort by observed at
-    setData([newArr,dbData])
-    setLoading(false)
   }
 
 
@@ -78,6 +82,7 @@ export default function Explore() {
             <ActiveCard bird={SelectedBirdOnExplore}/>
             :
             <Card 
+              data-testid='active-card-placeholder'
               minH='180px' maxH='180px' pb='10px'
               bg='brand.whiteish.def'
               direction='row'
