@@ -65,7 +65,6 @@ export default function Explore() {
 
   return (
     <>
-    <Navbar/>
     <Container
       display='flex'
       bg='brand.darkish2'
@@ -83,6 +82,7 @@ export default function Explore() {
             <ActiveCard bird={SelectedBirdOnExplore}/>
             :
             <Card 
+              data-testid='active-card-placeholder'
               minH='180px' maxH='180px' pb='10px'
               bg='brand.whiteish.def'
               direction='row'

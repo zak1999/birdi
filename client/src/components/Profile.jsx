@@ -26,7 +26,7 @@ export default function Profile() {
         // set data in redux
         dispatch({type:'UPDATE_USER_INFO',
         user})
-        setBirdsByUser(user.birdSightingsIds)
+        setBirdsByUser(user.birdSightingsIds || [])
       })
     }
     setPageLoading(false)
@@ -43,7 +43,6 @@ export default function Profile() {
   return (
     isAuthenticated && (
       <Box>
-        <Navbar/>
         <Container 
           minW='85vw' 
           p='20px' 
