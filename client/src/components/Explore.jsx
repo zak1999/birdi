@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from './Navbar';
 import Map from './Map';
 import List from './List';
 import ActiveCard from './ActiveCard';
@@ -9,7 +8,6 @@ import { collectBirdLocationsFromDB } from '../API/dbFunctions.ts';
 import {
   Box,
   Container,
-  Flex,
   Card,
   Heading,
   Spinner,
