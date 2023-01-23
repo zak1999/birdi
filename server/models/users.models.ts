@@ -1,7 +1,8 @@
 import mongoose from '../db';
 import mongoosey from 'mongoose';
+import { User } from '../types';
 
-const usersSchema = new mongoose.Schema({
+const usersSchema = new mongoose.Schema<User>({
   email:{
     type:String,
   },

@@ -1,7 +1,7 @@
-// const mongoose = require('../db')
 import mongoose from '../db';
+import { Sightings } from '../types';
 
-const sightingsSchema = new mongoose.Schema({
+const sightingsSchema = new mongoose.Schema<Sightings>({
   comName: {
     type: String,
     required: true,
