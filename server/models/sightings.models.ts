@@ -1,6 +1,7 @@
-const mongoose = require('../db')
+// const mongoose = require('../db')
+import mongoose from '../db';
 
-const sightingsSchema = mongoose.Schema({
+const sightingsSchema = new mongoose.Schema({
   comName: {
     type: String,
     required: true,
@@ -37,4 +38,4 @@ const sightingsSchema = mongoose.Schema({
 
 const Sightings = mongoose.model('Sightings',sightingsSchema)
 
-module.exports = Sightings;
+export default Sightings;
