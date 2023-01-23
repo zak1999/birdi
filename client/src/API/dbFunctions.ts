@@ -14,7 +14,7 @@ export async function collectBirdLocationsFromDB(): Promise<
     const dbRes = await fetch(`http://localhost:3001/sightings`);
     const data = await dbRes.json();
     return data.data;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
     return err;
   }
@@ -31,7 +31,7 @@ export async function sendBirdSightingToDB(
     const data = await dbRes.json();
     console.log('data in sightingsFromDb', data);
     return data.data;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
     return err;
   }
@@ -51,7 +51,7 @@ export async function CollectUserInfoFromDB(email: String): Promise<UserData> {
     });
     const data = await userDataFromdb.json();
     return data.data;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
     return err;
   }

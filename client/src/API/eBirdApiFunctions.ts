@@ -1,5 +1,4 @@
 import { EBird } from '../Types/EBirdTypes';
-import { Headers } from 'node-fetch';
 
 const eBirdURL: String = 'https://api.ebird.org/v2/';
 
