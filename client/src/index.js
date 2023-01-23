@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { Auth0Provider } from "@auth0/auth0-react";
 
 import { extendTheme } from "@chakra-ui/react"
+import { BrowserRouter } from 'react-router-dom';
 
 const theme = extendTheme({
   styles: {
@@ -47,14 +48,10 @@ let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ &&
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain={process.env.REACT_APP_AUTH_DOMAIN}
-      clientId={process.env.REACT_APP_AUTH_CLIENT_ID}
-      redirectUri={window.location.origin}
-      >
+    <Auth0Provider domain={process.env.REACT_APP_AUTH_DOMAIN} clientId={process.env.REACT_APP_AUTH_CLIENT_ID} redirectUri={window.location.origin}>
       <Provider store={store}>
         <ChakraProvider theme={theme}>
-          <App /> 
+            <App />
         </ChakraProvider>
       </Provider>
     </Auth0Provider>

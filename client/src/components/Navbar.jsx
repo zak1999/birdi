@@ -12,11 +12,13 @@ export default function Navbar() {
   const nav = useNavigate()
   const userInfo = useSelector(state=>state.userInfo);
 
-  const { logout, loginWithPopup, isAuthenticated, user,isLoading } = useAuth0();
+  const { logout, loginWithRedirect, isAuthenticated, user,isLoading } = useAuth0();
   
 
   async function handleLogin() {
-    const x = await loginWithPopup({ returnTo: window.location.origin })
+    // const x = await loginWithPopup({ returnTo: window.location.origin })
+    const x = await loginWithRedirect()
+    
     if (isAuthenticated) {
     }
   }
@@ -81,6 +83,7 @@ export default function Navbar() {
             color='brand.darkish' 
             bg='brand.whiteish.def'
             _hover={{bg:'brand.whiteish.hover'}}
+            data-testid='login-button'
             
             onClick={async()=>await handleLogin()}>Login</Button>
           }
