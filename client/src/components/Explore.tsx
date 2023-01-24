@@ -2,27 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Map from './Map';
 import List from './List';
 import ActiveCard from './ActiveCard';
-import { collectBirdLocationsFromAPI } from '../API/eBirdApiFunctions.ts';
-import { collectBirdLocationsFromDB } from '../API/dbFunctions.ts';
+import { collectBirdLocationsFromAPI } from '../API/eBirdApiFunctions';
+import { collectBirdLocationsFromDB } from '../API/dbFunctions';
+import { RootState } from '../index';
+import { BirdiUserSighting } from '../Types/DbApiTypes';
+import { EBird } from '../Types/EBirdTypes';
 
-import {
-  Box,
-  Container,
-  Card,
-  Heading,
-  Spinner,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Container, Card, Heading, Spinner } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 export default function Explore() {
-  const toast = useToast();
-
   const SelectedBirdOnExplore = useSelector(
-    (state) => state.SelectedBirdOnExplore
+    (state: RootState) => state.SelectedBirdOnExplore
   );
+  console.log('SelectedBirdOnExplore', SelectedBirdOnExplore);
 
-  const [data, setData] = useState(null); // list of lists : [apiData, dbData]
+  const [data, setData] = useState<(EBird[] | BirdiUserSighting[])[]>(); // list of lists : [apiData, dbData]
 
   const [lng, setLng] = useState(0);
   const [lat, setLat] = useState(0);
@@ -40,11 +35,14 @@ export default function Explore() {
     }
   }, []);
 
-  async function handleRecollect(lng, lat) {
+  async function handleRecollect(lng: Number, lat: Number) {
     try {
-      const APIData = await collectBirdLocationsFromAPI(lng, lat);
-      const dbData = await collectBirdLocationsFromDB();
-      const newArr = [];
+      const APIData: EBird[] = await collectBirdLocationsFromAPI(lng, lat);
+      const dbData: BirdiUserSighting[] = await collectBirdLocationsFromDB();
+
+      const newArr: EBird[] = [];
+      // const newArr= [] as [EBird | BirdiUserSighting]
+
       if (!dbData || !APIData) return;
       // The following forloop runs through (up to) 100 sightings and collects
       // the first sighting with unique coordinates(lat,lng), and pushes it
@@ -52,7 +50,9 @@ export default function Explore() {
       // of eachother on map render. Optimization that helps map be less slow/laggy
       for (let i = 0; i < APIData.length; i++) {
         if (
-          newArr.find((x) => x.lat == APIData[i].lat && x.lng == APIData[i].lng)
+          newArr.find(
+            (x) => x.lat === APIData[i].lat && x.lng === APIData[i].lng
+          )
         ) {
         } else {
           newArr.push(APIData[i]);
@@ -65,6 +65,7 @@ export default function Explore() {
         bird.id = i + newArr.length; // to make sure there are no duplicates
       });
       // Sort by observed at
+      console.log('[newArr, dbData]', [newArr, dbData]);
       setData([newArr, dbData]);
       setLoading(false);
     } catch (err) {
@@ -92,7 +93,7 @@ export default function Explore() {
         >
           <Box minH='180px' maxH='180px' pb='10px' pr='10px'>
             {SelectedBirdOnExplore ? (
-              <ActiveCard bird={SelectedBirdOnExplore} />
+              <ActiveCard bird={SelectedBirdOnExplore} profile={null} />
             ) : (
               <Card
                 data-testid='active-card-placeholder'
@@ -123,6 +124,7 @@ export default function Explore() {
             <Map
               sightings={data}
               coords={{ setLat, setLng, handleRecollect }}
+              dot={null}
             />
           )}
         </Box>
