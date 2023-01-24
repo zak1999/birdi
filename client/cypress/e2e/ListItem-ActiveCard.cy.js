@@ -1,5 +1,3 @@
-import React from 'react';
-
 describe('active card and list item interaction', () => {
   it('renders the active card on list item click', () => {
     cy.visit('http://localhost:3000');
