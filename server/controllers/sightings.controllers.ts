@@ -2,10 +2,10 @@ import Sightings from '../models/sightings.models';
 import { Storage } from '@google-cloud/storage';
 import { Request, Response, NextFunction } from 'express';
 import Users from '../models/users.models';
-import { User } from '../types';
 import mongoose from 'mongoose';
-const storage = new Storage();
-const bucket = storage.bucket('birdi-legacy');
+// const storage = new Storage();
+const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
+const bucket = storage.bucket('birdi-cw');
 
 // const bucket = storage.bucket(process.env.BUCKET_NAME);
 
@@ -27,7 +27,6 @@ async function collectSightings(req: Request, res: Response) {
 async function addSightings(req: Request, res: Response, next: NextFunction) {
   try {
     if (req.file) {
-      console.log('req.file: ', req.file);
       const blob = bucket.file(req.file.originalname);
       const blobStream = blob.createWriteStream();
 

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "jest --runInBand",
-    "start": "nodemon server/build/index.js"
+    "start": "nodemon server/dist/index.js"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.9.0",

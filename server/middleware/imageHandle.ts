@@ -8,3 +8,5 @@ const multerMidware = Multer({
 })
 // module.exports = multerMidware;
 export default multerMidware;
+
+
