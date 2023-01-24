@@ -11,6 +11,8 @@ describe('template spec', () => {
             cy.log(element);
           });
 
+        cy.get('.mapbox-canvas').click()
+
         // cy.findByTestId('active-card').contains('Observed');
       });
   })
