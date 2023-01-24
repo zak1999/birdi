@@ -43,7 +43,9 @@ const theme = extendTheme({
 const composeEnhancers =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let store = createStore(reducers, composeEnhancers);
+export const store = createStore(reducers, composeEnhancers);
+
+export type RootState = ReturnType<typeof store.getState>;
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
