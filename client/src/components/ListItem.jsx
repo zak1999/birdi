@@ -23,6 +23,7 @@ export default function ListItem({ bird }) {
       py='5px'
       onClick={handleBirdClick}
       className='act-as-btn'
+      data-testid='bird-card'
       _hover={{ bg: 'brand.whiteish.hover' }}
       bg={
         SelectedBirdOnExplore && bird.id === SelectedBirdOnExplore.id

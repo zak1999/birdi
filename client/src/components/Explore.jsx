@@ -21,6 +21,7 @@ export default function Explore() {
   const [loading, setLoading] = useState(true)
 
   // initial data collect
+  // LOOK AT USE PARAMS TO HANDLE THIS INSTEAD
   useEffect(() => {
     setLoading(true)
     if (navigator.geolocation){
@@ -30,6 +31,8 @@ export default function Explore() {
     }else{
       handleRecollect(0,0)
     }
+    // ADD CLEANUP FUNCTION WHEN EXPOLRE IS UNMOUNTED TO CANCEL BIRD API REQUEST
+    // USE ABORT CONTROLLER API
   }, [])
 
   async function handleRecollect(lng,lat){
