@@ -8,7 +8,7 @@ import {
 // ▄█ █ █▄█ █▀█ ░█░ █ █░▀█ █▄█ ▄█
 
 export async function collectBirdLocationsFromDB(): Promise<
-  BirdiUserSighting[] | String
+  BirdiUserSighting[]
 > {
   try {
     const dbRes = await fetch(`http://localhost:3001/sightings`);
