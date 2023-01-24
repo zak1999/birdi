@@ -7,8 +7,6 @@ import mongoose from 'mongoose';
 const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
 const bucket = storage.bucket('birdi-cw');
 
-// const bucket = storage.bucket(process.env.BUCKET_NAME);
-
 /**TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
  * GOOGLE CLOUD SDK
  */
