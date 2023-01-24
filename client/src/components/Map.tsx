@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { GeoJSON } from '../Types/MapTypes';
 import mapboxgl from 'mapbox-gl';
+import { LngLatLike, MapboxGeoJSONFeature } from 'mapbox-gl';
+import { MapProps } from '../Types/MapTypes';
+import { RootState } from '..';
+import { BirdiUserSighting } from '../Types/DbApiTypes';
+import { EBird } from '../Types/EBirdTypes';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
-export default function Map({ sightings, coords, dot }) {
+export default function Map({ sightings, coords, dot }: MapProps) {
   const SelectedBirdOnExplore = useSelector(
-    (state) => state.SelectedBirdOnExplore
+    (state: RootState) => state.SelectedBirdOnExplore
   );
 
   const dispatch = useDispatch();
 
-  const mapContainer = useRef(null);
-  const map = useRef(null);
+  const mapContainer = useRef('');
+  const map = useRef<mapboxgl.Map | null>(null);
 
   const [currentSightings, setCurrentSightings] = useState(
     sightings &&
@@ -25,17 +30,19 @@ export default function Map({ sightings, coords, dot }) {
       (sightings[1].length > 0 ? convertToGeoJSON(sightings[1]) : null)
   ); //as geojson data
 
-  const [userCoords, setUserCoords] = useState(undefined); //[lng, lat]
+  const [userCoords, setUserCoords] = useState<LngLatLike | undefined>(
+    undefined
+  ); //[lng, lat]
 
   //given a list of sightings, we output a list of geoJSON points
-  function convertToGeoJSON(list) {
-    if (!list || list.length == 0)
+  function convertToGeoJSON(list: EBird[] | BirdiUserSighting[]) {
+    if (!list || list.length === 0)
       return { type: 'FeatureCollection', features: [] };
     const tempArr = [];
     for (let x of list) {
       const lat = x.lat;
       const lng = x.lng;
-      const GeoJSON = {
+      const GeoJSON: GeoJSON = {
         type: 'Feature',
         geometry: {
           type: 'Point',
@@ -52,78 +59,86 @@ export default function Map({ sightings, coords, dot }) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (pos) => {
         setUserCoords([pos.coords.longitude, pos.coords.latitude]);
-        map.current.flyTo({
-          center: [pos.coords.longitude, pos.coords.latitude],
-          zoom: 14,
-        });
+        map.current &&
+          map.current.flyTo({
+            center: [pos.coords.longitude, pos.coords.latitude],
+            zoom: 14,
+          });
       });
     }
   }
 
   //function that, given a point, creates a popup
-  function popUpCreation(point) {
+  function popUpCreation(point: GeoJSON) {
     const popUps = document.getElementsByClassName('mapboxgl-popup');
     if (popUps[0]) popUps[0].remove();
-
-    const popUp = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat(point.geometry.coordinates)
-      .setHTML(`<p>${point.properties.comName}</p>`)
-      .addTo(map.current);
+    map.current &&
+      new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat(point.geometry.coordinates)
+        .setHTML(`<p>${point.properties.comName}</p>`)
+        .addTo(map.current);
   }
   //function that, given a point, moves the map to focus on
-  function focusPoint(point) {
-    map.current.flyTo({
-      center: point.geometry.coordinates,
-      zoom: 15,
-    });
+  function focusPoint(point: GeoJSON) {
+    map.current &&
+      map.current.flyTo({
+        center: point.geometry.coordinates,
+        zoom: 15,
+      });
   }
 
   useEffect(() => {
     //initializing the map on render
     if (map.current) return;
     map.current = new mapboxgl.Map({
-      container: mapContainer.current, //ID of the container element
+      container: !map.current && mapContainer.current,
       style: 'mapbox://styles/sethjplatt/cld307n6g002f01rvfdfp6pe4',
       //if the users location is known, set center to their coords, else default location
-      center: userCoords ? [...userCoords] : [-0.1291664, 51.504435],
+      center: userCoords ? userCoords : [-0.1291664, 51.504435],
       zoom: 9,
     });
 
     //handle mapclick
-    map.current.on('click', (e) => {
-      const listOfPoints = map.current.queryRenderedFeatures(e.point, {
-        layers: ['locations', 'locations2'],
+    map.current &&
+      map.current.on('click', (e) => {
+        const listOfPoints: null | MapboxGeoJSONFeature[] =
+          map.current &&
+          map.current.queryRenderedFeatures(e.point, {
+            layers: ['locations', 'locations2'],
+          });
+        if ((listOfPoints && listOfPoints.length < 1) || !listOfPoints) return; //Makes sure a point is actually clicked
+        dispatch({
+          type: 'UPDATE_EXPLORE_BIRD',
+          bird: { ...listOfPoints[0].properties },
+        }); // convert data back from geoJson
+        console.log('listOfPoints0', listOfPoints[0]);
+        focusPoint(listOfPoints[0]);
+        popUpCreation(listOfPoints[0]);
       });
-      if (listOfPoints.length < 1 || !listOfPoints) return; //Makes sure a point is actually clicked
-      dispatch({
-        type: 'UPDATE_EXPLORE_BIRD',
-        bird: { ...listOfPoints[0].properties },
-      }); // convert data back from geoJson
-      focusPoint(listOfPoints[0]);
-      popUpCreation(listOfPoints[0]);
-    });
 
     // plots the data
     // only runs if there is a current map and the locations layer does't exists
     if (!map.current) return; // || map.current.getLayer('locations') || currentSightings.length<0) return;
     map.current.on('load', () => {
-      map.current.addLayer({
-        id: 'locations',
-        type: 'circle',
-        source: {
-          type: 'geojson',
-          data: currentSightings,
-        },
-      });
-      map.current.addLayer({
-        id: 'locations2',
-        type: 'circle',
-        source: {
-          type: 'geojson',
-          data: currentSightingsAPI,
-        },
-        paint: { 'circle-color': '#fff7f1' },
-      });
+      map.current &&
+        map.current.addLayer({
+          id: 'locations',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: currentSightings,
+          },
+        });
+      map.current &&
+        map.current.addLayer({
+          id: 'locations2',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: currentSightingsAPI,
+          },
+          paint: { 'circle-color': '#fff7f1' },
+        });
     });
 
     // keeps track of lat, lng & zoom
@@ -135,7 +150,7 @@ export default function Map({ sightings, coords, dot }) {
       coords.setLng(center.lng);
       coords.setLat(center.lat);
     });
-  }, []);
+  });
 
   //handles update currentSightings state
   useEffect(() => {

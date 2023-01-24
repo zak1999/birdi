@@ -7,6 +7,7 @@ import { collectBirdLocationsFromDB } from '../API/dbFunctions';
 import { RootState } from '../index';
 import { BirdiUserSighting } from '../Types/DbApiTypes';
 import { EBird } from '../Types/EBirdTypes';
+import { MapProps } from '../Types/MapTypes';
 
 import { Box, Container, Card, Heading, Spinner } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
@@ -15,7 +16,6 @@ export default function Explore() {
   const SelectedBirdOnExplore = useSelector(
     (state: RootState) => state.SelectedBirdOnExplore
   );
-  console.log('SelectedBirdOnExplore', SelectedBirdOnExplore);
 
   const [data, setData] = useState<(EBird[] | BirdiUserSighting[])[]>(); // list of lists : [apiData, dbData]
 
@@ -65,7 +65,6 @@ export default function Explore() {
         bird.id = i + newArr.length; // to make sure there are no duplicates
       });
       // Sort by observed at
-      console.log('[newArr, dbData]', [newArr, dbData]);
       setData([newArr, dbData]);
       setLoading(false);
     } catch (err) {
