@@ -13,4 +13,5 @@ export interface EBird {
   sciName: string;
   speciesCode: string;
   subId: string;
+  geometry?: number[];
 }

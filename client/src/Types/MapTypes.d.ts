@@ -1,6 +1,7 @@
 import { EBird } from './EBirdTypes';
 import { BirdiUserSighting } from './DbApiTypes';
 import { LngLatLike } from 'mapbox-gl';
+import { Feature, MultiPolygon } from 'geojson';
 
 export interface MapProps {
   sightings: (EBird[] | BirdiUserSighting[])[] | undefined;
@@ -13,10 +14,15 @@ export interface MapProps {
 }
 
 export interface GeoJSONType {
-  type: string;
+  type: 'Feature';
   geometry: {
-    type: string;
-    coordinates: LngLatLike;
+    type: 'MultiPolygon' | 'Point';
+    coordinates: Position[];
   };
   properties: EBird | BirdiUserSighting;
+}
+
+export interface GeoJSONReturn {
+  type: 'FeatureCollection';
+  features: GeoJSONType[];
 }
