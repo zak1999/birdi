@@ -3,9 +3,9 @@ import { Storage } from '@google-cloud/storage';
 import { Request, Response, NextFunction } from 'express';
 import Users from '../models/users.models';
 import mongoose from 'mongoose';
-// const storage = new Storage();
-const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
-const bucket = storage.bucket('birdi-cw');
+const storage = new Storage();
+// const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
+const bucket = storage.bucket('birdilegacy');
 
 /* TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
  * GOOGLE CLOUD SDK
@@ -27,7 +27,7 @@ async function addSightings(req: Request, res: Response, next: NextFunction) {
     if (req.file) {
       const blob = bucket.file(req.file.originalname);
       const blobStream = blob.createWriteStream();
-      
+
       blobStream.on('error', (err) => {
         console.log('err from blobStream: ', err);
         res.status(500).send({ data: null, error: err.message });
@@ -35,17 +35,17 @@ async function addSightings(req: Request, res: Response, next: NextFunction) {
       blobStream.on('finish', async () => {
         const publicURL = encodeURI(
           `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+        );
+        const docToBeAdded = { ...req.body, url: publicURL };
+        try {
+          const result = await Sightings.create(docToBeAdded);
+          const old = await Users.findOne({
+            _id: new mongoose.Types.ObjectId(docToBeAdded.userID),
+          });
+          const userResult = await Users.findOneAndUpdate(
+            { _id: new mongoose.Types.ObjectId(docToBeAdded.userID) },
+            { birdSightingsIds: [...old!.birdSightingsIds, result._id] }
           );
-          const docToBeAdded = { ...req.body, url: publicURL };
-          try {
-            const result = await Sightings.create(docToBeAdded);
-            const old = await Users.findOne({
-              _id: new mongoose.Types.ObjectId(docToBeAdded.userID),
-            });
-            const userResult= await Users.findOneAndUpdate(
-              { _id: new mongoose.Types.ObjectId(docToBeAdded.userID) },
-              { birdSightingsIds: [...old!.birdSightingsIds, result._id] }
-              );
           res.status(201).send({ data: { result, userResult }, error: null });
           next();
         } catch (err: any) {
@@ -55,7 +55,6 @@ async function addSightings(req: Request, res: Response, next: NextFunction) {
       });
       blobStream.end(req.file.buffer);
     } else {
-
       //An upload where the user doesnt upload their own image
       //MAYBE TAKE THIS OUT AND MAKE url neccessary for user sightings
       const docToBeAdded = { ...req.body };
