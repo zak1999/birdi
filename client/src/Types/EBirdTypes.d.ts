@@ -14,3 +14,12 @@ export interface EBird {
   speciesCode: string;
   subId: string;
 }
+
+export interface FileUpload extends Blob{
+  lastModified: number;
+  lastModifiedDate: string;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+}
