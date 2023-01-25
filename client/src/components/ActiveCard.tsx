@@ -10,8 +10,6 @@ import {
   Text,
   CircularProgress,
   Divider,
-  WrapItem,
-  Tooltip,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -19,16 +17,15 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  Button,
-  ModalFooter,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
-import { collectInfoFromWiki } from '../API/wikiApiFunctions.ts';
+import { collectInfoFromWiki } from '../API/wikiApiFunctions';
+import { ActiveCardProps, CardState } from '../Types/ActiveCardTypes';
 import { TfiMore } from 'react-icons/tfi';
 
-export default function ActiveCard({ bird, profile }) {
-  const [cardState, setCardState] = useState(null);
+export default function ActiveCard({ bird , profile }: ActiveCardProps) {
+  const [cardState, setCardState] = useState<CardState | null>(null);
   const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -38,9 +35,11 @@ export default function ActiveCard({ bird, profile }) {
     setLoading(true);
     async function birdInfoCollection() {
       const { imgUrl, info } = await collectInfoFromWiki(bird.sciName);
+      console.log(info, 'INFOOOOOOOOO');
       setCardState({
-        info,
-        imgUrl: bird.url || imgUrl, //||'https://upload.wikimedia.org/wikipedia/commons/b/bc/Valk_Segelzeichen.svg'
+        info: info.toString(),
+        imgUrl: (imgUrl || (('url' in bird) ? bird.url : '')).toString()
+
       });
       setLoading(false);
     }
@@ -98,12 +97,12 @@ export default function ActiveCard({ bird, profile }) {
                     objectFit='cover'
                     w='200px'
                     h='200px'
-                    src={cardState.imgUrl}
+                    src={cardState?.imgUrl}
                     alt={bird.comName}
                   />
                 </Box>
                 <Divider />
-                {cardState.info}
+                {cardState?.info}
               </ModalBody>
             </ModalContent>
           </Modal>
@@ -121,7 +120,7 @@ export default function ActiveCard({ bird, profile }) {
                 minW={imgSizing}
                 maxH={imgSizing}
                 minH={imgSizing}
-                src={cardState.imgUrl}
+                src={cardState?.imgUrl}
                 alt={bird.comName}
               />
               <Divider />
@@ -141,11 +140,11 @@ export default function ActiveCard({ bird, profile }) {
                 py='1'
                 noOfLines={profile ? 7 : 4}
               >
-                {cardState.info}
+                {cardState?.info}
               </Text>
               <Divider color='black' />
               <Box display='flex' alignItems='center' pr='5px'>
-                {bird.userEmail && (
+                {('userEmail' in bird) && (
                   <Text display='inline'>
                     Seen by: <b>{bird.userEmail}</b>
                   </Text>
