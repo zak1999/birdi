@@ -35,7 +35,6 @@ export default function ActiveCard({ bird , profile }: ActiveCardProps) {
     setLoading(true);
     async function birdInfoCollection() {
       const { imgUrl, info } = await collectInfoFromWiki(bird.sciName);
-      console.log(info, 'INFOOOOOOOOO');
       setCardState({
         info: info.toString(),
         imgUrl: (imgUrl || (('url' in bird) ? bird.url : '')).toString()

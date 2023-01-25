@@ -3,9 +3,11 @@ import { Storage } from '@google-cloud/storage';
 import { Request, Response, NextFunction } from 'express';
 import Users from '../models/users.models';
 import mongoose from 'mongoose';
-const storage = new Storage();
-// const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
-const bucket = storage.bucket('birdilegacy');
+// const storage = new Storage();
+const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
+// const bucket = storage.bucket('birdilegacy');
+const bucket = storage.bucket('birdi-cw');
+
 
 /* TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
  * GOOGLE CLOUD SDK

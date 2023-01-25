@@ -1,4 +1,3 @@
-import React from 'react';
 import ActiveCard from './ActiveCard';
 
 describe('<ActiveCard />', () => {

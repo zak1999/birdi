@@ -30,7 +30,6 @@ return (
           <Text fontSize='6xl' as='b'><Image src={logo} maxH='50px'></Image></Text>
         </Box>
         </Link>
-        {/* if user is unauthenticated the upload link prompts a login*/}
         {isAuthenticated ?
         <Button
         color='brand.darkish'            

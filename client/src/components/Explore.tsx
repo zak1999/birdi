@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Map from './Map';
 import List from './List';
 import ActiveCard from './ActiveCard';
@@ -7,7 +7,6 @@ import { collectBirdLocationsFromDB } from '../API/dbFunctions';
 import { RootState } from '../index';
 import { BirdiUserSighting } from '../Types/DbApiTypes';
 import { EBird } from '../Types/EBirdTypes';
-import { MapProps } from '../Types/MapTypes';
 
 import { Box, Container, Card, Heading, Spinner } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';

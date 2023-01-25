@@ -4,13 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
-import { createStore, compose } from 'redux';
+import { createStore } from 'redux';
 import reducers from './redux/reducers';
 import { Provider } from 'react-redux';
 import { Auth0Provider } from '@auth0/auth0-react';
 import type { GlobalStyleProps } from '@chakra-ui/theme-tools';
 import { extendTheme } from '@chakra-ui/react';
-import { BrowserRouter } from 'react-router-dom';
 
 const theme = extendTheme({
   styles: {
@@ -39,9 +38,6 @@ const theme = extendTheme({
     },
   },
 });
-
-const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(reducers);
 

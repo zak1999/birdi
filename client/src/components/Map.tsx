@@ -2,10 +2,6 @@ import React, {
   useEffect,
   useRef,
   useState,
-  LegacyRef,
-  RefObject,
-  MutableRefObject,
-  createRef,
 } from 'react';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -90,7 +86,6 @@ export default function Map({ sightings, coords, dot }: MapProps) {
   //function that, given a point, moves the map to focus on
   function focusPoint(point: GeoJSONType | EBird | BirdiUserSighting) {
     let centerpoint = centerPointConvert(point.geometry.coordinates);
-    console.log('centerpoint', centerpoint);
     map.current &&
       map.current.flyTo({
         center: centerpoint,
@@ -114,7 +109,6 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     // only runs if there is a current map and the locations layer does't exists
     if (!map.current) return; // || map.current.getLayer('locations') || currentSightings.length<0) return;
     map.current.on('load', () => {
-      console.log('currentSightings', currentSightings);
       map?.current?.addLayer({
         id: 'locations',
         type: 'circle',
@@ -160,7 +154,6 @@ export default function Map({ sightings, coords, dot }: MapProps) {
   //handles map update in state update
   useEffect(() => {
     if (!map.current?.getSource('locations')) return; //if the layer doesnt exist
-    console.log('currentSightings', currentSightings);
     currentSightings &&
       (map.current.getSource('locations') as GeoJSONSource).setData(
         currentSightings
@@ -174,14 +167,9 @@ export default function Map({ sightings, coords, dot }: MapProps) {
 
   // updates map when a bird from the list component is selected -> adds a popup
 
-  function typehelper(ebirds: EBird[]) {}
-
   useEffect(() => {
-    // console.log("sightings",sightings)
-    // console.log("currentSightings",currentSightings)
-    // console.log("selectedBirdOnExplore",SelectedBirdOnExplore)
     if (sightings) {
-      console.log('sightings', sightings);
+
       if (
         sightings[0] &&
         sightings[0].length > 0 &&
@@ -193,8 +181,6 @@ export default function Map({ sightings, coords, dot }: MapProps) {
 
         let x =
           ebirds.find((bird: EBird) => {
-            console.log('bird------', bird);
-            console.log('selectedBirdExplore', SelectedBirdOnExplore);
             return bird.id === SelectedBirdOnExplore.id;
           }) ||
           ourbirds.find((bird: BirdiUserSighting) => {
@@ -204,16 +190,14 @@ export default function Map({ sightings, coords, dot }: MapProps) {
           x = SelectedBirdOnExplore;
         }
         x && (x.geometry = { coordinates: [x.lng, x.lat] });
-        console.log('x', x);
         x && focusPoint(x);
         const popUps = document.getElementsByClassName('mapboxgl-popup');
         if (popUps[0]) popUps[0].remove();
-        const popUp =
-          map.current &&
-          new mapboxgl.Popup({ closeOnClick: false })
-            .setLngLat(x?.geometry.coordinates)
-            .setHTML(`<p>${x?.comName}</p>`)
-            .addTo(map.current);
+        map.current &&
+        new mapboxgl.Popup({ closeOnClick: false })
+          .setLngLat(x?.geometry.coordinates)
+          .setHTML(`<p>${x?.comName}</p>`)
+          .addTo(map.current);
       }
     }
   }, [SelectedBirdOnExplore]);

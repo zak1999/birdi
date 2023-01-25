@@ -1,5 +1,3 @@
-// import {Card, CardBody, Image } from '@chakra-ui/react'
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BirdiUserSighting } from '../Types/DbApiTypes';
 import { EBird } from '../Types/EBirdTypes';
