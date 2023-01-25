@@ -175,7 +175,7 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     if (sightings) {
       if (sightings[0] && sightings[0].length > 0 && SelectedBirdOnExplore) {
         let x =
-          sightings[0].find((bird: ) => {
+          sightings[0].find((bird) => {
             return bird.id == SelectedBirdOnExplore.id;
           }) ||
           sightings[1].find((bird: GeoJSONType) => {
