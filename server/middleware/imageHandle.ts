@@ -1,4 +1,4 @@
-const Multer = require('multer');
+import Multer from 'multer';
 
 // https://www.npmjs.com/package/multer
 const multerMidware = Multer({
@@ -6,4 +6,7 @@ const multerMidware = Multer({
   // limits: { 
   // }
 })
-module.exports = multerMidware;
+// module.exports = multerMidware;
+export default multerMidware;
+
+
