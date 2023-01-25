@@ -22,7 +22,7 @@ export interface UserData {
   email: string;
   __v: number;
   _id: string;
-  birdSightingsIds: number[];
+  birdSightingsIds: BirdiUserSighting[];
 }
 
 export interface SendBirdSightingsToDBResult {

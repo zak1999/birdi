@@ -113,7 +113,7 @@ export default function Explore() {
             )}
           </Box>
           <Box maxH='10px' minH='75%' display='flex' flexDir='column' pt='4px'>
-            <List data={data} />
+            {data && <List data={data} />}
           </Box>
         </Box>
         <Box className='right-side' w='65%' maxH='100%' display='flex'>

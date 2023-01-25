@@ -16,18 +16,14 @@ import { RootState } from '..';
 import { EBird } from '../Types/EBirdTypes';
 import { BirdiUserSighting } from '../Types/DbApiTypes';
 
-
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
-
 export default function Map({ sightings, coords, dot }: MapProps) {
-const SelectedBirdOnExplore = useSelector(
-  (state: RootState) => state.SelectedBirdOnExplore
-);
+  const SelectedBirdOnExplore = useSelector(
+    (state: RootState) => state.SelectedBirdOnExplore
+  );
 
-
-const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
 
   const mapContainer = useRef<HTMLDivElement>(null);
 
@@ -48,11 +44,9 @@ const dispatch = useDispatch();
       (sightings[1].length > 0 ? convertToGeoJSON(sightings[1]) : undefined)
   ); //as geojson data
 
-
-const [userCoords, setUserCoords] = useState<LngLatLike | undefined>(
-  undefined
- ); //[lng, lat]
-
+  const [userCoords, setUserCoords] = useState<LngLatLike | undefined>(
+    undefined
+  ); //[lng, lat]
 
   //given a list of sightings, we output a list of geoJSON points
   function convertToGeoJSON(
@@ -140,30 +134,28 @@ const [userCoords, setUserCoords] = useState<LngLatLike | undefined>(
       });
     });
 
-  // keeps track of lat, lng & zoom
-  // if map is instantiated AND
-  // the map is being used to upload a sighting (coords), update data in parent element too
-  if (!map.current || !coords) return;
-  map.current.on('move', () => {
-    const center = map?.current?.getCenter();
-    center && coords.setLng(center.lng);
-    center && coords.setLat(center.lat);
-  });
-}, []);
+    // keeps track of lat, lng & zoom
+    // if map is instantiated AND
+    // the map is being used to upload a sighting (coords), update data in parent element too
+    if (!map.current || !coords) return;
+    map.current.on('move', () => {
+      const center = map?.current?.getCenter();
+      center && coords.setLng(center.lng);
+      center && coords.setLat(center.lat);
+    });
+  }, []);
 
-
-//handles update currentSightings state
-useEffect(() => {
-  if (sightings) {
-    if (sightings[0].length > 0) {
-      setCurrentSightings(convertToGeoJSON(sightings[0]));
+  //handles update currentSightings state
+  useEffect(() => {
+    if (sightings) {
+      if (sightings[0].length > 0) {
+        setCurrentSightings(convertToGeoJSON(sightings[0]));
+      }
+      if (sightings[1].length > 0) {
+        setCurrentSightingsAPI(convertToGeoJSON(sightings[1]));
+      }
     }
-    if (sightings[1].length > 0) {
-      setCurrentSightingsAPI(convertToGeoJSON(sightings[1]));
-    }
-  }
-}, [sightings]);
-
+  }, [sightings]);
 
   //handles map update in state update
   useEffect(() => {
@@ -226,54 +218,40 @@ useEffect(() => {
     }
   }, [SelectedBirdOnExplore]);
 
-return (
-  <Box display='flex' flexDir='column' minW='100%' maxH='100%'>
-    <Box
-      className='map-wrapper'
-      display='flex'
-      flexDir='column'
-      justifyContent='center'
-    >
-      {/* if the map is being used in upload, the user will see a
-    cross in the center of the map to help with lat & lng precision*/}
-      {dot && (
-        <Box
-          zIndex='100'
-          position='absolute'
-          margin='auto'
-          alignSelf='center'
-          justifySelf='center'
-        >
-          <Text>
-            <b>+</b>
-          </Text>
-        </Box>
-      )}
-
-
-      <Box ref={mapContainer} minHeight={dot ? '50vh' : '85vh'}></Box>
+  return (
+    <Box display='flex' flexDir='column' minW='100%' maxH='100%'>
       <Box
-        className='btn-section'
+        className='map-wrapper'
         display='flex'
-        alignItems='center'
-        zIndex='100'
-        position='relative'
-        bottom={'55px'}
-        left={'5px'}
+        flexDir='column'
+        justifyContent='center'
       >
-        <Button
-          bg='brand.darkish'
-          color='brand.whiteish.def'
-          _hover={{ bg: 'brand.darkish3' }}
-          onClick={() => {
-            locateMe();
-          }}
-          mr='10px'
-          my='10px'
+        {/* if the map is being used in upload, the user will see a
+      cross in the center of the map to help with lat & lng precision*/}
+        {dot && (
+          <Box
+            zIndex='100'
+            position='absolute'
+            margin='auto'
+            alignSelf='center'
+            justifySelf='center'
+          >
+            <Text>
+              <b>+</b>
+            </Text>
+          </Box>
+        )}
+
+        <Box ref={mapContainer} minHeight={dot ? '50vh' : '85vh'}></Box>
+        <Box
+          className='btn-section'
+          display='flex'
+          alignItems='center'
+          zIndex='100'
+          position='relative'
+          bottom={'55px'}
+          left={'5px'}
         >
-          Current Location
-        </Button>
-        {coords.handleRecollect && (
           <Button
             bg='brand.darkish'
             color='brand.whiteish.def'
