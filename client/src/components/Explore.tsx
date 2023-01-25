@@ -35,7 +35,7 @@ export default function Explore() {
     }
   }, []);
 
-  async function handleRecollect(lng: Number, lat: Number) {
+  async function handleRecollect(lng: number, lat: number) {
     try {
       const APIData: EBird[] = await collectBirdLocationsFromAPI(lng, lat);
       const dbData: BirdiUserSighting[] = await collectBirdLocationsFromDB();

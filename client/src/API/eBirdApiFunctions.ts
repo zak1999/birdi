@@ -3,8 +3,8 @@ import { EBird } from '../Types/EBirdTypes';
 const eBirdURL: String = 'https://api.ebird.org/v2/';
 
 export async function collectBirdLocationsFromAPI(
-  lng: Number,
-  lat: Number
+  lng: number,
+  lat: number
 ): Promise<EBird[]> {
   const headers: HeadersInit = {
     'x-ebirdapitoken': process.env.REACT_APP_BIRD_TOKEN,

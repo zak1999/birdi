@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GeoJSON } from '../Types/MapTypes';
-import mapboxgl from 'mapbox-gl';
-import { LngLatLike, MapboxGeoJSONFeature } from 'mapbox-gl';
-import { MapProps } from '../Types/MapTypes';
+import { GeoJSONType, MapProps } from '../Types/MapTypes';
+
+import mapboxgl, { LngLatLike } from 'mapbox-gl';
 import { RootState } from '..';
-import { BirdiUserSighting } from '../Types/DbApiTypes';
 import { EBird } from '../Types/EBirdTypes';
+import { BirdiUserSighting } from '../Types/DbApiTypes';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
@@ -42,7 +41,7 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     for (let x of list) {
       const lat = x.lat;
       const lng = x.lng;
-      const GeoJSON: GeoJSON = {
+      const GeoJSON = {
         type: 'Feature',
         geometry: {
           type: 'Point',
@@ -69,17 +68,19 @@ export default function Map({ sightings, coords, dot }: MapProps) {
   }
 
   //function that, given a point, creates a popup
-  function popUpCreation(point: GeoJSON) {
+  function popUpCreation(point: GeoJSONType) {
     const popUps = document.getElementsByClassName('mapboxgl-popup');
     if (popUps[0]) popUps[0].remove();
-    map.current &&
+
+    const popUp =
+      map.current &&
       new mapboxgl.Popup({ closeOnClick: false })
         .setLngLat(point.geometry.coordinates)
         .setHTML(`<p>${point.properties.comName}</p>`)
         .addTo(map.current);
   }
   //function that, given a point, moves the map to focus on
-  function focusPoint(point: GeoJSON) {
+  function focusPoint(point: GeoJSONType) {
     map.current &&
       map.current.flyTo({
         center: point.geometry.coordinates,
@@ -91,7 +92,7 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     //initializing the map on render
     if (map.current) return;
     map.current = new mapboxgl.Map({
-      container: !map.current && mapContainer.current,
+      container: mapContainer.current, //ID of the container element
       style: 'mapbox://styles/sethjplatt/cld307n6g002f01rvfdfp6pe4',
       //if the users location is known, set center to their coords, else default location
       center: userCoords ? userCoords : [-0.1291664, 51.504435],
@@ -99,46 +100,40 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     });
 
     //handle mapclick
-    map.current &&
-      map.current.on('click', (e) => {
-        const listOfPoints: null | MapboxGeoJSONFeature[] =
-          map.current &&
-          map.current.queryRenderedFeatures(e.point, {
-            layers: ['locations', 'locations2'],
-          });
-        if ((listOfPoints && listOfPoints.length < 1) || !listOfPoints) return; //Makes sure a point is actually clicked
-        dispatch({
-          type: 'UPDATE_EXPLORE_BIRD',
-          bird: { ...listOfPoints[0].properties },
-        }); // convert data back from geoJson
-        console.log('listOfPoints0', listOfPoints[0]);
-        focusPoint(listOfPoints[0]);
-        popUpCreation(listOfPoints[0]);
-      });
+    map.current.on('click', (e) => {
+      const listOfPoints =
+        map.current &&
+        map.current.queryRenderedFeatures(e.point, {
+          layers: ['locations', 'locations2'],
+        });
+      if ((listOfPoints && listOfPoints.length < 1) || !listOfPoints) return; //Makes sure a point is actually clicked
+      dispatch({
+        type: 'UPDATE_EXPLORE_BIRD',
+        bird: { ...listOfPoints[0].properties },
+      }); // convert data back from geoJson
+    });
 
     // plots the data
     // only runs if there is a current map and the locations layer does't exists
     if (!map.current) return; // || map.current.getLayer('locations') || currentSightings.length<0) return;
     map.current.on('load', () => {
-      map.current &&
-        map.current.addLayer({
-          id: 'locations',
-          type: 'circle',
-          source: {
-            type: 'geojson',
-            data: currentSightings,
-          },
-        });
-      map.current &&
-        map.current.addLayer({
-          id: 'locations2',
-          type: 'circle',
-          source: {
-            type: 'geojson',
-            data: currentSightingsAPI,
-          },
-          paint: { 'circle-color': '#fff7f1' },
-        });
+      map?.current?.addLayer({
+        id: 'locations',
+        type: 'circle',
+        source: {
+          type: 'geojson',
+          data: currentSightings,
+        },
+      });
+      map?.current?.addLayer({
+        id: 'locations2',
+        type: 'circle',
+        source: {
+          type: 'geojson',
+          data: currentSightingsAPI,
+        },
+        paint: { 'circle-color': '#fff7f1' },
+      });
     });
 
     // keeps track of lat, lng & zoom
@@ -146,11 +141,11 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     // the map is being used to upload a sighting (coords), update data in parent element too
     if (!map.current || !coords) return;
     map.current.on('move', () => {
-      const center = map.current.getCenter();
-      coords.setLng(center.lng);
-      coords.setLat(center.lat);
+      const center = map?.current?.getCenter();
+      center && coords.setLng(center.lng);
+      center && coords.setLat(center.lat);
     });
-  });
+  }, []);
 
   //handles update currentSightings state
   useEffect(() => {
@@ -166,7 +161,7 @@ export default function Map({ sightings, coords, dot }: MapProps) {
 
   //handles map update in state update
   useEffect(() => {
-    if (!map.current.getSource('locations')) return; //if the layer doesnt exist
+    if (!map.current?.getSource('locations')) return; //if the layer doesnt exist
     map.current.getSource('locations').setData(currentSightings);
     if (!map.current.getSource('locations2')) return; //if the layer doesnt exist
     map.current.getSource('locations2').setData(currentSightingsAPI);
@@ -180,11 +175,11 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     if (sightings) {
       if (sightings[0] && sightings[0].length > 0 && SelectedBirdOnExplore) {
         let x =
-          sightings[0].find((bird) => {
+          sightings[0].find((bird: GeoJSONType) => {
             return bird.id == SelectedBirdOnExplore.id;
           }) ||
-          sightings[1].find((bird) => {
-            return bird.id == SelectedBirdOnExplore.id;
+          sightings[1].find((bird: GeoJSONType) => {
+            return bird.id === SelectedBirdOnExplore.id;
           });
         if (!x) {
           x = SelectedBirdOnExplore;
