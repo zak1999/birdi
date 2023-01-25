@@ -14,6 +14,7 @@ export interface BirdiUserSighting {
   lat: number;
   lng: number;
   __v: number;
+  coordinates?: number[];
   [key: string]: any;
 }
 

@@ -3,11 +3,11 @@ import { Storage } from '@google-cloud/storage';
 import { Request, Response, NextFunction } from 'express';
 import Users from '../models/users.models';
 import mongoose from 'mongoose';
-// const storage = new Storage();
-const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
-const bucket = storage.bucket('birdi-cw');
+const storage = new Storage();
+// const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
+const bucket = storage.bucket('birdilegacy');
 
-/**TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
+/* TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
  * GOOGLE CLOUD SDK
  */
 
@@ -42,7 +42,7 @@ async function addSightings(req: Request, res: Response, next: NextFunction) {
           const old = await Users.findOne({
             _id: new mongoose.Types.ObjectId(docToBeAdded.userID),
           });
-          const userResult= await Users.findOneAndUpdate(
+          const userResult = await Users.findOneAndUpdate(
             { _id: new mongoose.Types.ObjectId(docToBeAdded.userID) },
             { birdSightingsIds: [...old!.birdSightingsIds, result._id] }
           );
@@ -51,12 +51,10 @@ async function addSightings(req: Request, res: Response, next: NextFunction) {
         } catch (err: any) {
           console.log(err);
           res.status(500).send({ data: null, error: err.message });
-          next();
         }
       });
       blobStream.end(req.file.buffer);
     } else {
-      //***********************************************************************/
       //An upload where the user doesnt upload their own image
       //MAYBE TAKE THIS OUT AND MAKE url neccessary for user sightings
       const docToBeAdded = { ...req.body };
