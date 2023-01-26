@@ -27,15 +27,18 @@ return (
       > 
         <Link to={'/'}>
         <Box display='flex' alignItems='center' justifyContent='center'>
-          <Text fontSize='6xl' as='b'><Image src={logo} maxH='50px'></Image></Text>
+          <Text fontSize='6xl' as='b'><Image src={logo} maxH='50px' alt='birdi-logo'></Image></Text>
         </Box>
         </Link>
         {isAuthenticated ?
         <Button
         color='brand.darkish'            
           bg='brand.whiteish.def'
+          onClick={() => {
+            return nav('/upload')
+          }}
           _hover={{bg:'brand.whiteish.hover'}}>
-          <Link to={'/upload'}>Upload your bird sighting</Link>
+          Upload your bird sighting
         </Button>
         :
         <Button
@@ -75,7 +78,7 @@ return (
           
           onClick={async()=>await loginWithRedirect()}>Login</Button>
         }
-        {isAuthenticated && <Link to={'/profile'}> <Avatar bg='teal.500' src={user && user.picture}/> </Link>}
+        {isAuthenticated && <Link to={'/profile'}> <Avatar bg='yellow.900' /* src={user && user.picture} *//> </Link>}
         </HStack>
       </Stack>
     </Container>

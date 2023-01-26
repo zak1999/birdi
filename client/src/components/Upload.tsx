@@ -97,6 +97,7 @@ return (
               id='obsDt'
               name='obsDt'
               border='1px'
+              aria-label='obsDt'
             />
             <label>File</label>
             <Input
@@ -106,6 +107,7 @@ return (
               size='sm'
               type='file'
               name='file'
+              aria-label='file'
             />
           </SimpleGrid>
           <Box

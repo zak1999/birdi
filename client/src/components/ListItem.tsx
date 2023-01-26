@@ -38,7 +38,7 @@ return (
     }
     transition='0.2s'
   >
-    <Box as='span' flex='1' role='list-item' textAlign='left'>
+    <Box as='span' flex='1' role='listitem' textAlign='left'>
       <Text fontSize='lg' as={'b'} pl='2px'>
         {bird.comName}
       </Text>

@@ -20,7 +20,7 @@ export default function List({
 
   return (
     <>
-      <Heading size='md' pb='5px'>
+      <Heading size='md' pb='5px' style={{color: 'white', marginTop: '25px', marginBottom: '5px'}}>
         Recent Sightings
       </Heading>
       <Box
@@ -40,7 +40,7 @@ export default function List({
           },
         }}
       >
-        <Stack spacing='2'>
+        <Stack spacing='2' role='list' tabIndex={0}>
           {list &&
             list.length > 0 &&
             list.map((bird) => {

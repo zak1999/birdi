@@ -29,7 +29,7 @@ export default function ActiveCard({ bird , profile }: ActiveCardProps) {
   const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const imgSizing = profile ? '190px' : '150px';
+  const imgSizing = profile ? '190px' : '130px';
 
   useEffect(() => {
     setLoading(true);
@@ -37,7 +37,7 @@ export default function ActiveCard({ bird , profile }: ActiveCardProps) {
       const { imgUrl, info } = await collectInfoFromWiki(bird.sciName);
       setCardState({
         info: info.toString(),
-        imgUrl: (imgUrl || (('url' in bird) ? bird.url : '')).toString()
+        imgUrl: ((('url' in bird) ? bird.url : '' || imgUrl)).toString()
 
       });
       setLoading(false);
@@ -87,7 +87,7 @@ export default function ActiveCard({ bird , profile }: ActiveCardProps) {
             <ModalContent bg='brand.whiteish.def'>
               <ModalHeader textAlign='center'>
                 {bird.comName} &bull;{' '}
-                <span style={{ color: 'gray' }}>{bird.sciName}</span>
+                <span style={{ color: '#2b2f35' }}>{bird.sciName}</span>
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody display='flex' flexDir='column'>
@@ -121,6 +121,7 @@ export default function ActiveCard({ bird , profile }: ActiveCardProps) {
                 minH={imgSizing}
                 src={cardState?.imgUrl}
                 alt={bird.comName}
+                style={{maxHeight: '50px'}}
               />
               <Divider />
               <Text data-testid='active-seen-at' as='sub' size='xs'>
@@ -130,7 +131,7 @@ export default function ActiveCard({ bird , profile }: ActiveCardProps) {
             <CardBody p='0' pl='5px' pt='5px'>
               <Heading data-testid='active-com-name' size='sm'>
                 {bird.comName} &bull;{' '}
-                <span data-testid='active-sci-name' style={{ color: 'gray' }}>
+                <span data-testid='active-sci-name' style={{ color: '#2b2f35' }}>
                   {bird.sciName}
                 </span>{' '}
               </Heading>

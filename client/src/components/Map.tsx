@@ -269,6 +269,7 @@ export default function Map({ sightings, coords, dot }: MapProps) {
                 fill='currentColor'
                 className='bi bi-arrow-clockwise'
                 viewBox='0 0 16 16'
+                aria-label='map-refresh-button'
               >
                 <path
                   fillRule='evenodd'

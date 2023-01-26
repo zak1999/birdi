@@ -111,7 +111,7 @@ export default function Explore() {
               </Card>
             )}
           </Box>
-          <Box maxH='10px' minH='75%' display='flex' flexDir='column' pt='4px'>
+          <Box maxH='80%' minH='79.25%' display='flex' flexDir='column' pt='4px'>
             {data && <List data={data} />}
           </Box>
         </Box>

@@ -62,7 +62,8 @@ export default function Profile() {
                     justifySelf='center'
                     alignSelf={'center'}
                     size='xl'
-                    src={user && user.picture}
+                    bg={'yellow.900'}
+                    // src={user && user.picture}
                   />
                   <Text>
                     <b>{user && user.email}</b> has seen {birdsByUser.length}{' '}
@@ -75,7 +76,7 @@ export default function Profile() {
               </CardBody>
             </Card>
           </Box>
-          <SimpleGrid columns={2} spacing={2}>
+          <SimpleGrid columns={2} spacing={2} maxHeight={'35vw'} overflow={'scroll'}>
             {birdsByUser.length > 0 &&
               birdsByUser.map((bird) => (
                 <GridItem>
