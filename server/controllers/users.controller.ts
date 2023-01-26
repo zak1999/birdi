@@ -25,4 +25,5 @@ async function collectUserInfo(req: Request, res: Response) {
     res.status(500).send({ data: null, error: 'No email supplied.' });
   }
 }
+
 export default { collectUserInfo };

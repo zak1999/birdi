@@ -9,6 +9,7 @@ const router = Express.Router();
 // object containing information about the processed file.'
 router.post('/sightings', multer.single('file'), sightingsControllers.addSightings)
 router.get('/sightings',sightingsControllers.collectSightings)
+router.post('/delete-bird', sightingsControllers.deleteSighting);
 
 router.post('/users',usersControllers.collectUserInfo)
 

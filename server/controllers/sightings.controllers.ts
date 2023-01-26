@@ -74,4 +74,26 @@ async function addSightings(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export default { collectSightings, addSightings };
+async function deleteSighting(req: Request, res: Response) {
+  try {
+    const userToUpdate = await Users.findOne({ email: req.body.email });
+    const idToRemove: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(req.body.idToRemove);
+    // @ts-ignore
+    const indexIdToRemove: number= userToUpdate?.birdSightingsIds.indexOf(idToRemove);
+    userToUpdate?.birdSightingsIds.splice(indexIdToRemove, 1);
+    await Users.findOneAndUpdate(
+      { email: req.body.email },
+      { birdSightingsIds: userToUpdate?.birdSightingsIds }
+    );
+    const updatedUser = await Users.findOne({ email: req.body.email });
+
+    await Sightings.deleteOne({_id: idToRemove})
+
+    res.status(200).send({ data: updatedUser, error: null });
+  } catch (err: any) {
+    console.log(err);
+    res.status(500).send({ data: null, error: err.message });
+  }
+}
+
+export default { collectSightings, addSightings, deleteSighting };

@@ -37,6 +37,26 @@ export async function sendBirdSightingToDB(
   }
 }
 
+export async function removeSighting(email: string, idToRemove: string): Promise<UserData> {
+  try {
+    const newUserInfo = await fetch('http://localhost:3001/delete-bird', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        idToRemove
+      })
+      })
+      const data = await newUserInfo.json();
+      return data.data;
+  } catch (err: any) {
+    console.log(err);
+    return err
+  }
+}
+
 // █░█ █▀ █▀▀ █▀█ █▀
 // █▄█ ▄█ ██▄ █▀▄ ▄█
 

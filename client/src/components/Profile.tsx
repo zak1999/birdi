@@ -19,6 +19,7 @@ import { BirdiUserSighting } from '../Types/DbApiTypes';
 
 export default function Profile() {
   const dispatch = useDispatch();
+  const [clicked, setClicked] = useState(false)
 
   const [birdsByUser, setBirdsByUser] = useState<BirdiUserSighting[]>([]);
   useEffect(() => {
@@ -30,9 +31,10 @@ export default function Profile() {
             user,
           });
           setBirdsByUser(user.birdSightingsIds || []);
+          setClicked(false)
         });
     }
-  }, []);
+  }, [clicked]);
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
@@ -76,11 +78,11 @@ export default function Profile() {
               </CardBody>
             </Card>
           </Box>
-          <SimpleGrid columns={2} spacing={2} maxHeight={'35vw'} overflow={'scroll'}>
+          <SimpleGrid columns={2} spacing={2} maxHeight={'70vh'} overflow={'scroll'}>
             {birdsByUser.length > 0 &&
               birdsByUser.map((bird) => (
                 <GridItem>
-                  <ActiveCard key={bird._id} bird={bird} profile />
+                  <ActiveCard key={bird._id} bird={bird as BirdiUserSighting} birdsByUser={birdsByUser} setBirdsByUser={setBirdsByUser} clicked={clicked} setClicked={setClicked} profile />
                 </GridItem>
               ))}
           </SimpleGrid>

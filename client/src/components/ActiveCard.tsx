@@ -1,6 +1,6 @@
-// Remove unused variables
 import {
   Box,
+  Button,
   Card,
   CardBody,
   Stack,
@@ -23,11 +23,17 @@ import { useEffect } from 'react';
 import { collectInfoFromWiki } from '../API/wikiApiFunctions';
 import { ActiveCardProps, CardState } from '../Types/ActiveCardTypes';
 import { TfiMore } from 'react-icons/tfi';
+import { useAuth0 } from '@auth0/auth0-react';
+import { removeSighting } from '../API/dbFunctions';
+import { User } from '../../node_modules/@auth0/auth0-spa-js/dist/typings/global.d'
+import { set } from 'immer/dist/internal';
 
-export default function ActiveCard({ bird , profile }: ActiveCardProps) {
+export default function ActiveCard({ bird , profile, birdsByUser, setBirdsByUser, clicked, setClicked }: ActiveCardProps) {
   const [cardState, setCardState] = useState<CardState | null>(null);
   const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user }: User = useAuth0();
+
 
   const imgSizing = profile ? '190px' : '130px';
 
@@ -129,11 +135,18 @@ export default function ActiveCard({ bird , profile }: ActiveCardProps) {
               </Text>
             </Box>
             <CardBody p='0' pl='5px' pt='5px'>
-              <Heading data-testid='active-com-name' size='sm'>
+              <Heading data-testid='active-com-name' size='sm' display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                <div>
                 {bird.comName} &bull;{' '}
                 <span data-testid='active-sci-name' style={{ color: '#2b2f35' }}>
                   {bird.sciName}
                 </span>{' '}
+                </div>
+                {profile ? <Button alignSelf={'flex-end'} onClick={async () => {
+                  // @ts-ignore
+                  await removeSighting(user.email, bird._id)
+                  setClicked(true);
+                  }} bg='none'>x</Button> : null}
               </Heading>
               <Text
                 data-testid='active-short-info'
