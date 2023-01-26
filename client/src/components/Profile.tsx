@@ -65,7 +65,6 @@ export default function Profile() {
                     alignSelf={'center'}
                     size='xl'
                     bg={'yellow.900'}
-                    // src={user && user.picture}
                   />
                   <Text>
                     <b>{user && user.email}</b> has seen {birdsByUser.length}{' '}
@@ -82,7 +81,7 @@ export default function Profile() {
             {birdsByUser.length > 0 &&
               birdsByUser.map((bird) => (
                 <GridItem>
-                  <ActiveCard key={bird._id} bird={bird as BirdiUserSighting} birdsByUser={birdsByUser} setBirdsByUser={setBirdsByUser} clicked={clicked} setClicked={setClicked} profile />
+                  <ActiveCard key={bird._id} bird={bird as BirdiUserSighting} setClicked={setClicked} profile />
                 </GridItem>
               ))}
           </SimpleGrid>

@@ -26,9 +26,8 @@ import { TfiMore } from 'react-icons/tfi';
 import { useAuth0 } from '@auth0/auth0-react';
 import { removeSighting } from '../API/dbFunctions';
 import { User } from '../../node_modules/@auth0/auth0-spa-js/dist/typings/global.d'
-import { set } from 'immer/dist/internal';
 
-export default function ActiveCard({ bird , profile, birdsByUser, setBirdsByUser, clicked, setClicked }: ActiveCardProps) {
+export default function ActiveCard({ bird , profile, setClicked }: ActiveCardProps) {
   const [cardState, setCardState] = useState<CardState | null>(null);
   const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
