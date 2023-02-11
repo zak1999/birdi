@@ -1,12 +1,22 @@
 # Birdi
-<p align="center">
+<div align="center">
   <img src="/birdiLogoJPG.jpg" height="150px"></img>
-</p>
+</div>
 
 Birdi is an app that provides birdwatchers with valuable information on interesting birds in their vicinity and fosters a vibrant community of bird enthusiasts by mapping nearby bird sightings submitted by users. 
 
 ### Screenshots
+<div align="center">
+   <img src="/screenshots/explore.png" height="250px"></img>
+    <span>
+      <img src="/screenshots/login.png" height="250px"></img>
+    </span>
 
+   <img src="/screenshots/profile.png" height="250px"></img>
+   <span>
+      <img src="/screenshots/upload.png" height="250px"></img>
+   </span>
+</div>
 
 
 ## Getting started
