@@ -79,7 +79,7 @@ export default function Map({sightings, coords, dot}) {
       container:mapContainer.current, //ID of the container element
       style:'mapbox://styles/zak99/cld0avhs0002y14k8mr5rbtz4/draft',
       //if the users location is known, set center to their coords, else default location
-      center: userCoords? [...userCoords] : [-0.1291664, 51.504435],
+      center: userCoords? [...userCoords] : [0, 0],
       zoom:9
     })
     
@@ -89,8 +89,9 @@ export default function Map({sightings, coords, dot}) {
       if (listOfPoints.length < 1 || !listOfPoints) return; //Makes sure a point is actually clicked
       dispatch({type:'UPDATE_EXPLORE_BIRD',
       bird:{...listOfPoints[0].properties}})// convert data back from geoJson
-      focusPoint(listOfPoints[0])
-      popUpCreation(listOfPoints[0])
+      console.log("listOfPoints[0]:",listOfPoints[0])
+      // focusPoint(listOfPoints[0])
+      // popUpCreation(listOfPoints[0])
     })
   
     // plots the data  

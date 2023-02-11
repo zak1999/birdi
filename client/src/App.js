@@ -43,8 +43,10 @@ function App() {
       // console.log(user)
       CollectUserInfoFromDB(user.email).then(user=>{
         // set data in redux 
-        dispatch({type:'UPDATE_USER_INFO',
-        user})
+        dispatch(
+          {type:'UPDATE_USER_INFO',
+        user}
+        )
       })
     }
   }, [isAuthenticated])
