@@ -1,3 +1,5 @@
+<img src="birdiLogoJPG.jpg" align="center" />
+
 # Birdi - Developer Guide
 Birdi is a bird sighting application that allows bird enthusiasts and ornithologists to record and track their bird sightings.
 This guide provides detailed instructions for developers who want to set up and run Birdi locally.
@@ -56,3 +58,9 @@ contribution guidelines and reach out to us at alexryanjones@gmx.com or contact.
 
 ## Support
 For support with setting up and running Birdi locally, please contact us at alexryanjones@gmx.com or contact.sethjplatt@gmail.com.
+
+<img src="birdi-1.jpg" />
+<img src="birdi-2.jpg" />
+<img src="birdi-3.jpg" />
+<img src="birdi-4.jpg" />
+
