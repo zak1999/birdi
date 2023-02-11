@@ -37,11 +37,11 @@ $ cd birdi
     $ npm install
     ```
 3. Start the application:
-- For client
+    - For client
     ```
     $ npm start
     ```
-- For server folder (in a seperate terminal window)
+    - For server folder (in a seperate terminal window)
     ```
     $ nodemon index.js
     ```
