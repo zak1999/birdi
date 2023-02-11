@@ -41,7 +41,7 @@ $ cd birdi
     ```
     $ npm start
     ```
-    - For server folder (in a seperate terminal window)
+- For server folder (in a seperate terminal window)
     ```
     $ nodemon index.js
     ```
