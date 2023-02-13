@@ -5,7 +5,7 @@
   "main": ".eslintrc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/index.js"
+    "dev": "npx nodemon dist/index.js"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.9.0",

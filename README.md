@@ -1,6 +1,7 @@
 <img src="birdiLogoJPG.jpg" align="center" />
 
 # Birdi - Developer Guide
+
 Birdi is a bird sighting application that allows bird enthusiasts and ornithologists to record and track their bird sightings.
 This guide provides detailed instructions for developers who want to set up and run Birdi locally.
 
@@ -15,52 +16,69 @@ Before getting started, you should have the following tools installed on your sy
 ## Setting up the repository
 
 1. Open your terminal and navigate to the directory where you want to store the Birdi repository.
-2. Clone the repository using the following command:
-  git clone [repository URL]
+2. Clone the repository:
+   ```bash
+    git clone <repo url>
+   ```
 3. Navigate to the root directory of the cloned repository:
-cd birdi
+   ```bash
+    cd birdi/
+   ```
 
 ## Installing dependencies
 
-1. In the root directory of the Birdi repository, run the following command to install the required dependencies:
-  npm install
-  
-## Building the back-end
+1. Install dependencies in client folder:
+   ```bash
+    cd client/
+    npm i
+   ```
+2. Install dependencies in server folder:
+   ```bash
+    cd ../server/
+    npm i
+   ```
 
-1. Navigate to the server directory of the Birdi repository:
-  cd server
-2. Compile the TypeScript code into JavaScript by running the following command:
-  tsc build
-  
-## Running the server
+## Compiling Typescript
 
-1. Start the server using the following command:
-  nodemon index.js
+1. From server folder:
 
-2. The server should now be running and listening for incoming requests.
+   ```bash
+    tsc build
+   ```
 
-## Building the front-end
+   dist folder will appear in server folder
 
-1. Navigate to the client directory of the Birdi repository:
-  cd ../client
-2. Compile the TypeScript code into JavaScript by running the following command:
-  tsc build
-  
-## Running the app
+2. From client folder:
+   ```bash
+    tsc build
+   ```
+   dist folder will appear in the client folder
 
-1. Start the front-end of the application by running the following command:
-  npm run start
-2. The front-end should now be running and accessible in your web browser at http://localhost:3000.
+## Running the client and server
+
+1. From the server folder:
+   ```bash
+    npm run dev
+   ```
+   Verify that 'Server listening on port PORT' and 'db connected' prints to the console.
+2. From the client folder:
+   ```bash
+    npm run dev
+   ```
+   The react app will open the default port.
 
 ## Contributing
+
 We welcome contributions to Birdi from the community. If you are interested in contributing, please read our
 contribution guidelines and reach out to us at alexryanjones@gmx.com or contact.sethjplatt@gmail.com.
 
 ## Support
+
 For support with setting up and running Birdi locally, please contact us at alexryanjones@gmx.com or contact.sethjplatt@gmail.com.
 
+## Screenshots
+
+<img src="birdi-2.jpg" width='300px'/>
 <img src="birdi-1.jpg" />
-<img src="birdi-2.jpg" />
 <img src="birdi-3.jpg" />
 <img src="birdi-4.jpg" />
-
