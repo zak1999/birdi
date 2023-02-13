@@ -23,7 +23,9 @@ describe('login', () => {
       cy.get('input[id="username"]', { withinSubject: null }).type('alexryanjones@gmx.com');
       cy.get('input[id="password"]', { withinSubject: null }).type('mvh_nyd7hfp3QYC0akw{enter}');
     }); 
-    cy.get('.chakra-avatar.css-11g7hql').click();
+    cy.get('.chakra-avatar__img').click();
     cy.get('.chakra-card__body').should('be.visible');
   });
 });
+
+

@@ -78,7 +78,7 @@ return (
           
           onClick={async()=>await loginWithRedirect()}>Login</Button>
         }
-        {isAuthenticated && <Link to={'/profile'}> <Avatar bg='yellow.900' /* src={user && user.picture} *//> </Link>}
+        {isAuthenticated && <Link to={'/profile'}> <Avatar bg='yellow.900' src={user && user.picture}/> </Link>}
         </HStack>
       </Stack>
     </Container>

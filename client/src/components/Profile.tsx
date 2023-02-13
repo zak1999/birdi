@@ -67,7 +67,7 @@ export default function Profile() {
                     bg={'yellow.900'}
                   />
                   <Text>
-                    <b>{user && user.email}</b> has seen {birdsByUser.length}{' '}
+                    <b>{user && user.nickname}</b> has seen {birdsByUser.length}{' '}
                     bird
                     {(birdsByUser.length > 1 || birdsByUser.length === 0) && (
                       <>s</>
