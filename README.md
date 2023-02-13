@@ -1,4 +1,4 @@
-<img src="birdiLogoJPG.jpg" align="center" />
+<img src="birdiLogoJPG.jpg" width='600px' style="display: block; margin: 0 auto"/>
 
 # Birdi - Developer Guide
 
