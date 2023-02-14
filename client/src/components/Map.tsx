@@ -12,6 +12,12 @@ import { RootState } from '..';
 import { EBird } from '../Types/EBirdTypes';
 import { BirdiUserSighting } from '../Types/DbApiTypes';
 
+
+// The following is required to stop "npm build" from transpiling mapbox code.
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 // TODO ADD BACK THE MAP CLICK functionationality 
 export default function Map({ sightings, coords, dot }: MapProps) {
