@@ -1,59 +1,84 @@
-# Birdi
-<div align="center">
-  <img src="/birdiLogoJPG.jpg" height="150px"></img>
-</div>
+<img src="birdiLogoJPG.jpg" width='600px' style="display: block; margin: 0 auto"/>
 
-Birdi is an app that provides birdwatchers with valuable information on interesting birds in their vicinity and fosters a vibrant community of bird enthusiasts by mapping nearby bird sightings submitted by users. 
+# Birdi - Developer Guide
 
-### Screenshots
-<div align="center">
-   <img src="/screenshots/explore.png" height="250px"></img>
-    <span>
-      <img src="/screenshots/login.png" height="250px"></img>
-    </span>
+Birdi is a bird sighting application that allows bird enthusiasts and ornithologists to record and track their bird sightings.
+This guide provides detailed instructions for developers who want to set up and run Birdi locally.
 
-   <img src="/screenshots/profile.png" height="250px"></img>
-   <span>
-      <img src="/screenshots/upload.png" height="250px"></img>
-   </span>
-</div>
+Prerequisites
+Before getting started, you should have the following tools installed on your system:
 
+- Git
+- Node.js and npm
+- TypeScript
+- nodemon
 
-## Getting started
-1. Clone the repo
-```
-$ git clone https://github.com/zak1999/birdi
-$ cd birdi
-```
-2. Install dependencies:
-    - For client
-    ```
-    $ cd client 
-    $ npm install
-    ```
-    - For server folder (in a seperate terminal window)
-    ```
-    $ cd server 
-    $ npm install
-    ```
-3. Start the application:
-    - For client
-    ```
-    $ npm start
-    ```
-    - For server folder (in a seperate terminal window)
-    ```
-    $ nodemon index.js
-    ```
+## Setting up the repository
 
-## Tech Stack
-- Front:
-    - [React](https://reactjs.org/)
-    - [Redux](https://redux.js.org/)   
-    - [ChakraUI](https://chakra-ui.com/)
-    - [MapboxGL](https://www.mapbox.com/)
-- Back:
-    - [Express](https://expressjs.com/) 
-    - [MongoDB](https://www.mongodb.com/) + [mongoose](https://mongoosejs.com/)
-    - [Auth0](https://auth0.com/)
-    - [Google Cloud Storage](https://cloud.google.com/storage)
+1. Open your terminal and navigate to the directory where you want to store the Birdi repository.
+2. Clone the repository:
+   ```bash
+    git clone <repo url>
+   ```
+3. Navigate to the root directory of the cloned repository:
+   ```bash
+    cd birdi/
+   ```
+
+## Installing dependencies
+
+1. Install dependencies in client folder:
+   ```bash
+    cd client/
+    npm i
+   ```
+2. Install dependencies in server folder:
+   ```bash
+    cd ../server/
+    npm i
+   ```
+
+## Compiling Typescript
+
+1. From server folder:
+
+   ```bash
+    tsc build
+   ```
+
+   dist folder will appear in server folder
+
+2. From client folder:
+   ```bash
+    tsc build
+   ```
+   dist folder will appear in the client folder
+
+## Running the client and server
+
+1. From the server folder:
+   ```bash
+    npm run dev
+   ```
+   Verify that 'Server listening on port PORT' and 'db connected' prints to the console.
+2. From the client folder:
+   ```bash
+    npm run dev
+   ```
+   The react app will open the default port.
+
+## Contributing
+
+We welcome contributions to Birdi from the community. If you are interested in contributing, please read our
+contribution guidelines and reach out to us at alexryanjones@gmx.com, contact.sethjplatt@gmail.com or zakariyya_ahmed@outlook.com.
+
+## Support
+
+For support with setting up and running Birdi locally, please contact us at alexryanjones@gmx.com, contact.sethjplatt@gmail.com or zakariyya_ahmed@outlook.com.
+
+## Screenshots
+
+<img src="birdi-2.jpg" width='300px'/>
+<img src="birdi-1.jpg" />
+<img src="birdi-3.jpg" />
+<img src="birdi-4.jpg" />
