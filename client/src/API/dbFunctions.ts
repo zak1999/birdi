@@ -7,11 +7,13 @@ import {
 // █▀ █ █▀▀ █░█ ▀█▀ █ █▄░█ █▀▀ █▀
 // ▄█ █ █▄█ █▀█ ░█░ █ █░▀█ █▄█ ▄█
 
+const backend_url = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001'
+
 export async function collectBirdLocationsFromDB(): Promise<
   BirdiUserSighting[]
 > {
   try {
-    const dbRes = await fetch(`http://localhost:3001/sightings`);
+    const dbRes = await fetch(`${backend_url}/sightings`);
     const data = await dbRes.json();
     return data.data;
   } catch (err: any) {
@@ -24,7 +26,7 @@ export async function sendBirdSightingToDB(
   docToBeAdded: FormData
 ): Promise<SendBirdSightingsToDBResult> {
   try {
-    const dbRes = await fetch('http://localhost:3001/sightings', {
+    const dbRes = await fetch(`${backend_url}/sightings`, {
       method: 'POST',
       body: docToBeAdded,
     });
@@ -39,7 +41,7 @@ export async function sendBirdSightingToDB(
 
 export async function removeSighting(email: string, idToRemove: string): Promise<UserData> {
   try {
-    const newUserInfo = await fetch('http://localhost:3001/delete-bird', {
+    const newUserInfo = await fetch(`${backend_url}/delete-bird`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,7 +64,7 @@ export async function removeSighting(email: string, idToRemove: string): Promise
 
 export async function CollectUserInfoFromDB(email: String): Promise<UserData> {
   try {
-    const userDataFromdb = await fetch('http://localhost:3001/users', {
+    const userDataFromdb = await fetch(`${backend_url}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
