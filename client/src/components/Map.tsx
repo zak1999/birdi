@@ -13,13 +13,13 @@ import { EBird } from '../Types/EBirdTypes';
 import { BirdiUserSighting } from '../Types/DbApiTypes';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
-
+// TODO ADD BACK THE MAP CLICK functionationality 
 export default function Map({ sightings, coords, dot }: MapProps) {
   const SelectedBirdOnExplore = useSelector(
     (state: RootState) => state.SelectedBirdOnExplore
   );
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const mapContainer = useRef<HTMLDivElement>(null);
 
