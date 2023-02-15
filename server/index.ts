@@ -4,8 +4,6 @@ import Express from 'express';
 import cors from 'cors';
 import router from './router';
 
-const port = 3001;
-
 const app = Express();
 
 const corsOptions = {
@@ -17,8 +15,8 @@ app.use(cors(corsOptions));
 app.use(Express.json());
 app.use(router);
 
-app.listen(port, () => {
-  console.log('Server listening on port', port);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log('Server listening on port', process.env.SERVER_PORT);
 });
 
 export default app;
