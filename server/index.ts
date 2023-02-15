@@ -9,7 +9,7 @@ const port = 3001;
 const app = Express();
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://birdi.netlify.app/'],
+  origin: '*',
 };
 
 app.use(cors(corsOptions));
