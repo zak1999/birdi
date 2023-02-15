@@ -10,7 +10,7 @@ async function connectToDB() {
   console.log("is this shit on the fly")
   try {
     mongoose.set('strictQuery', true);
-    await mongoose.connect('mongodb+srv://'+uri);
+    await mongoose.connect(uri as string);
     console.log('Successfully connected to the database 🎉');
   } catch (err) {
     console.log('Mongoose connection err: ' + err);
