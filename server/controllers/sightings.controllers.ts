@@ -3,13 +3,16 @@ import { Storage } from '@google-cloud/storage';
 import { Request, Response, NextFunction } from 'express';
 import Users from '../models/users.models';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 // const storage = new Storage();
-const storage = new Storage({ keyFilename: 'google-cloud-key.json' });
+// @ts-ignore
+const storage = new Storage({ credentials: JSON.parse(process.env.GOOGLE_CLOUD_KEY) });
 // const bucket = storage.bucket('birdilegacy');
 const bucket = storage.bucket('birdi-cw');
 
 
-/* TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOAD
+/* TO HAVE ACCESS TO THE IMAGES YOU NEED DOWNLOADx`
  * GOOGLE CLOUD SDK
  */
 

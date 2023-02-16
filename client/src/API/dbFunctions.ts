@@ -7,7 +7,7 @@ import {
 // █▀ █ █▀▀ █░█ ▀█▀ █ █▄░█ █▀▀ █▀
 // ▄█ █ █▄█ █▀█ ░█░ █ █░▀█ █▄█ ▄█
 
-const backend_url = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001'
+const backend_url = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
 
 export async function collectBirdLocationsFromDB(): Promise<
   BirdiUserSighting[]
