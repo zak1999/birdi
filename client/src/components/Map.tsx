@@ -25,7 +25,7 @@ export default function Map({ sightings, coords, dot }: MapProps) {
     (state: RootState) => state.SelectedBirdOnExplore
   );
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const mapContainer = useRef<HTMLDivElement>(null);
 
@@ -111,6 +111,15 @@ export default function Map({ sightings, coords, dot }: MapProps) {
         zoom: 9,
       }));
 
+      map.current?.on('click',(e)=>{
+        const listOfPoints = map.current?.queryRenderedFeatures(e.point,{layers:['locations','locations2']})
+        if (!listOfPoints|| listOfPoints.length < 1) return; //Makes sure a point is actually clicked
+        dispatch({type:'UPDATE_EXPLORE_BIRD',
+        bird:{...listOfPoints[0].properties}})// convert data back from geoJson
+        console.log("listOfPoints[0]:",listOfPoints[0])
+        // focusPoint(listOfPoints[0])
+        // popUpCreation(listOfPoints[0])
+      })
     // plots the data
     // only runs if there is a current map and the locations layer does't exists
     if (!map.current) return; // || map.current.getLayer('locations') || currentSightings.length<0) return;
@@ -227,7 +236,7 @@ export default function Map({ sightings, coords, dot }: MapProps) {
             justifySelf='center'
           >
             <Text>
-              <b>+</b>
+              <p><b>+</b></p>
             </Text>
           </Box>
         )}
